@@ -1,0 +1,32 @@
+From 98585b04380e67eee19b7ea9983620fab6582128 Mon Sep 17 00:00:00 2001
+From: "Steven Rostedt (Red Hat)" <rostedt@goodmis.org>
+Date: Wed, 30 Apr 2014 14:28:22 -0400
+Subject: [PATCH 321/326] net: gianfar: Fix missing return of
+ gfar_clean_tx_ring()
+
+The patch "net: gianfar: do not try to cleanup TX packets if they are
+not done" for 3.12-rt left out the return value for gfar_clean_tx_ring().
+This would cause an error when building this module. Note, this module
+does not build on x86 and was not tested because of that.
+
+Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+---
+ drivers/net/ethernet/freescale/gianfar.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/net/ethernet/freescale/gianfar.c b/drivers/net/ethernet/freescale/gianfar.c
+index 091945c8ea69..df27493d7ee0 100644
+--- a/drivers/net/ethernet/freescale/gianfar.c
++++ b/drivers/net/ethernet/freescale/gianfar.c
+@@ -2615,6 +2615,7 @@ static int gfar_clean_tx_ring(struct gfar_priv_tx_q *tx_queue)
+ 	tx_queue->dirty_tx = bdp;
+ 
+ 	netdev_tx_completed_queue(txq, howmany, bytes_sent);
++	return howmany;
+ }
+ 
+ static void gfar_schedule_cleanup(struct gfar_priv_grp *gfargrp)
+-- 
+2.0.0
+
