@@ -30,8 +30,6 @@ if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = ""
 	echo "[!] Instalar \"libncurses5-dev\""
 	read -p "Press [Enter] to continue..."
 	exit 1
-else
-	echo "Paquete libncurses5-dev instalados..."
 fi
 
 #TODO: check if using older arm-bcm2708-linux-gnueabi works
@@ -101,7 +99,12 @@ echo "[*] Compilando kernel..."
 make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
 echo "[*] Instalando modulos de kernel..."
-make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_install
+rm -rf ../modules
+mkdir ../modules
+make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=../modules/ modules_install
+
+echo "[*] Creando imagen..."
+"$DIR/data/tools-$TOOLS_COMMIT/mkimage/imagetool-uncompressed.py" arch/arm/boot/Image
 
 echo "[*] Copiando imagen resultante..."
-cp arch/arm/boot/zImage ../build/kernel.img
+cp kernel.img ../../build/kernel.img
