@@ -91,6 +91,7 @@ sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 echo "[*] Creando configuracion..."
 cp ../../bcmrpi_defconfig arch/arm/configs/
 make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcmrpi_defconfig
+make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- oldconfig
 
 echo "[*] Creando menuconfig..."
 make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
@@ -98,13 +99,13 @@ make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 echo "[*] Compilando kernel..."
 make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
 
+echo "[*] Compilando modulos..."
+make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
+
 echo "[*] Instalando modulos de kernel..."
 rm -rf ../modules
 mkdir ../modules
 make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=../modules/ modules_install
 
-echo "[*] Creando imagen..."
-"$DIR/data/tools-$TOOLS_COMMIT/mkimage/imagetool-uncompressed.py" arch/arm/boot/Image
-
 echo "[*] Copiando imagen resultante..."
-cp kernel.img ../../build/kernel.img
+cp arch/arm/boot/zImage ../../build/kernel.img
