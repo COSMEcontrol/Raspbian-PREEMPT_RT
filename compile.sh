@@ -33,21 +33,21 @@ if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = ""
 fi
 
 #TODO: check if using older arm-bcm2708-linux-gnueabi works
-#if [ "$MACHINE_BITS" == "64" ]; then
-#	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64"
-#else
-#	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian"
-#fi
+if [ "$MACHINE_BITS" == "64" ]; then
+	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64"
+else
+	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian"
+fi
 
-#export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
-export CCPREFIX="arm-linux-gnueabihf-"
+export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
+#export CCPREFIX="arm-linux-gnueabihf-"
 
-#if [ ! -f "${CCPREFIX}gcc" ]; then
-#	echo -n "descargando cross-compile tools... "
-#	cd data
-#	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
-#	cd ..
-#fi
+if [ ! -f "${CCPREFIX}gcc" ]; then
+	echo -n "descargando cross-compile tools... "
+	cd data
+	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
+	cd ..
+fi
 
 #export PATH="$PATH:$TOOLS_PATH"
 
@@ -66,11 +66,12 @@ echo "ok!"
 echo "[*] Limpiando datos antiguos..."
 rm -rf data/linux-kernel
 rm -rf build/*
+mkdir data/linux-kernel
 
 if [ "$1" == "vanilla" ]; then
 	echo "[*] Usando Raspbian vanilla"
 	echo "[*] Copiando kernel..."
-	cp -r Raspbian data/linux-kernel
+	cp -r Raspbian/* data/linux-kernel
 else
 	echo "[*] Usando Raspbian con parches RT"
 	echo "[*] Aplicando parches..."
@@ -81,7 +82,7 @@ else
 		echo "[+] Parches aplicados correctamente"
 	fi
 	echo "[*] Copiando kernel..."
-	cp -r RaspbianRT data/linux-kernel
+	cp -r RaspbianRT/* data/linux-kernel
 fi
 
 cd data/linux-kernel
@@ -89,7 +90,7 @@ cd data/linux-kernel
 echo "[*] Usando $THREADS hilos"
 echo "[*] Limpiando kernel..."
 make mrproper
-sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
+#sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 
 echo "[*] Creando configuracion..."
 cp ../../bcmrpi_defconfig arch/arm/configs/
