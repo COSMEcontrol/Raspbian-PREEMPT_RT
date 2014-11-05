@@ -41,7 +41,7 @@ fi
 
 export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
 
-if [ ! -f "${CCPREFIX}gcc" ]; then
+if [ ! -f "${CCPREFIX}-gcc" ]; then
 	echo -n "descargando cross-compile tools... "
 	cd data
 	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
@@ -91,7 +91,8 @@ make mrproper
 sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 
 echo "[*] Creando configuracion..."
-cp ../../bcmrpi_defconfig .config
+cp ../../bcmrpi_defconfig arch/arm/configs/
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS bcmrpi_defconfig
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
 
 echo "[*] Creando menuconfig..."
@@ -106,7 +107,7 @@ ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS modules
 echo "[*] Instalando modulos de kernel..."
 rm -rf ../modules
 mkdir ../modules
-ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/  make -j $THREADS modules_install
+make -j $THREADSmodules_install
 
 echo "[*] Copiando imagen resultante..."
 cp arch/arm/boot/zImage ../../build/kernel.img
