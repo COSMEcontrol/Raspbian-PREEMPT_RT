@@ -92,21 +92,21 @@ sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 
 echo "[*] Creando configuracion..."
 cp ../../bcmrpi_defconfig .config
-make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} oldconfig
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
 
 echo "[*] Creando menuconfig..."
-make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} menuconfig
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS menuconfig
 
 echo "[*] Compilando kernel..."
-make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX}
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS
 
 echo "[*] Compilando modulos..."
-make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} modules
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS modules
 
 echo "[*] Instalando modulos de kernel..."
 rm -rf ../modules
 mkdir ../modules
-make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ modules_install
+ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/  make -j $THREADS modules_install
 
 echo "[*] Copiando imagen resultante..."
 cp arch/arm/boot/zImage ../../build/kernel.img
