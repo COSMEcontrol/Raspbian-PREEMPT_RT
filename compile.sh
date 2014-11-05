@@ -34,12 +34,14 @@ fi
 
 #TODO: check if using older arm-bcm2708-linux-gnueabi works
 if [ "$MACHINE_BITS" == "64" ]; then
-	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin"
+	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64"
 else
-	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin"
+	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian"
 fi
 
-if [ ! -f "$TOOLS_PATH/arm-linux-gnueabihf-gcc" ]; then
+export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
+
+if [ ! -f "${CCPREFIX}-gcc" ]; then
 	echo -n "descargando cross-compile tools... "
 	cd data
 	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
@@ -89,23 +91,22 @@ make mrproper
 sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 
 echo "[*] Creando configuracion..."
-cp ../../bcmrpi_defconfig arch/arm/configs/
-make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcmrpi_defconfig
-make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- oldconfig
+cp ../../bcmrpi_defconfig .config
+make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} oldconfig
 
 echo "[*] Creando menuconfig..."
-make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} menuconfig
 
 echo "[*] Compilando kernel..."
-make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
+make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX}
 
 echo "[*] Compilando modulos..."
-make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
+make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} modules
 
 echo "[*] Instalando modulos de kernel..."
 rm -rf ../modules
 mkdir ../modules
-make -j $THREADS ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=../modules/ modules_install
+make -j $THREADS ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ modules_install
 
 echo "[*] Copiando imagen resultante..."
 cp arch/arm/boot/zImage ../../build/kernel.img
