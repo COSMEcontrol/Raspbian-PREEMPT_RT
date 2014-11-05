@@ -23,8 +23,8 @@ git submodule update --init --recursive
 
 echo -n "[*] Comprobando utilidades de compilacion... "
 type make > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"make\""; read -p "Press [Enter] to continue..."; exit 1; }
+type arm-linux-gnueabihf-gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc-arm-linux-gnueabihf\""; read -p "Press [Enter] to continue..."; exit 1; }
 type gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc\""; read -p "Press [Enter] to continue..."; exit 1; }
-type g++ > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"g++\""; read -p "Press [Enter] to continue..."; exit 1; }
 
 if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = "" ]; then
 	echo "[!] Instalar \"libncurses5-dev\""
@@ -33,22 +33,23 @@ if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = ""
 fi
 
 #TODO: check if using older arm-bcm2708-linux-gnueabi works
-if [ "$MACHINE_BITS" == "64" ]; then
-	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64"
-else
-	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian"
-fi
+#if [ "$MACHINE_BITS" == "64" ]; then
+#	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64"
+#else
+#	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian"
+#fi
 
-export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
+#export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
+export CCPREFIX="arm-linux-gnueabihf-"
 
-if [ ! -f "${CCPREFIX}gcc" ]; then
-	echo -n "descargando cross-compile tools... "
-	cd data
-	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
-	cd ..
-fi
+#if [ ! -f "${CCPREFIX}gcc" ]; then
+#	echo -n "descargando cross-compile tools... "
+#	cd data
+#	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
+#	cd ..
+#fi
 
-export PATH="$PATH:$TOOLS_PATH"
+#export PATH="$PATH:$TOOLS_PATH"
 
 echo "ok! "
 
