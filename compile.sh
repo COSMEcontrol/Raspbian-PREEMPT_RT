@@ -93,7 +93,9 @@ make mrproper
 #sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 
 echo "[*] Creando configuracion..."
-cp ../../bcmrpi_defconfig arch/arm/configs/
+if [ ! -f arch/arm/configs/bcmrpi_defconfig ]; then
+	cp ../../bcmrpi_defconfig arch/arm/configs/
+fi
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS bcmrpi_defconfig
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
 
