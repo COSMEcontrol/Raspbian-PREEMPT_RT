@@ -23,7 +23,7 @@ git submodule update --init --recursive
 
 echo -n "[*] Comprobando utilidades de compilacion... "
 type make > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"make\""; read -p "Press [Enter] to continue..."; exit 1; }
-type arm-linux-gnueabihf-gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc-arm-linux-gnueabihf\""; read -p "Press [Enter] to continue..."; exit 1; }
+#type arm-linux-gnueabihf-gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc-arm-linux-gnueabihf\""; read -p "Press [Enter] to continue..."; exit 1; }
 type gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc\""; read -p "Press [Enter] to continue..."; exit 1; }
 
 if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = "" ]; then
