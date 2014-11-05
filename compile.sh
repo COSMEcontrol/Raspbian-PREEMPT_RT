@@ -107,7 +107,7 @@ ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS modules
 echo "[*] Instalando modulos de kernel..."
 rm -rf ../modules
 mkdir ../modules
-make -j $THREADSmodules_install
+ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ make -j $THREADS modules_install
 
 echo "[*] Copiando imagen resultante..."
 cp arch/arm/boot/zImage ../../build/kernel.img
