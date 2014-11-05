@@ -41,7 +41,7 @@ fi
 
 export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
 
-if [ ! -f "${CCPREFIX}-gcc" ]; then
+if [ ! -f "${CCPREFIX}gcc" ]; then
 	echo -n "descargando cross-compile tools... "
 	cd data
 	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
