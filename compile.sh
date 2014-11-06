@@ -1,8 +1,9 @@
 #!/bin/bash
 
 
-#TOOLS_COMMIT="9c3d7b6ac692498dd36fec2872e0b55f910baac1"
-TOOLS_COMMIT="master"
+TOOLS_COMMIT="108317fde2ffb56d1dc7f14ac69c42f34a49342a"
+UBOOT_COMMIT="d2a42ede2c446a6d2ce085489fb4dcb6be84877d"
+#TOOLS_COMMIT="master"
 
 DIR="$(pwd)"
 cd "$DIR"
@@ -18,13 +19,10 @@ fi
 mkdir data/ > /dev/null 2>&1
 mkdir build/ > /dev/null 2>&1
 
-echo "[*] Actualizando/comprobando modulo Raspbian..."
-git submodule update --init --recursive
-
 echo -n "[*] Comprobando utilidades de compilacion... "
 type make > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"make\""; read -p "Press [Enter] to continue..."; exit 1; }
-type arm-linux-gnueabihf-gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc-arm-linux-gnueabihf\""; read -p "Press [Enter] to continue..."; exit 1; }
 type gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc\""; read -p "Press [Enter] to continue..."; exit 1; }
+type g++ > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"g++\""; read -p "Press [Enter] to continue..."; exit 1; }
 
 if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = "" ]; then
 	echo "[!] Instalar \"libncurses5-dev\""
@@ -32,26 +30,26 @@ if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = ""
 	exit 1
 fi
 
-#TODO: check if using older arm-bcm2708-linux-gnueabi works
-#if [ "$MACHINE_BITS" == "64" ]; then
-#	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64"
-#else
-#	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian"
-#fi
 
-#export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
-export CCPREFIX="arm-linux-gnueabihf-"
+TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT"
+if [ "$MACHINE_BITS" == "64" ]; then
+	export CCPREFIX="$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-"
+else
+	export CCPREFIX="$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf-"
+fi
 
-#if [ ! -f "${CCPREFIX}gcc" ]; then
-#	echo -n "descargando cross-compile tools... "
-#	cd data
-#	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
-#	cd ..
-#fi
-
-#export PATH="$PATH:$TOOLS_PATH"
+if [ ! -f "${CCPREFIX}gcc" ]; then
+	echo -n "descargando cross-compile tools... "
+	cd data
+	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
+	cd ..
+fi
 
 echo "ok! "
+
+
+echo "[*] Actualizando/comprobando modulo Raspbian..."
+git submodule update --init --recursive
 
 echo -n "[*] Comprobando git... "
 
@@ -65,12 +63,22 @@ echo "ok!"
 
 echo "[*] Limpiando datos antiguos..."
 rm -rf data/linux-kernel
+rm -rf data/u-boot
 rm -rf build/*
+mkdir data/linux-kernel
+
+export KERNEL_SRC="$DIR/data/linux-kernel"
+
+echo "[*] Descargando u-boot para RPi $UBOOT_COMMIT"
+cd data
+wget --no-check-certificate -q -O - "https://github.com/swarren/u-boot/archive/$UBOOT_COMMIT.tar.gz" | tar -zx
+mv u-boot-$UBOOT_COMMIT u-boot
+cd ..
 
 if [ "$1" == "vanilla" ]; then
 	echo "[*] Usando Raspbian vanilla"
 	echo "[*] Copiando kernel..."
-	cp -r Raspbian data/linux-kernel
+	cp -r Raspbian/* data/linux-kernel
 else
 	echo "[*] Usando Raspbian con parches RT"
 	echo "[*] Aplicando parches..."
@@ -81,7 +89,7 @@ else
 		echo "[+] Parches aplicados correctamente"
 	fi
 	echo "[*] Copiando kernel..."
-	cp -r RaspbianRT data/linux-kernel
+	cp -r RaspbianRT/* data/linux-kernel
 fi
 
 cd data/linux-kernel
@@ -89,7 +97,6 @@ cd data/linux-kernel
 echo "[*] Usando $THREADS hilos"
 echo "[*] Limpiando kernel..."
 make mrproper
-sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 
 echo "[*] Creando configuracion..."
 cp ../../bcmrpi_defconfig arch/arm/configs/
@@ -110,8 +117,30 @@ rm -rf ../modules
 mkdir ../modules
 ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ make -j $THREADS modules_install
 
-echo "[*] Copiando imagen resultante..."
-cp arch/arm/boot/zImage ../../build/kernel.img
+echo "[*] Compilando u-boot"
+cd ../u-boot
+ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make rpi_b_config
+ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make -j $THREADS
+
+cd tools
+
+cat << EOF > boot.scr
+mmc dev 0
+fatload mmc 0:1 ${kernel_addr_r} zImage
+fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}
+setenv fdtfile bcm2835-rpi-b.dtb
+setenv bootargs earlyprintk console=tty0 console=ttyAMA0 root=/dev/mmcblk0p2 rootwait
+bootz ${kernel_addr_r} - ${fdt_addr_r}
+EOF
+
+echo "[*] Generando imagenes..."
+./mkimage -A arm -O linux -T script -C none -n boot.scr -d boot.scr boot.scr.uimg
+
+cd ../../linux-kernel
+
+echo "[*] Copiando imagenes resultante..."
+cp u-boot/u-boot.bin ../../build/kernel.img
+cp arch/arm/boot/zImage arch/arm/boot/dts/bcm2835-rpi-b.dtb ../u-boot/tools/boot.scr.uimg ../../build/
 
 echo "[*] Archivando modulos..."
 cd ../modules
