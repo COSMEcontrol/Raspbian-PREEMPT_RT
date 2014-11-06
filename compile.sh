@@ -121,8 +121,8 @@ ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ make -j $THREADS
 
 echo "[*] Compilando u-boot"
 cd ../u-boot
-ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make rpi_b_defconfig
-ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make -j $THREADS
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make rpi_b_defconfig
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS
 
 cd tools
 
