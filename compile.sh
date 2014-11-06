@@ -126,15 +126,7 @@ ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make -j $THREADS
 
 cd tools
 
-cat << EOF > boot.scr
-setenv fdtfile bcm2835-rpi-b.dtb
-
-mmc dev 0
-fatload mmc 0:1 ${kernel_addr_r} zImage
-fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}
-setenv bootargs earlyprintk console=tty0 console=ttyAMA0 root=/dev/mmcblk0p2 rootwait
-bootz ${kernel_addr_r} - ${fdt_addr_r}
-EOF
+cp ../../../boot.scr boot.scr
 
 echo "[*] Generando imagenes..."
 ./mkimage -A arm -O linux -T script -C none -n boot.scr -d boot.scr boot.scr.uimg
