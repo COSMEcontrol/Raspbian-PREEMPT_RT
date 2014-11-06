@@ -30,8 +30,10 @@ if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = ""
 	exit 1
 fi
 
+export USE_PRIVATE_LIBGCC=yes
 
 TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT"
+
 if [ "$MACHINE_BITS" == "64" ]; then
 	export CCPREFIX="$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-"
 else
@@ -119,16 +121,17 @@ ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ make -j $THREADS
 
 echo "[*] Compilando u-boot"
 cd ../u-boot
-ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make rpi_b_config
+ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make rpi_b_defconfig
 ARCH=arm CROSS_COMPILE=${CCPREFIX} chrt -i 0 make -j $THREADS
 
 cd tools
 
 cat << EOF > boot.scr
+setenv fdtfile bcm2835-rpi-b.dtb
+
 mmc dev 0
 fatload mmc 0:1 ${kernel_addr_r} zImage
 fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}
-setenv fdtfile bcm2835-rpi-b.dtb
 setenv bootargs earlyprintk console=tty0 console=ttyAMA0 root=/dev/mmcblk0p2 rootwait
 bootz ${kernel_addr_r} - ${fdt_addr_r}
 EOF
@@ -139,7 +142,7 @@ echo "[*] Generando imagenes..."
 cd ../../linux-kernel
 
 echo "[*] Copiando imagenes resultante..."
-cp u-boot/u-boot.bin ../../build/kernel.img
+cp ../u-boot/u-boot.bin ../../build/kernel.img
 cp arch/arm/boot/zImage arch/arm/boot/dts/bcm2835-rpi-b.dtb ../u-boot/tools/boot.scr.uimg ../../build/
 
 echo "[*] Archivando modulos..."
