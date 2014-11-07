@@ -2,7 +2,6 @@
 
 
 TOOLS_COMMIT="108317fde2ffb56d1dc7f14ac69c42f34a49342a"
-UBOOT_COMMIT="d2a42ede2c446a6d2ce085489fb4dcb6be84877d"
 #TOOLS_COMMIT="master"
 
 DIR="$(pwd)"
@@ -65,17 +64,10 @@ echo "ok!"
 
 echo "[*] Limpiando datos antiguos..."
 rm -rf data/linux-kernel
-rm -rf data/u-boot
 rm -rf build/*
 mkdir data/linux-kernel
 
 export KERNEL_SRC="$DIR/data/linux-kernel"
-
-echo "[*] Descargando u-boot para RPi $UBOOT_COMMIT"
-cd data
-wget --no-check-certificate -q -O - "https://github.com/swarren/u-boot/archive/$UBOOT_COMMIT.tar.gz" | tar -zx
-mv u-boot-$UBOOT_COMMIT u-boot
-cd ..
 
 if [ "$1" == "vanilla" ]; then
 	echo "[*] Usando Raspbian vanilla"
@@ -121,23 +113,8 @@ rm -rf ../modules
 mkdir ../modules
 ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ make -j $THREADS modules_install
 
-echo "[*] Compilando u-boot"
-cd ../u-boot
-ARCH=arm CROSS_COMPILE=${CCPREFIX} make rpi_b_defconfig
-ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS
-
-cd tools
-
-cp ../../../boot.scr boot.scr
-
-echo "[*] Generando imagenes..."
-./mkimage -A arm -O linux -T script -C none -n boot.scr -d boot.scr boot.scr.uimg
-
-cd ../../linux-kernel
-
-echo "[*] Copiando imagenes resultante..."
-cp ../u-boot/u-boot.bin ../../build/kernel.img
-cp arch/arm/boot/zImage arch/arm/boot/dts/bcm2835-rpi-b.dtb ../u-boot/tools/boot.scr.uimg ../../build/
+echo "[*] Copiando imagen resultante..."
+cp arch/arm/boot/zImage ../../build/kernel.img
 
 echo "[*] Archivando modulos..."
 cd ../modules
