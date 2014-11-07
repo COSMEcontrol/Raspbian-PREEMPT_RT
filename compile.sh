@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-#TOOLS_COMMIT="9c3d7b6ac692498dd36fec2872e0b55f910baac1"
-TOOLS_COMMIT="master"
+TOOLS_COMMIT="108317fde2ffb56d1dc7f14ac69c42f34a49342a"
+#TOOLS_COMMIT="master"
 
 DIR="$(pwd)"
 cd "$DIR"
@@ -18,13 +18,10 @@ fi
 mkdir data/ > /dev/null 2>&1
 mkdir build/ > /dev/null 2>&1
 
-echo "[*] Actualizando/comprobando modulo Raspbian..."
-git submodule update --init --recursive
-
 echo -n "[*] Comprobando utilidades de compilacion... "
 type make > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"make\""; read -p "Press [Enter] to continue..."; exit 1; }
-#type arm-linux-gnueabihf-gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc-arm-linux-gnueabihf\""; read -p "Press [Enter] to continue..."; exit 1; }
 type gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc\""; read -p "Press [Enter] to continue..."; exit 1; }
+type g++ > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"g++\""; read -p "Press [Enter] to continue..."; exit 1; }
 
 if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = "" ]; then
 	echo "[!] Instalar \"libncurses5-dev\""
@@ -32,15 +29,15 @@ if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = ""
 	exit 1
 fi
 
-#TODO: check if using older arm-bcm2708-linux-gnueabi works
-if [ "$MACHINE_BITS" == "64" ]; then
-	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64"
-else
-	TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian"
-fi
+export USE_PRIVATE_LIBGCC=yes
 
-export CCPREFIX="$TOOLS_PATH/bin/arm-linux-gnueabihf-"
-#export CCPREFIX="arm-linux-gnueabihf-"
+TOOLS_PATH="$DIR/data/tools-$TOOLS_COMMIT"
+
+if [ "$MACHINE_BITS" == "64" ]; then
+	export CCPREFIX="$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-"
+else
+	export CCPREFIX="$TOOLS_PATH/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf-"
+fi
 
 if [ ! -f "${CCPREFIX}gcc" ]; then
 	echo -n "descargando cross-compile tools... "
@@ -49,9 +46,11 @@ if [ ! -f "${CCPREFIX}gcc" ]; then
 	cd ..
 fi
 
-#export PATH="$PATH:$TOOLS_PATH"
-
 echo "ok! "
+
+
+echo "[*] Actualizando/comprobando modulo Raspbian..."
+git submodule update --init --recursive
 
 echo -n "[*] Comprobando git... "
 
@@ -90,20 +89,20 @@ cd data/linux-kernel
 echo "[*] Usando $THREADS hilos"
 echo "[*] Limpiando kernel..."
 make mrproper
-#sed -i 's/EXTRAVERSION =.*/EXTRAVERSION = +/' Makefile
 
 echo "[*] Creando configuracion..."
 if [ ! -f arch/arm/configs/bcmrpi_defconfig ]; then
 	cp ../../bcmrpi_defconfig arch/arm/configs/
 fi
-ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS bcmrpi_defconfig
-ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
+
+cp arch/arm/configs/bcmrpi_defconfig .config
+#ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
 
 echo "[*] Creando menuconfig..."
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS menuconfig
 
 echo "[*] Compilando kernel..."
-ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make bzImage -j $THREADS
 
 echo "[*] Compilando modulos..."
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS modules
