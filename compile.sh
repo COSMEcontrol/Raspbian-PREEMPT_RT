@@ -105,13 +105,13 @@ if [ ! -f arch/arm/configs/bcmrpi_defconfig ]; then
 	cp ../../bcmrpi_defconfig arch/arm/configs/
 fi
 cp arch/arm/configs/bcmrpi_defconfig .config
-ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
+#ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
 
 echo "[*] Creando menuconfig..."
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS menuconfig
 
 echo "[*] Compilando kernel..."
-ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS
+ARCH=arm CROSS_COMPILE=${CCPREFIX} make bzImage -j $THREADS
 
 echo "[*] Compilando modulos..."
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS modules
