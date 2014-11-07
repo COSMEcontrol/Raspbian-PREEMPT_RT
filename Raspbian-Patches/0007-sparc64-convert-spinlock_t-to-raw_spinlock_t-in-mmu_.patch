@@ -1,7 +1,7 @@
-From 77f8e7ac7983051e9944f97681e6bf0355b58ba8 Mon Sep 17 00:00:00 2001
+From 1b2af70932aa4767a5edc97e3612fea01e700eaa Mon Sep 17 00:00:00 2001
 From: Allen Pais <allen.pais@oracle.com>
 Date: Fri, 13 Dec 2013 09:44:42 +0530
-Subject: [PATCH 007/326] sparc64: convert spinlock_t to raw_spinlock_t in
+Subject: [PATCH 007/327] sparc64: convert spinlock_t to raw_spinlock_t in
  mmu_context_t
 
 Issue debugged by Thomas Gleixner <tglx@linutronix.de>
@@ -18,7 +18,7 @@ Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
  6 files changed, 18 insertions(+), 17 deletions(-)
 
 diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index cd3756adab95..ffc749e81efe 100644
+index 5a3619b088b6..5bbb029f475e 100644
 --- a/arch/sparc/Kconfig
 +++ b/arch/sparc/Kconfig
 @@ -26,6 +26,7 @@ config SPARC
@@ -83,7 +83,7 @@ index 3d528f06e4b0..3a856241b655 100644
  
  #endif /* !(__ASSEMBLY__) */
 diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-index e142545244f2..8c68424bc158 100644
+index 643bf38ed619..6fe005188ba5 100644
 --- a/arch/sparc/kernel/smp_64.c
 +++ b/arch/sparc/kernel/smp_64.c
 @@ -976,12 +976,12 @@ void __irq_entry smp_new_mmu_context_version_client(int irq, struct pt_regs *reg
@@ -102,19 +102,19 @@ index e142545244f2..8c68424bc158 100644
  	load_secondary_context(mm);
  	__flush_tlb_mm(CTX_HWBITS(mm->context),
 diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
-index ed82edad1a39..e9ddd0c1d1a1 100644
+index b26015f49c0d..a3b788dc7e24 100644
 --- a/arch/sparc/mm/init_64.c
 +++ b/arch/sparc/mm/init_64.c
-@@ -350,7 +350,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long address, pte_t *
- 
- 	mm = vma->vm_mm;
+@@ -354,7 +354,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long address, pte_t *
+ 	if (!pte_accessible(mm, pte))
+ 		return;
  
 -	spin_lock_irqsave(&mm->context.lock, flags);
 +	raw_spin_lock_irqsave(&mm->context.lock, flags);
  
  #if defined(CONFIG_HUGETLB_PAGE) || defined(CONFIG_TRANSPARENT_HUGEPAGE)
  	if (mm->context.huge_pte_count && is_hugetlb_pte(pte))
-@@ -361,7 +361,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long address, pte_t *
+@@ -365,7 +365,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long address, pte_t *
  		__update_mmu_tsb_insert(mm, MM_TSB_BASE, PAGE_SHIFT,
  					address, pte_val(pte));
  
@@ -124,7 +124,7 @@ index ed82edad1a39..e9ddd0c1d1a1 100644
  
  void flush_dcache_page(struct page *page)
 diff --git a/arch/sparc/mm/tsb.c b/arch/sparc/mm/tsb.c
-index 2cc3bce5ee91..d84d4eaa90bd 100644
+index 71d99a6c75a7..46572a5a0971 100644
 --- a/arch/sparc/mm/tsb.c
 +++ b/arch/sparc/mm/tsb.c
 @@ -73,7 +73,7 @@ void flush_tsb_user(struct tlb_batch *tb)
@@ -162,7 +162,7 @@ index 2cc3bce5ee91..d84d4eaa90bd 100644
  }
  
  #define HV_PGSZ_IDX_BASE	HV_PGSZ_IDX_8K
-@@ -392,7 +392,7 @@ retry_tsb_alloc:
+@@ -404,7 +404,7 @@ retry_tsb_alloc:
  	 * the lock and ask all other cpus running this address space
  	 * to run tsb_context_switch() to see the new TSB table.
  	 */
@@ -171,7 +171,7 @@ index 2cc3bce5ee91..d84d4eaa90bd 100644
  
  	old_tsb = mm->context.tsb_block[tsb_index].tsb;
  	old_cache_index =
-@@ -407,7 +407,7 @@ retry_tsb_alloc:
+@@ -419,7 +419,7 @@ retry_tsb_alloc:
  	 */
  	if (unlikely(old_tsb &&
  		     (rss < mm->context.tsb_block[tsb_index].tsb_rss_limit))) {
@@ -180,7 +180,7 @@ index 2cc3bce5ee91..d84d4eaa90bd 100644
  
  		kmem_cache_free(tsb_caches[new_cache_index], new_tsb);
  		return;
-@@ -433,7 +433,7 @@ retry_tsb_alloc:
+@@ -445,7 +445,7 @@ retry_tsb_alloc:
  	mm->context.tsb_block[tsb_index].tsb = new_tsb;
  	setup_tsb_params(mm, tsb_index, new_size);
  
@@ -189,7 +189,7 @@ index 2cc3bce5ee91..d84d4eaa90bd 100644
  
  	/* If old_tsb is NULL, we're being invoked for the first time
  	 * from init_new_context().
-@@ -459,7 +459,7 @@ int init_new_context(struct task_struct *tsk, struct mm_struct *mm)
+@@ -471,7 +471,7 @@ int init_new_context(struct task_struct *tsk, struct mm_struct *mm)
  #endif
  	unsigned int i;
  
@@ -199,5 +199,5 @@ index 2cc3bce5ee91..d84d4eaa90bd 100644
  	mm->context.sparc64_ctx_val = 0UL;
  
 -- 
-2.0.0
+2.1.1
 

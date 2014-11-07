@@ -1,7 +1,7 @@
-From 24b4108cab51f6dfa038ccb04123f5940294c019 Mon Sep 17 00:00:00 2001
+From 65f2430ee8badefa302fc651a7e2df99075f1288 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 20 Dec 2012 15:13:49 +0100
-Subject: [PATCH 016/326] sched: Consider pi boosting in setscheduler
+Subject: [PATCH 016/327] sched: Consider pi boosting in setscheduler
 
 If a PI boosted task policy/priority is modified by a setscheduler()
 call we unconditionally dequeue and requeue the task if it is on the
@@ -48,10 +48,10 @@ index 440434df3627..4d54d6cc47b8 100644
  static inline bool tsk_is_pi_blocked(struct task_struct *tsk)
  {
 diff --git a/kernel/rtmutex.c b/kernel/rtmutex.c
-index 0dd6aec1cb6a..265689667dba 100644
+index 51a83343df68..911829b1cda8 100644
 --- a/kernel/rtmutex.c
 +++ b/kernel/rtmutex.c
-@@ -107,6 +107,18 @@ int rt_mutex_getprio(struct task_struct *task)
+@@ -159,6 +159,18 @@ int rt_mutex_getprio(struct task_struct *task)
  }
  
  /*
@@ -71,7 +71,7 @@ index 0dd6aec1cb6a..265689667dba 100644
   *
   * This can be both boosting and unboosting. task->pi_lock must be held.
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 4b67912acb45..56df3dad9328 100644
+index cc062a708ce0..005da15eff1d 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -3030,7 +3030,8 @@ EXPORT_SYMBOL(sleep_on_timeout);
@@ -167,5 +167,5 @@ index 4b67912acb45..56df3dad9328 100644
  	task_rq_unlock(rq, p, &flags);
  
 -- 
-2.0.0
+2.1.1
 

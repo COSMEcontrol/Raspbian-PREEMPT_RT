@@ -1,7 +1,7 @@
-From 9dbca8a54a4ed2dad5f210ea6d1331c90b10c7f0 Mon Sep 17 00:00:00 2001
+From b29d90dacf79e1776453fcdc872f2b4fb0cc6ac7 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Date: Fri, 5 Aug 2011 17:16:58 +0200
-Subject: [PATCH 036/326] mm: raw_pagefault_disable
+Subject: [PATCH 036/327] mm: raw_pagefault_disable
 
 Adding migrate_disable() to pagefault_disable() to preserve the
 per-cpu thing for kmap_atomic might not have been the best of choices.
@@ -130,7 +130,7 @@ index 9414a1b48f5c..44b37510c14f 100644
  		ret;					\
  	})
 diff --git a/mm/memory.c b/mm/memory.c
-index d3a2a60c26ed..ada6ca24cce5 100644
+index 2b33f73f6a4b..c20bb28848eb 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
 @@ -3747,6 +3747,7 @@ unlock:
@@ -150,5 +150,5 @@ index d3a2a60c26ed..ada6ca24cce5 100644
  /*
   * By the time we get here, we already hold the mm semaphore
 -- 
-2.0.0
+2.1.1
 

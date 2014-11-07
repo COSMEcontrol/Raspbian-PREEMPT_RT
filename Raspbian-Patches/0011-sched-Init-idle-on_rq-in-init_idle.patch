@@ -1,7 +1,7 @@
-From e54472ab70bcbc567583ea23f5a7ca7e1ab0786b Mon Sep 17 00:00:00 2001
+From 278a8fa3c2cdfc312a3a643906dd8b95c0d911a2 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 9 Jan 2013 23:03:29 +0100
-Subject: [PATCH 011/326] sched: Init idle->on_rq in init_idle()
+Subject: [PATCH 011/327] sched: Init idle->on_rq in init_idle()
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
  1 file changed, 1 insertion(+)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index a494ace683e3..723962a856a2 100644
+index f09e22163be3..ce7631d9cdc6 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -4206,6 +4206,7 @@ void init_idle(struct task_struct *idle, int cpu)
@@ -21,5 +21,5 @@ index a494ace683e3..723962a856a2 100644
  	idle->on_cpu = 1;
  #endif
 -- 
-2.0.0
+2.1.1
 

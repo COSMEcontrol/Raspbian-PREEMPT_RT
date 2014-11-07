@@ -1,7 +1,7 @@
-From 4b1dca44bceb9a467f8f3ead4bada062c4c66784 Mon Sep 17 00:00:00 2001
+From a206dee83680ada6c38ae893449389dcb12a6be8 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 23 Jul 2013 15:45:51 +0200
-Subject: [PATCH 019/326] vtime-split-lock-and-seqcount.patch
+Subject: [PATCH 019/327] vtime-split-lock-and-seqcount.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
@@ -26,10 +26,10 @@ index 998f4dfedecf..f23c8c9fac51 100644
  	.vtime_snap_whence = VTIME_SYS,
  #else
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 90903d447f51..55d0523b85bd 100644
+index 3bcbffeea852..96f6c18f255c 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
-@@ -1161,7 +1161,8 @@ struct task_struct {
+@@ -1168,7 +1168,8 @@ struct task_struct {
  	struct cputime prev_cputime;
  #endif
  #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
@@ -40,10 +40,10 @@ index 90903d447f51..55d0523b85bd 100644
  	enum {
  		VTIME_SLEEPING = 0,
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 11a23afc6ee5..922a34106d0c 100644
+index 5b486126147f..ec448fb41b09 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -1247,7 +1247,8 @@ static struct task_struct *copy_process(unsigned long clone_flags,
+@@ -1252,7 +1252,8 @@ static struct task_struct *copy_process(unsigned long clone_flags,
  	p->prev_cputime.utime = p->prev_cputime.stime = 0;
  #endif
  #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
@@ -54,7 +54,7 @@ index 11a23afc6ee5..922a34106d0c 100644
  	p->vtime_snap_whence = VTIME_SLEEPING;
  #endif
 diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index 99947919e30b..1681f49d496d 100644
+index cfe2f268afaa..760e149fdcd3 100644
 --- a/kernel/sched/cputime.c
 +++ b/kernel/sched/cputime.c
 @@ -655,37 +655,45 @@ static void __vtime_account_system(struct task_struct *tsk)
@@ -211,5 +211,5 @@ index 99947919e30b..1681f49d496d 100644
  
  
 -- 
-2.0.0
+2.1.1
 

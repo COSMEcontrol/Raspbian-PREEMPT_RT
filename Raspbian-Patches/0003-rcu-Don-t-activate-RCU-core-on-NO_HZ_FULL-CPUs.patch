@@ -1,7 +1,7 @@
-From 700c0908904d39d60ca5febf4b91bcec35b34e86 Mon Sep 17 00:00:00 2001
+From 4303cb286ddb30999bb2a6b38c72b6e85aef743e Mon Sep 17 00:00:00 2001
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Date: Fri, 8 Nov 2013 09:03:10 -0800
-Subject: [PATCH 003/326] rcu: Don't activate RCU core on NO_HZ_FULL CPUs
+Subject: [PATCH 003/327] rcu: Don't activate RCU core on NO_HZ_FULL CPUs
 
 Whenever a CPU receives a scheduling-clock interrupt, RCU checks to see
 if the RCU core needs anything from this CPU.  If so, RCU raises
@@ -93,5 +93,5 @@ index 511e6b47c594..22232f8e82d9 100644
 +	return 0;
 +}
 -- 
-2.0.0
+2.1.1
 

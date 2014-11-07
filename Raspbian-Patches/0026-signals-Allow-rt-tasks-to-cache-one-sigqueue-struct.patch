@@ -1,7 +1,7 @@
-From 4d929d44240f9f59ebdbe3fc42d83a63ae419c1d Mon Sep 17 00:00:00 2001
+From 7e1a024250de84751c538b63ae52af33487f58cc Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 3 Jul 2009 08:44:56 -0500
-Subject: [PATCH 026/326] signals: Allow rt tasks to cache one sigqueue struct
+Subject: [PATCH 026/327] signals: Allow rt tasks to cache one sigqueue struct
 
 To avoid allocation allow rt tasks to cache one sigqueue struct in
 task struct.
@@ -16,10 +16,10 @@ Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
  5 files changed, 84 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 89f31941347a..5079b5f4357e 100644
+index d930b97627ab..77804704db5c 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
-@@ -1206,6 +1206,7 @@ struct task_struct {
+@@ -1213,6 +1213,7 @@ struct task_struct {
  /* signal handlers */
  	struct signal_struct *signal;
  	struct sighand_struct *sighand;
@@ -53,10 +53,10 @@ index 81b3d6789ee8..3b93e6aa071d 100644
  	spin_unlock(&sighand->siglock);
  
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 922a34106d0c..2c6bb3684b54 100644
+index ec448fb41b09..0300891175d0 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -1240,6 +1240,7 @@ static struct task_struct *copy_process(unsigned long clone_flags,
+@@ -1245,6 +1245,7 @@ static struct task_struct *copy_process(unsigned long clone_flags,
  	spin_lock_init(&p->alloc_lock);
  
  	init_sigpending(&p->pending);
@@ -222,5 +222,5 @@ index 8ed72873ccab..ed06b65822b0 100644
  	if (q)
  		q->flags |= SIGQUEUE_PREALLOC;
 -- 
-2.0.0
+2.1.1
 

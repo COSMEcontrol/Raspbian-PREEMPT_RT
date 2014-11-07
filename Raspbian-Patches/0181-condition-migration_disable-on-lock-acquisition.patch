@@ -1,0 +1,38 @@
+From 7d5b7c0df8179b8a87a2be83e3a89372e03a9b58 Mon Sep 17 00:00:00 2001
+From: Nicholas Mc Guire <der.herr@hofr.at>
+Date: Thu, 21 Nov 2013 22:52:30 -0500
+Subject: [PATCH 181/327] condition migration_disable on lock acquisition
+
+No need to unconditionally migrate_disable (what is it protecting ?) and
+re-enable on failure to acquire the lock.
+This patch moves the migrate_disable to be conditioned on sucessful lock
+acquisition only.
+
+Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ kernel/rt.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/rt.c b/kernel/rt.c
+index 92a16e150191..ff56d3cc36b3 100644
+--- a/kernel/rt.c
++++ b/kernel/rt.c
+@@ -182,11 +182,10 @@ int __lockfunc rt_write_trylock(rwlock_t *rwlock)
+ {
+ 	int ret = rt_mutex_trylock(&rwlock->lock);
+ 
+-	migrate_disable();
+-	if (ret)
++	if (ret) {
+ 		rwlock_acquire(&rwlock->dep_map, 0, 1, _RET_IP_);
+-	else
+-		migrate_enable();
++		migrate_disable();
++	}
+ 
+ 	return ret;
+ }
+-- 
+2.1.1
+

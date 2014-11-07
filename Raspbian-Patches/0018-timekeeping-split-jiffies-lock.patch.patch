@@ -1,7 +1,7 @@
-From 4ea09501e6066652b305ca1a949f56e74b980da2 Mon Sep 17 00:00:00 2001
+From d81dea6a39ae30304f60936b7f573c260f008c6b Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 14 Feb 2013 22:36:59 +0100
-Subject: [PATCH 018/326] timekeeping-split-jiffies-lock.patch
+Subject: [PATCH 018/327] timekeeping-split-jiffies-lock.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
@@ -87,7 +87,7 @@ index bc906cad709b..7e5e7f83bd67 100644
  #define CS_NAME_LEN	32
  
 diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-index ea20f7d1ac2c..f12acf804726 100644
+index 29b063b32ff0..f42b109c7533 100644
 --- a/kernel/time/tick-sched.c
 +++ b/kernel/time/tick-sched.c
 @@ -62,7 +62,8 @@ static void tick_do_update_jiffies64(ktime_t now)
@@ -158,5 +158,5 @@ index bfca770a64e0..d3150a7ef6c0 100644
 +	raw_spin_unlock(&jiffies_lock);
  }
 -- 
-2.0.0
+2.1.1
 

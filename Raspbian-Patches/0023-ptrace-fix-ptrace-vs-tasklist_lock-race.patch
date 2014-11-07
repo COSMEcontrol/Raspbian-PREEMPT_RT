@@ -1,7 +1,7 @@
-From bc37fa03b4adc29ef2bc497a3d57f5e97c63cb9b Mon Sep 17 00:00:00 2001
+From 06a93696f720de6f620cbd0930acec29ecc156f1 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Thu, 29 Aug 2013 18:21:04 +0200
-Subject: [PATCH 023/326] ptrace: fix ptrace vs tasklist_lock race
+Subject: [PATCH 023/327] ptrace: fix ptrace vs tasklist_lock race
 
 As explained by Alexander Fyodorov <halcy@yandex.ru>:
 
@@ -30,10 +30,10 @@ Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
  3 files changed, 67 insertions(+), 7 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 55d0523b85bd..89f31941347a 100644
+index 96f6c18f255c..d930b97627ab 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
-@@ -165,11 +165,8 @@ extern char ___assert_task_state[1 - 2*!!(
+@@ -169,11 +169,8 @@ extern char ___assert_task_state[1 - 2*!!(
  				 TASK_UNINTERRUPTIBLE | __TASK_STOPPED | \
  				 __TASK_TRACED)
  
@@ -45,7 +45,7 @@ index 55d0523b85bd..89f31941347a 100644
  #define task_contributes_to_load(task)	\
  				((task->state & TASK_UNINTERRUPTIBLE) != 0 && \
  				 (task->flags & PF_FROZEN) == 0)
-@@ -2444,6 +2441,51 @@ static inline int need_resched(void)
+@@ -2451,6 +2448,51 @@ static inline int need_resched(void)
  	return unlikely(test_thread_flag(TIF_NEED_RESCHED));
  }
  
@@ -116,7 +116,7 @@ index 1f4bcb3cc21c..fddaf65cde4d 100644
  	}
  	spin_unlock_irq(&task->sighand->siglock);
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 011fd4648215..d9956236c588 100644
+index 72801e06bb56..ae6b2324f9f3 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -1024,6 +1024,18 @@ struct migration_arg {
@@ -167,5 +167,5 @@ index 011fd4648215..d9956236c588 100644
  }
  EXPORT_SYMBOL(wake_up_process);
 -- 
-2.0.0
+2.1.1
 

@@ -1,7 +1,7 @@
-From deaf94de17ed2c118cde6a731efd7a13e3272b0a Mon Sep 17 00:00:00 2001
+From eb3bd35c90aeb47b60e3d01e988c2d26a7ce1386 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 21 Sep 2011 19:57:12 +0200
-Subject: [PATCH 022/326] signal-revert-ptrace-preempt-magic.patch
+Subject: [PATCH 022/327] signal-revert-ptrace-preempt-magic.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
@@ -29,5 +29,5 @@ index ded28b91fa53..8ed72873ccab 100644
  	} else {
  		/*
 -- 
-2.0.0
+2.1.1
 

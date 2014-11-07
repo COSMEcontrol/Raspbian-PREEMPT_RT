@@ -1,0 +1,68 @@
+From ef102a933de58d9ed20c4eee7bd01c42257cbf40 Mon Sep 17 00:00:00 2001
+From: Thomas Gleixner <tglx@linutronix.de>
+Date: Tue, 6 Apr 2010 16:51:31 +0200
+Subject: [PATCH 169/327] md: raid5: Make raid5_percpu handling RT aware
+
+__raid_run_ops() disables preemption with get_cpu() around the access
+to the raid5_percpu variables. That causes scheduling while atomic
+spews on RT.
+
+Serialize the access to the percpu data with a lock and keep the code
+preemptible.
+
+Reported-by: Udo van den Heuvel <udovdh@xs4all.nl>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Tested-by: Udo van den Heuvel <udovdh@xs4all.nl>
+---
+ drivers/md/raid5.c | 7 +++++--
+ drivers/md/raid5.h | 1 +
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
+index 582bc3f69a43..96395d5a8ffa 100644
+--- a/drivers/md/raid5.c
++++ b/drivers/md/raid5.c
+@@ -1545,8 +1545,9 @@ static void raid_run_ops(struct stripe_head *sh, unsigned long ops_request)
+ 	struct raid5_percpu *percpu;
+ 	unsigned long cpu;
+ 
+-	cpu = get_cpu();
++	cpu = get_cpu_light();
+ 	percpu = per_cpu_ptr(conf->percpu, cpu);
++	spin_lock(&percpu->lock);
+ 	if (test_bit(STRIPE_OP_BIOFILL, &ops_request)) {
+ 		ops_run_biofill(sh);
+ 		overlap_clear++;
+@@ -1598,7 +1599,8 @@ static void raid_run_ops(struct stripe_head *sh, unsigned long ops_request)
+ 			if (test_and_clear_bit(R5_Overlap, &dev->flags))
+ 				wake_up(&sh->raid_conf->wait_for_overlap);
+ 		}
+-	put_cpu();
++	spin_unlock(&percpu->lock);
++	put_cpu_light();
+ }
+ 
+ static int grow_one_stripe(struct r5conf *conf)
+@@ -5462,6 +5464,7 @@ static int raid5_alloc_percpu(struct r5conf *conf)
+ 			       __func__, cpu);
+ 			break;
+ 		}
++		spin_lock_init(&per_cpu_ptr(conf->percpu, cpu)->lock);
+ 	}
+ 	put_online_cpus();
+ 
+diff --git a/drivers/md/raid5.h b/drivers/md/raid5.h
+index 2113ffa82c7a..0a5e1e1f4100 100644
+--- a/drivers/md/raid5.h
++++ b/drivers/md/raid5.h
+@@ -444,6 +444,7 @@ struct r5conf {
+ 	int			recovery_disabled;
+ 	/* per cpu variables */
+ 	struct raid5_percpu {
++		spinlock_t	lock;	     /* Protection for -RT */
+ 		struct page	*spare_page; /* Used when checking P/Q in raid6 */
+ 		void		*scribble;   /* space for constructing buffer
+ 					      * lists and performing address
+-- 
+2.1.1
+

@@ -1,7 +1,7 @@
-From 3a43d5764394d0bf9d0c977b3f6b299c46a7f18c Mon Sep 17 00:00:00 2001
+From b2445cc16ef5eb06805eeea036332b5817de7a1d Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <peterz@infradead.org>
 Date: Tue, 19 Nov 2013 16:42:47 +0100
-Subject: [PATCH 001/326] lockdep: Correctly annotate hardirq context in
+Subject: [PATCH 001/327] lockdep: Correctly annotate hardirq context in
  irq_exit()
 
 There was a reported deadlock on -rt which lockdep didn't report.
@@ -143,5 +143,5 @@ index d7d498d8cc4f..52f6c5418c11 100644
  
  /*
 -- 
-2.0.0
+2.1.1
 

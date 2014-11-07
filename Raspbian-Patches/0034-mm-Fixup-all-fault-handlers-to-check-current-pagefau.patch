@@ -1,7 +1,7 @@
-From e885d9b035cb47aac40309029aa6ba4bd4794b2e Mon Sep 17 00:00:00 2001
+From 16984dd7e4f06cceef20cdc9afabb21160e58fcc Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 17 Mar 2011 11:32:28 +0100
-Subject: [PATCH 034/326] mm: Fixup all fault handlers to check
+Subject: [PATCH 034/327] mm: Fixup all fault handlers to check
  current->pagefault_disable
 
 Necessary for decoupling pagefault disable from preempt count.
@@ -266,10 +266,10 @@ index 59dbd4645725..7d51c0590c57 100644
  
  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
 diff --git a/arch/sparc/mm/fault_64.c b/arch/sparc/mm/fault_64.c
-index 2ebec263d685..1747cdeff2f3 100644
+index 3841a081beb3..5cecb2d80cb9 100644
 --- a/arch/sparc/mm/fault_64.c
 +++ b/arch/sparc/mm/fault_64.c
-@@ -322,7 +322,7 @@ asmlinkage void __kprobes do_sparc64_fault(struct pt_regs *regs)
+@@ -330,7 +330,7 @@ asmlinkage void __kprobes do_sparc64_fault(struct pt_regs *regs)
  	 * If we're in an interrupt or have no user
  	 * context, we must not take the fault..
  	 */
@@ -331,5 +331,5 @@ index 70fa7bc42b4a..904c4799da28 100644
  		return;
  	}
 -- 
-2.0.0
+2.1.1
 

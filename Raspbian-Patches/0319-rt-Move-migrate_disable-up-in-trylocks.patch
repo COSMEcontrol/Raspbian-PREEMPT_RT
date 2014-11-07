@@ -1,0 +1,78 @@
+From 4c4fcd587948d52c370295c9a42d47aa844a046e Mon Sep 17 00:00:00 2001
+From: Steven Rostedt <rostedt@goodmis.org>
+Date: Tue, 29 Apr 2014 20:13:08 -0400
+Subject: [PATCH 319/327] rt: Move migrate_disable up in trylocks
+
+The changes to move the migrate_disable() down in the trylocks()
+caused race conditions to appear in the cpu hotplug code. The
+migrate disables must be done before any of the rtmutexes are
+taken, otherwise a lock may be held that prevents hotplug from
+moving forward.
+
+Link: http://lkml.kernel.org/r/20140429201308.63292691@gandalf.local.home
+
+Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mike Galbraith <umgwanakikbuti@gmail.com>
+Cc: Nicholas Mc Guire <der.herr@hofr.at>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-rt-users <linux-rt-users@vger.kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: John Kacur <jkacur@redhat.com>
+Cc: Clark Williams <williams@redhat.com>
+---
+ kernel/rt.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/kernel/rt.c b/kernel/rt.c
+index 5d177272ffb4..5f44defabe02 100644
+--- a/kernel/rt.c
++++ b/kernel/rt.c
+@@ -180,12 +180,15 @@ EXPORT_SYMBOL(_mutex_unlock);
+  */
+ int __lockfunc rt_write_trylock(rwlock_t *rwlock)
+ {
+-	int ret = rt_mutex_trylock(&rwlock->lock);
++	int ret;
++
++	migrate_disable();
++	ret = rt_mutex_trylock(&rwlock->lock);
+ 
+-	if (ret) {
++	if (ret)
+ 		rwlock_acquire(&rwlock->dep_map, 0, 1, _RET_IP_);
+-		migrate_disable();
+-	}
++	else
++		migrate_enable();
+ 
+ 	return ret;
+ }
+@@ -212,11 +215,12 @@ int __lockfunc rt_read_trylock(rwlock_t *rwlock)
+ 	 * write locked.
+ 	 */
+ 	if (rt_mutex_owner(lock) != current) {
++		migrate_disable();
+ 		ret = rt_mutex_trylock(lock);
+-		if (ret) {
++		if (ret)
+ 			rwlock_acquire(&rwlock->dep_map, 0, 1, _RET_IP_);
+-			migrate_disable();
+-		}
++		else
++			migrate_enable();
+ 	} else if (!rwlock->read_depth) {
+ 		ret = 0;
+ 	}
+@@ -245,8 +249,8 @@ void __lockfunc rt_read_lock(rwlock_t *rwlock)
+ 	 */
+ 	if (rt_mutex_owner(lock) != current) {
+ 		rwlock_acquire(&rwlock->dep_map, 0, 0, _RET_IP_);
+-		__rt_spin_lock(lock);
+ 		migrate_disable();
++		__rt_spin_lock(lock);
+ 	}
+ 	rwlock->read_depth++;
+ }
+-- 
+2.1.1
+

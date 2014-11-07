@@ -1,7 +1,7 @@
-From 788d17db98b3c661fc25da88818a4fcfa3c7c33a Mon Sep 17 00:00:00 2001
+From 62f0724f7d1b76869e20987d2a0bc7cce1bf2f35 Mon Sep 17 00:00:00 2001
 From: Frank Rowand <frank.rowand@am.sony.com>
 Date: Mon, 19 Sep 2011 14:51:14 -0700
-Subject: [PATCH 024/326] preempt-rt: Convert arm boot_lock to raw
+Subject: [PATCH 024/327] preempt-rt: Convert arm boot_lock to raw
 
 The arm boot_lock is used by the secondary processor startup code.  The locking
 task is the idle thread, which has idle->sched_class == &idle_sched_class.
@@ -376,5 +376,5 @@ index 39895d892c3b..b2e0858bfed3 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 -- 
-2.0.0
+2.1.1
 

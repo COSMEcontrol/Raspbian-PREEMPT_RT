@@ -1,7 +1,7 @@
-From d6db22c13b9c9d4134fab192842d74d10b28ac85 Mon Sep 17 00:00:00 2001
+From d7b825ed2ae60ed21727fac8827c1c6d2cd8298d Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sat, 23 Jul 2011 11:04:08 +0200
-Subject: [PATCH 004/326] early-printk-consolidate.patch
+Subject: [PATCH 004/327] early-printk-consolidate.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
@@ -48,5 +48,5 @@ index 3fdb455e3318..4306d44f034d 100644
  	if (tlb_type == hypervisor)
  		printk("ARCH: SUN4V\n");
 -- 
-2.0.0
+2.1.1
 
