@@ -1,7 +1,7 @@
-From 37e67cd71241850d2e6c8e0ef699a08fe796decd Mon Sep 17 00:00:00 2001
+From bf9ad37f7d9bd68bec8530e9fe9b055ade4d6e72 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Tue, 1 Jul 2014 11:14:44 -0400
-Subject: [PATCH 325/327] sched: Do not clear PF_NO_SETAFFINITY flag in
+Subject: [PATCH] sched: Do not clear PF_NO_SETAFFINITY flag in
  select_fallback_rq()
 
 I talked with Peter Zijlstra about this, and he told me that the clearing
@@ -27,12 +27,9 @@ Cc: Clark Williams <williams@redhat.com>
 Cc: Peter Zijlstra <peterz@infradead.org>
 Link: http://lkml.kernel.org/r/20140701111444.0cfebaa1@gandalf.local.home
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 6 ------
- 1 file changed, 6 deletions(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index c8ce254e5887..90bb75a30373 100644
+index c8ce254..90bb75a 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -1289,12 +1289,6 @@ out:
@@ -49,5 +46,5 @@ index c8ce254e5887..90bb75a30373 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

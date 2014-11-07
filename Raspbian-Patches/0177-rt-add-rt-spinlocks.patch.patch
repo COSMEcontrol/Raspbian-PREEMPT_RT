@@ -1,20 +1,13 @@
-From db697c4087c92d23f0388dd02f7c276b5eefbcc8 Mon Sep 17 00:00:00 2001
+From f34475f37ede166a8376c8941b6a40072ce698fb Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 29 Jun 2011 19:43:35 +0200
-Subject: [PATCH 177/327] rt-add-rt-spinlocks.patch
+Subject: [PATCH] rt-add-rt-spinlocks.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/rwlock_types_rt.h   | 33 +++++++++++++++++++++++++
- include/linux/spinlock_types.h    | 11 ++++++---
- include/linux/spinlock_types_rt.h | 51 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 92 insertions(+), 3 deletions(-)
- create mode 100644 include/linux/rwlock_types_rt.h
- create mode 100644 include/linux/spinlock_types_rt.h
 
 diff --git a/include/linux/rwlock_types_rt.h b/include/linux/rwlock_types_rt.h
 new file mode 100644
-index 000000000000..b13832119591
+index 0000000..b138321
 --- /dev/null
 +++ b/include/linux/rwlock_types_rt.h
 @@ -0,0 +1,33 @@
@@ -52,7 +45,7 @@ index 000000000000..b13832119591
 +
 +#endif
 diff --git a/include/linux/spinlock_types.h b/include/linux/spinlock_types.h
-index 5c8664d57fb8..10bac715ea96 100644
+index 5c8664d..10bac71 100644
 --- a/include/linux/spinlock_types.h
 +++ b/include/linux/spinlock_types.h
 @@ -11,8 +11,13 @@
@@ -74,7 +67,7 @@ index 5c8664d57fb8..10bac715ea96 100644
  #endif /* __LINUX_SPINLOCK_TYPES_H */
 diff --git a/include/linux/spinlock_types_rt.h b/include/linux/spinlock_types_rt.h
 new file mode 100644
-index 000000000000..9fd431967abc
+index 0000000..9fd4319
 --- /dev/null
 +++ b/include/linux/spinlock_types_rt.h
 @@ -0,0 +1,51 @@
@@ -130,5 +123,5 @@ index 000000000000..9fd431967abc
 +
 +#endif
 -- 
-2.1.1
+2.1.0
 

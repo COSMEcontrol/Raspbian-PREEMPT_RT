@@ -1,7 +1,7 @@
-From b20ef528703c0e9a53c828d4c532c253af837cfb Mon Sep 17 00:00:00 2001
+From dfc2aa308b79ada0833604aaa79eb2dffe33cee2 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Fri, 3 Jul 2009 08:30:00 -0500
-Subject: [PATCH 084/327] drivers/net: vortex fix locking issues
+Subject: [PATCH] drivers/net: vortex fix locking issues
 
 Argh, cut and paste wasn't enough...
 
@@ -17,12 +17,9 @@ Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
----
- drivers/net/ethernet/3com/3c59x.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/ethernet/3com/3c59x.c b/drivers/net/ethernet/3com/3c59x.c
-index ad5272b348f0..55dd320ffab5 100644
+index ad5272b..55dd320 100644
 --- a/drivers/net/ethernet/3com/3c59x.c
 +++ b/drivers/net/ethernet/3com/3c59x.c
 @@ -842,9 +842,9 @@ static void poll_vortex(struct net_device *dev)
@@ -53,5 +50,5 @@ index ad5272b348f0..55dd320ffab5 100644
  	}
  
 -- 
-2.1.1
+2.1.0
 

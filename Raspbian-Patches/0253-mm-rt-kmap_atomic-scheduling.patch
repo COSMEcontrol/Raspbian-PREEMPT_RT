@@ -1,7 +1,7 @@
-From 1f3b3d8a93bb6a8e8ec02ff653922ce6f338e392 Mon Sep 17 00:00:00 2001
+From 232cae251773ae5780f9961e62c46d766c0573d5 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <peterz@infradead.org>
 Date: Thu, 28 Jul 2011 10:43:51 +0200
-Subject: [PATCH 253/327] mm, rt: kmap_atomic scheduling
+Subject: [PATCH] mm, rt: kmap_atomic scheduling
 
 In fact, with migrate_disable() existing one could play games with
 kmap_atomic. You could save/restore the kmap_atomic slots on context
@@ -19,18 +19,9 @@ Link: http://lkml.kernel.org/r/1311842631.5890.208.camel@twins
 [tglx@linutronix.de: Get rid of the per cpu variable and store the idx
 		     and the pte content right away in the task struct.
 		     Shortens the context switch code. ]
----
- arch/x86/kernel/process_32.c | 32 ++++++++++++++++++++++++++++++++
- arch/x86/mm/highmem_32.c     |  9 ++++++++-
- arch/x86/mm/iomap_32.c       |  9 ++++++++-
- include/linux/highmem.h      | 27 +++++++++++++++++++++++----
- include/linux/sched.h        |  7 +++++++
- mm/highmem.c                 |  6 ++++--
- mm/memory.c                  |  2 ++
- 7 files changed, 84 insertions(+), 8 deletions(-)
 
 diff --git a/arch/x86/kernel/process_32.c b/arch/x86/kernel/process_32.c
-index 884f98f69354..6ce05379671d 100644
+index 884f98f..6ce0537 100644
 --- a/arch/x86/kernel/process_32.c
 +++ b/arch/x86/kernel/process_32.c
 @@ -36,6 +36,7 @@
@@ -87,7 +78,7 @@ index 884f98f69354..6ce05379671d 100644
  	 * Leave lazy mode, flushing any hypercalls made here.
  	 * This must be done before restoring TLS segments so
 diff --git a/arch/x86/mm/highmem_32.c b/arch/x86/mm/highmem_32.c
-index 4500142bc4aa..7f96844472bb 100644
+index 4500142..7f96844 100644
 --- a/arch/x86/mm/highmem_32.c
 +++ b/arch/x86/mm/highmem_32.c
 @@ -32,6 +32,7 @@ EXPORT_SYMBOL(kunmap);
@@ -121,7 +112,7 @@ index 4500142bc4aa..7f96844472bb 100644
  		kmap_atomic_idx_pop();
  		arch_flush_lazy_mmu_mode();
 diff --git a/arch/x86/mm/iomap_32.c b/arch/x86/mm/iomap_32.c
-index 7b179b499fa3..0c953e399b96 100644
+index 7b179b4..0c953e3 100644
 --- a/arch/x86/mm/iomap_32.c
 +++ b/arch/x86/mm/iomap_32.c
 @@ -56,6 +56,7 @@ EXPORT_SYMBOL_GPL(iomap_free);
@@ -155,7 +146,7 @@ index 7b179b499fa3..0c953e399b96 100644
  		kmap_atomic_idx_pop();
  	}
 diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index 7fb31da45d03..cee935ca0f4f 100644
+index 7fb31da..cee935c 100644
 --- a/include/linux/highmem.h
 +++ b/include/linux/highmem.h
 @@ -85,32 +85,51 @@ static inline void __kunmap_atomic(void *addr)
@@ -215,7 +206,7 @@ index 7fb31da45d03..cee935ca0f4f 100644
  }
  
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index ffeef981869c..900a0a6faf24 100644
+index ffeef98..900a0a6 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -23,6 +23,7 @@ struct sched_param {
@@ -240,7 +231,7 @@ index ffeef981869c..900a0a6faf24 100644
  
  #ifdef CONFIG_NUMA_BALANCING
 diff --git a/mm/highmem.c b/mm/highmem.c
-index b32b70cdaed6..b1c7d434b24c 100644
+index b32b70c..b1c7d43 100644
 --- a/mm/highmem.c
 +++ b/mm/highmem.c
 @@ -29,10 +29,11 @@
@@ -268,7 +259,7 @@ index b32b70cdaed6..b1c7d434b24c 100644
  unsigned int nr_free_highpages (void)
  {
 diff --git a/mm/memory.c b/mm/memory.c
-index 744f97bc3db7..4e1d48e8d900 100644
+index 744f97b..4e1d48e 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
 @@ -3750,6 +3750,7 @@ unlock:
@@ -288,5 +279,5 @@ index 744f97bc3db7..4e1d48e8d900 100644
  EXPORT_SYMBOL(pagefault_enable);
  #endif
 -- 
-2.1.1
+2.1.0
 

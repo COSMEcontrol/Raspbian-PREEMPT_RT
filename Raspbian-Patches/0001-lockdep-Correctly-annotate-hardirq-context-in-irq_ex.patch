@@ -1,8 +1,7 @@
-From b2445cc16ef5eb06805eeea036332b5817de7a1d Mon Sep 17 00:00:00 2001
+From 1343750fd40e55b37e33445a5711080e518186dc Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <peterz@infradead.org>
 Date: Tue, 19 Nov 2013 16:42:47 +0100
-Subject: [PATCH 001/327] lockdep: Correctly annotate hardirq context in
- irq_exit()
+Subject: [PATCH] lockdep: Correctly annotate hardirq context in irq_exit()
 
 There was a reported deadlock on -rt which lockdep didn't report.
 
@@ -36,12 +35,9 @@ Signed-off-by: Peter Zijlstra <peterz@infradead.org>
 Link: http://lkml.kernel.org/n/tip-dgwc5cdksbn0jk09vbmcc9sa@git.kernel.org
 Signed-off-by: Ingo Molnar <mingo@kernel.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/softirq.c | 52 +++++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 45 insertions(+), 7 deletions(-)
 
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index d7d498d8cc4f..52f6c5418c11 100644
+index d7d498d..52f6c54 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -209,14 +209,52 @@ EXPORT_SYMBOL(local_bh_enable_ip);
@@ -143,5 +139,5 @@ index d7d498d8cc4f..52f6c5418c11 100644
  
  /*
 -- 
-2.1.1
+2.1.0
 

@@ -1,19 +1,12 @@
-From 275d3923a715f1d9272fb051896568746b196229 Mon Sep 17 00:00:00 2001
+From 29e1b9fd4915b9dcf3fc84eefccab70bb3a65358 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 28 Jun 2011 15:57:18 +0200
-Subject: [PATCH 163/327] softirq-local-lock.patch
+Subject: [PATCH] softirq-local-lock.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/interrupt.h    |  12 ++++
- include/linux/preempt_mask.h |  15 +++-
- include/linux/sched.h        |   1 +
- init/main.c                  |   1 +
- kernel/softirq.c             | 167 ++++++++++++++++++++++++++++++++++++++++++-
- 5 files changed, 191 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index a94944e4f31c..f729351083f6 100644
+index a94944e..f7293510 100644
 --- a/include/linux/interrupt.h
 +++ b/include/linux/interrupt.h
 @@ -417,7 +417,13 @@ struct softirq_action
@@ -44,7 +37,7 @@ index a94944e4f31c..f729351083f6 100644
   * Autoprobing for irqs:
   *
 diff --git a/include/linux/preempt_mask.h b/include/linux/preempt_mask.h
-index 931bc616219f..199f278cc721 100644
+index 931bc61..199f278 100644
 --- a/include/linux/preempt_mask.h
 +++ b/include/linux/preempt_mask.h
 @@ -58,7 +58,11 @@
@@ -86,7 +79,7 @@ index 931bc616219f..199f278cc721 100644
  /*
   * Are we in NMI context?
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index b6f9535e5bdf..ffeef981869c 100644
+index b6f9535..ffeef98 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1448,6 +1448,7 @@ struct task_struct {
@@ -98,7 +91,7 @@ index b6f9535e5bdf..ffeef981869c 100644
  };
  
 diff --git a/init/main.c b/init/main.c
-index c755a57a170a..12b89c6af3a0 100644
+index c755a57..12b89c6 100644
 --- a/init/main.c
 +++ b/init/main.c
 @@ -499,6 +499,7 @@ asmlinkage void __init start_kernel(void)
@@ -110,7 +103,7 @@ index c755a57a170a..12b89c6af3a0 100644
  	page_address_init();
  	pr_notice("%s", linux_banner);
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index a1c156af7086..2c329f27f404 100644
+index a1c156a..2c329f2 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -25,6 +25,7 @@
@@ -324,5 +317,5 @@ index a1c156af7086..2c329f27f404 100644
  
  static inline void tick_irq_exit(void)
 -- 
-2.1.1
+2.1.0
 

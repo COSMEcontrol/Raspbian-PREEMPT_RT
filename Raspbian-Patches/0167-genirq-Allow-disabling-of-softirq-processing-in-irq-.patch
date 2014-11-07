@@ -1,8 +1,8 @@
-From 33eb125c320e014fc2d4bfdb0f3ae126321ca250 Mon Sep 17 00:00:00 2001
+From ebede1bfb81e88e067dfb27829f8b62f8e788b50 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 31 Jan 2012 13:01:27 +0100
-Subject: [PATCH 167/327] genirq: Allow disabling of softirq processing in irq
- thread context
+Subject: [PATCH] genirq: Allow disabling of softirq processing in irq thread
+ context
 
 The processing of softirqs in irq thread context is a performance gain
 for the non-rt workloads of a system, but it's counterproductive for
@@ -12,16 +12,9 @@ thread context.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- include/linux/interrupt.h |  2 ++
- include/linux/irq.h       |  5 ++++-
- kernel/irq/manage.c       | 13 ++++++++++++-
- kernel/irq/settings.h     | 12 ++++++++++++
- kernel/softirq.c          |  7 +++++++
- 5 files changed, 37 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index adf1dc7f1b9d..750d1e6cbe36 100644
+index adf1dc7..750d1e6 100644
 --- a/include/linux/interrupt.h
 +++ b/include/linux/interrupt.h
 @@ -58,6 +58,7 @@
@@ -41,7 +34,7 @@ index adf1dc7f1b9d..750d1e6cbe36 100644
  #define IRQF_TIMER		(__IRQF_TIMER | IRQF_NO_SUSPEND | IRQF_NO_THREAD)
  
 diff --git a/include/linux/irq.h b/include/linux/irq.h
-index 896824eeacf1..7a08e31b4834 100644
+index 896824e..7a08e31 100644
 --- a/include/linux/irq.h
 +++ b/include/linux/irq.h
 @@ -70,6 +70,7 @@ typedef	void (*irq_preflow_handler_t)(struct irq_data *data);
@@ -69,7 +62,7 @@ index 896824eeacf1..7a08e31b4834 100644
  #define IRQ_NO_BALANCING_MASK	(IRQ_PER_CPU | IRQ_NO_BALANCING)
  
 diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 43308257f3d9..037d2cd99bb6 100644
+index 4330825..037d2cd 100644
 --- a/kernel/irq/manage.c
 +++ b/kernel/irq/manage.c
 @@ -851,7 +851,15 @@ irq_forced_thread_fn(struct irq_desc *desc, struct irqaction *action)
@@ -100,7 +93,7 @@ index 43308257f3d9..037d2cd99bb6 100644
  		setup_affinity(irq, desc, mask);
  
 diff --git a/kernel/irq/settings.h b/kernel/irq/settings.h
-index 1162f1030f18..0d2c381c2bdb 100644
+index 1162f10..0d2c381 100644
 --- a/kernel/irq/settings.h
 +++ b/kernel/irq/settings.h
 @@ -14,6 +14,7 @@ enum {
@@ -137,7 +130,7 @@ index 1162f1030f18..0d2c381c2bdb 100644
  {
  	return desc->status_use_accessors & _IRQ_PER_CPU;
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 79d370b25a3e..37482daed90a 100644
+index 79d370b..37482da 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -460,6 +460,13 @@ void local_bh_enable_ip(unsigned long ip)
@@ -155,5 +148,5 @@ index 79d370b25a3e..37482daed90a 100644
  int notrace __in_softirq(void)
  {
 -- 
-2.1.1
+2.1.0
 

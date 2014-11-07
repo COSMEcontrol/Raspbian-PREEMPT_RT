@@ -1,18 +1,13 @@
-From 2908f7b98a673e71233e01b0ad565bcee74158ff Mon Sep 17 00:00:00 2001
+From 017248c754fb02fc16eb7fce92598caca9b23c25 Mon Sep 17 00:00:00 2001
 From: Allen Pais <allen.pais@oracle.com>
 Date: Fri, 13 Dec 2013 09:44:43 +0530
-Subject: [PATCH 008/327] sparc64: convert ctx_alloc_lock raw_spinlock_t
+Subject: [PATCH] sparc64: convert ctx_alloc_lock raw_spinlock_t
 
 Signed-off-by: Allen Pais <allen.pais@oracle.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/sparc/include/asm/mmu_context_64.h |  2 +-
- arch/sparc/mm/init_64.c                 | 10 +++++-----
- arch/sparc/mm/tsb.c                     |  4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/arch/sparc/include/asm/mmu_context_64.h b/arch/sparc/include/asm/mmu_context_64.h
-index 3a856241b655..44e393bd0564 100644
+index 3a85624..44e393b 100644
 --- a/arch/sparc/include/asm/mmu_context_64.h
 +++ b/arch/sparc/include/asm/mmu_context_64.h
 @@ -13,7 +13,7 @@ static inline void enter_lazy_tlb(struct mm_struct *mm, struct task_struct *tsk)
@@ -25,7 +20,7 @@ index 3a856241b655..44e393bd0564 100644
  extern unsigned long mmu_context_bmap[];
  
 diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
-index a3b788dc7e24..22c766a36f24 100644
+index a3b788d..22c766a 100644
 --- a/arch/sparc/mm/init_64.c
 +++ b/arch/sparc/mm/init_64.c
 @@ -665,7 +665,7 @@ void __flush_dcache_range(unsigned long start, unsigned long end)
@@ -74,7 +69,7 @@ index a3b788dc7e24..22c766a36f24 100644
  }
  #endif
 diff --git a/arch/sparc/mm/tsb.c b/arch/sparc/mm/tsb.c
-index 46572a5a0971..5c2a65c4637c 100644
+index 46572a5..5c2a65c 100644
 --- a/arch/sparc/mm/tsb.c
 +++ b/arch/sparc/mm/tsb.c
 @@ -535,12 +535,12 @@ void destroy_context(struct mm_struct *mm)
@@ -93,5 +88,5 @@ index 46572a5a0971..5c2a65c4637c 100644
 +	raw_spin_unlock_irqrestore(&ctx_alloc_lock, flags);
  }
 -- 
-2.1.1
+2.1.0
 

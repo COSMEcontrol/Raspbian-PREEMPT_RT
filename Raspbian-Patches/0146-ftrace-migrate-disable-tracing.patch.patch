@@ -1,18 +1,12 @@
-From 1539b4b2ac3ef557e885e17a88ac923850ae5992 Mon Sep 17 00:00:00 2001
+From ccf0bb459ba51fdb681b2c90e64ba5d0639b0444 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 17 Jul 2011 21:56:42 +0200
-Subject: [PATCH 146/327] ftrace-migrate-disable-tracing.patch
+Subject: [PATCH] ftrace-migrate-disable-tracing.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/ftrace_event.h | 2 ++
- kernel/trace/trace.c         | 9 ++++++---
- kernel/trace/trace_events.c  | 1 +
- kernel/trace/trace_output.c  | 5 +++++
- 4 files changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/include/linux/ftrace_event.h b/include/linux/ftrace_event.h
-index 20aebdbab9a4..4515232b15e1 100644
+index 20aebdb..4515232 100644
 --- a/include/linux/ftrace_event.h
 +++ b/include/linux/ftrace_event.h
 @@ -56,6 +56,8 @@ struct trace_entry {
@@ -25,7 +19,7 @@ index 20aebdbab9a4..4515232b15e1 100644
  
  #define FTRACE_MAX_EVENT						\
 diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index dcdf4e682dd4..9ad971a7eb57 100644
+index dcdf4e6..9ad971a 100644
 --- a/kernel/trace/trace.c
 +++ b/kernel/trace/trace.c
 @@ -1532,6 +1532,8 @@ tracing_generic_entry_update(struct trace_entry *entry, unsigned long flags,
@@ -52,7 +46,7 @@ index dcdf4e682dd4..9ad971a7eb57 100644
  
  static void print_event_info(struct trace_buffer *buf, struct seq_file *m)
 diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
-index bc1bd20f7942..4830af6a2e86 100644
+index bc1bd20..4830af6 100644
 --- a/kernel/trace/trace_events.c
 +++ b/kernel/trace/trace_events.c
 @@ -160,6 +160,7 @@ static int trace_define_common_fields(void)
@@ -64,7 +58,7 @@ index bc1bd20f7942..4830af6a2e86 100644
  	return ret;
  }
 diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
-index 34e7cbac0c9c..b54b3c8f9fc4 100644
+index 34e7cba..b54b3c8 100644
 --- a/kernel/trace/trace_output.c
 +++ b/kernel/trace/trace_output.c
 @@ -635,6 +635,11 @@ int trace_print_lat_fmt(struct trace_seq *s, struct trace_entry *entry)
@@ -80,5 +74,5 @@ index 34e7cbac0c9c..b54b3c8f9fc4 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

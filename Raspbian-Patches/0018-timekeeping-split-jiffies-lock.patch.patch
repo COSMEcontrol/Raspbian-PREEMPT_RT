@@ -1,19 +1,12 @@
-From d81dea6a39ae30304f60936b7f573c260f008c6b Mon Sep 17 00:00:00 2001
+From d98f6e273f3dbe9a0ae82fb3bfdfbfb3aa9ca62f Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 14 Feb 2013 22:36:59 +0100
-Subject: [PATCH 018/327] timekeeping-split-jiffies-lock.patch
+Subject: [PATCH] timekeeping-split-jiffies-lock.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/time/jiffies.c       |  7 ++++---
- kernel/time/tick-common.c   | 10 ++++++----
- kernel/time/tick-internal.h |  3 ++-
- kernel/time/tick-sched.c    | 16 ++++++++++------
- kernel/time/timekeeping.c   |  6 ++++--
- 5 files changed, 26 insertions(+), 16 deletions(-)
 
 diff --git a/kernel/time/jiffies.c b/kernel/time/jiffies.c
-index a6a5bf53e86d..23d7203cc8af 100644
+index a6a5bf5..23d7203 100644
 --- a/kernel/time/jiffies.c
 +++ b/kernel/time/jiffies.c
 @@ -73,7 +73,8 @@ static struct clocksource clocksource_jiffies = {
@@ -39,7 +32,7 @@ index a6a5bf53e86d..23d7203cc8af 100644
  }
  EXPORT_SYMBOL(get_jiffies_64);
 diff --git a/kernel/time/tick-common.c b/kernel/time/tick-common.c
-index 271ce26faa21..07e90b471f95 100644
+index 271ce26..07e90b4 100644
 --- a/kernel/time/tick-common.c
 +++ b/kernel/time/tick-common.c
 @@ -63,13 +63,15 @@ int tick_is_oneshot_available(void)
@@ -73,7 +66,7 @@ index 271ce26faa21..07e90b471f95 100644
  		clockevents_set_mode(dev, CLOCK_EVT_MODE_ONESHOT);
  
 diff --git a/kernel/time/tick-internal.h b/kernel/time/tick-internal.h
-index bc906cad709b..7e5e7f83bd67 100644
+index bc906ca..7e5e7f8 100644
 --- a/kernel/time/tick-internal.h
 +++ b/kernel/time/tick-internal.h
 @@ -4,7 +4,8 @@
@@ -87,7 +80,7 @@ index bc906cad709b..7e5e7f83bd67 100644
  #define CS_NAME_LEN	32
  
 diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-index 29b063b32ff0..f42b109c7533 100644
+index 29b063b..f42b109 100644
 --- a/kernel/time/tick-sched.c
 +++ b/kernel/time/tick-sched.c
 @@ -62,7 +62,8 @@ static void tick_do_update_jiffies64(ktime_t now)
@@ -142,7 +135,7 @@ index 29b063b32ff0..f42b109c7533 100644
  	if (rcu_needs_cpu(cpu, &rcu_delta_jiffies) ||
  	    arch_needs_cpu(cpu) || irq_work_needs_cpu()) {
 diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-index bfca770a64e0..d3150a7ef6c0 100644
+index bfca770..d3150a7 100644
 --- a/kernel/time/timekeeping.c
 +++ b/kernel/time/timekeeping.c
 @@ -1754,7 +1754,9 @@ EXPORT_SYMBOL(hardpps);
@@ -158,5 +151,5 @@ index bfca770a64e0..d3150a7ef6c0 100644
 +	raw_spin_unlock(&jiffies_lock);
  }
 -- 
-2.1.1
+2.1.0
 

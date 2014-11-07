@@ -1,16 +1,13 @@
-From 5b2e16cc0004ca07e7b9f6b6c077ff370899a0db Mon Sep 17 00:00:00 2001
+From 65d296b39b075ead8adad93b72032af3404648b6 Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:44:03 -0500
-Subject: [PATCH 101/327] mm: Allow only slub on RT
+Subject: [PATCH] mm: Allow only slub on RT
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- init/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
 
 diff --git a/init/Kconfig b/init/Kconfig
-index 734aa018e06c..65c00805d726 100644
+index 734aa01..65c0080 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
 @@ -1583,6 +1583,7 @@ choice
@@ -30,5 +27,5 @@ index 734aa018e06c..65c00805d726 100644
  	   SLOB replaces the stock allocator with a drastically simpler
  	   allocator. SLOB is generally more space efficient but
 -- 
-2.1.1
+2.1.0
 

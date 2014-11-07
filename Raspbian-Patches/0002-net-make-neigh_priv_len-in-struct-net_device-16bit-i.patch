@@ -1,8 +1,8 @@
-From 114855b60b805a1ff538d5eda24786dc9c272c5a Mon Sep 17 00:00:00 2001
+From 9dfdd230b2b1021b15d2d929913b1c24cee3f7f3 Mon Sep 17 00:00:00 2001
 From: Sebastian Siewior <bigeasy@linutronix.de>
 Date: Thu, 12 Dec 2013 10:15:59 +0100
-Subject: [PATCH 002/327] net: make neigh_priv_len in struct net_device 16bit
- instead of 8bit
+Subject: [PATCH] net: make neigh_priv_len in struct net_device 16bit instead
+ of 8bit
 
 neigh_priv_len is defined as u8. With all debug enabled struct
 ipoib_neigh has 200 bytes. The largest part is sk_buff_head with 96
@@ -27,12 +27,9 @@ Cc: Steven Rostedt <rostedt@goodmis.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: David S. Miller <davem@davemloft.net>
----
- include/linux/netdevice.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 51bfd7a68272..bb5b22ba33cc 100644
+index 51bfd7a..bb5b22b 100644
 --- a/include/linux/netdevice.h
 +++ b/include/linux/netdevice.h
 @@ -1214,7 +1214,7 @@ struct net_device {
@@ -45,5 +42,5 @@ index 51bfd7a68272..bb5b22ba33cc 100644
  						 * that share the same link
  						 * layer address
 -- 
-2.1.1
+2.1.0
 

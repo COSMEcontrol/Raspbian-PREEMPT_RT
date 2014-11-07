@@ -1,17 +1,14 @@
-From 93211b348957049aa592cff6b2718cd79fc0b594 Mon Sep 17 00:00:00 2001
+From fabe7de85614817f6f8fd61cec38fb2854c5c5e7 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 4 Oct 2012 15:33:53 +0100
-Subject: [PATCH 289/327] softirq: Split handling function
+Subject: [PATCH] softirq: Split handling function
 
 Split out the inner handling function, so RT can reuse it.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/softirq.c | 43 +++++++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 20 deletions(-)
 
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 984942af0fba..b1cc1517bdd3 100644
+index 984942a..b1cc151 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -142,31 +142,34 @@ static void wakeup_softirqd(void)
@@ -70,5 +67,5 @@ index 984942af0fba..b1cc1517bdd3 100644
  	local_irq_disable();
  }
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From aa9a9460eb823520c01d1b27801a87dfdcc650f6 Mon Sep 17 00:00:00 2001
+From ee3ce62a2645b9834c0928957fb89f285ce862f5 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 4 Oct 2012 14:20:47 +0100
-Subject: [PATCH 290/327] softirq: Split softirq locks
+Subject: [PATCH] softirq: Split softirq locks
 
 The 3.x RT series removed the split softirq implementation in favour
 of pushing softirq processing into the context of the thread which
@@ -24,13 +24,9 @@ softirq elevation in the context of user space tasks or interrupt
 threads.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/sched.h |   1 +
- kernel/softirq.c      | 307 ++++++++++++++++++++++++++++++--------------------
- 2 files changed, 186 insertions(+), 122 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 4f95fe4f11dd..8339f8a669db 100644
+index 4f95fe4..8339f8a 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1450,6 +1450,7 @@ struct task_struct {
@@ -42,7 +38,7 @@ index 4f95fe4f11dd..8339f8a669db 100644
  #ifdef CONFIG_PREEMPT_RT_FULL
  # if defined CONFIG_HIGHMEM || defined CONFIG_X86_32
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index b1cc1517bdd3..8d07af54954b 100644
+index b1cc151..8d07af5 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -162,6 +162,12 @@ static void handle_softirq(unsigned int vec_nr, int cpu, int need_rcu_bh_qs)
@@ -456,5 +452,5 @@ index b1cc1517bdd3..8d07af54954b 100644
  
  #ifdef CONFIG_HOTPLUG_CPU
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From 7ac0cd3a699797ddf48182a5844fae9ea571729c Mon Sep 17 00:00:00 2001
+From 7235865216f67ec603f38d01782e968223dc7d2d Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <srostedt@redhat.com>
 Date: Thu, 6 Oct 2011 10:48:39 -0400
-Subject: [PATCH 249/327] net: Avoid livelock in net_tx_action() on RT
+Subject: [PATCH] net: Avoid livelock in net_tx_action() on RT
 
 qdisc_lock is taken w/o disabling interrupts or bottom halfs. So code
 holding a qdisc_lock() can be interrupted and softirqs can run on the
@@ -38,12 +38,9 @@ Cc: Clark Williams <williams@redhat.com>
 Cc: John Kacur <jkacur@redhat.com>
 Cc: Luis Claudio R. Goncalves <lclaudio@redhat.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- net/core/dev.c | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/net/core/dev.c b/net/core/dev.c
-index bb0044544780..c24e9b01a4c3 100644
+index bb00445..c24e9b0 100644
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
 @@ -3281,6 +3281,36 @@ int netif_rx_ni(struct sk_buff *skb)
@@ -93,5 +90,5 @@ index bb0044544780..c24e9b01a4c3 100644
  				clear_bit(__QDISC_STATE_SCHED,
  					  &q->state);
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From b34864c39bcd681ce39e2ad45fa4501c6b49fb14 Mon Sep 17 00:00:00 2001
+From c66714bfaeca28737ce9fc9a22c3a1e20bd0ac18 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <srostedt@redhat.com>
 Date: Mon, 16 Jul 2012 08:07:43 +0000
-Subject: [PATCH 269/327] cpu/rt: Rework cpu down for PREEMPT_RT
+Subject: [PATCH] cpu/rt: Rework cpu down for PREEMPT_RT
 
 Bringing a CPU down is a pain with the PREEMPT_RT kernel because
 tasks can be preempted in many more places than in non-RT. In
@@ -48,14 +48,9 @@ This helps fix issues with ksoftirqd and workqueue that unbind on CPU down.
 
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/sched.h |   7 ++
- kernel/cpu.c          | 240 +++++++++++++++++++++++++++++++++++++++++---------
- kernel/sched/core.c   |  82 ++++++++++++++++-
- 3 files changed, 284 insertions(+), 45 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 900a0a6faf24..20f477e460be 100644
+index 900a0a6..20f477e 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1835,6 +1835,10 @@ extern void do_set_cpus_allowed(struct task_struct *p,
@@ -80,7 +75,7 @@ index 900a0a6faf24..20f477e460be 100644
  
  #ifdef CONFIG_NO_HZ_COMMON
 diff --git a/kernel/cpu.c b/kernel/cpu.c
-index b0cf6da8348b..64a2c995cddf 100644
+index b0cf6da..64a2c99 100644
 --- a/kernel/cpu.c
 +++ b/kernel/cpu.c
 @@ -51,12 +51,7 @@ static int cpu_hotplug_disabled;
@@ -445,7 +440,7 @@ index b0cf6da8348b..64a2c995cddf 100644
  	if (err) {
  		/* CPU didn't die: tell everyone.  Can't complain. */
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 9165f013bd88..c8c8ac1eb5b1 100644
+index 9165f01..c8c8ac1 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2371,7 +2371,7 @@ void migrate_disable(void)
@@ -552,5 +547,5 @@ index 9165f013bd88..c8c8ac1eb5b1 100644
   * This is how migration works:
   *
 -- 
-2.1.1
+2.1.0
 

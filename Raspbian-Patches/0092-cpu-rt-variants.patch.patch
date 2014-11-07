@@ -1,15 +1,12 @@
-From 3e75aa756f274b6019480af03070d2f8d155de4f Mon Sep 17 00:00:00 2001
+From b03835a4920b4f30edcead343e4790160edb8853 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 17 Jun 2011 15:42:38 +0200
-Subject: [PATCH 092/327] cpu-rt-variants.patch
+Subject: [PATCH] cpu-rt-variants.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/smp.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
 diff --git a/include/linux/smp.h b/include/linux/smp.h
-index 731f5237d5f4..f30c7b1499c0 100644
+index 731f523..f30c7b1 100644
 --- a/include/linux/smp.h
 +++ b/include/linux/smp.h
 @@ -188,6 +188,14 @@ static inline void __smp_call_function_single(int cpuid,
@@ -28,5 +25,5 @@ index 731f5237d5f4..f30c7b1499c0 100644
   * Callback to arch code if there's nosmp or maxcpus=0 on the
   * boot command line:
 -- 
-2.1.1
+2.1.0
 

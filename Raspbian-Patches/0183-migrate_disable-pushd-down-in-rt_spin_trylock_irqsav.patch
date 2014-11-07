@@ -1,16 +1,13 @@
-From 5a2d4573e1b19d0264f4b38317d2a94aa92e6a5f Mon Sep 17 00:00:00 2001
+From 279d488cd6accc2a361ffefebcfeb55ee66eee28 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Fri, 29 Nov 2013 00:17:27 -0500
-Subject: [PATCH 183/327] migrate_disable pushd down in rt_spin_trylock_irqsave
+Subject: [PATCH] migrate_disable pushd down in rt_spin_trylock_irqsave
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/rtmutex.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/rtmutex.c b/kernel/rtmutex.c
-index dede95d856eb..eb94c4873f6d 100644
+index dede95d..eb94c48 100644
 --- a/kernel/rtmutex.c
 +++ b/kernel/rtmutex.c
 @@ -1059,12 +1059,11 @@ int __lockfunc rt_spin_trylock_irqsave(spinlock_t *lock, unsigned long *flags)
@@ -30,5 +27,5 @@ index dede95d856eb..eb94c4873f6d 100644
  }
  EXPORT_SYMBOL(rt_spin_trylock_irqsave);
 -- 
-2.1.1
+2.1.0
 

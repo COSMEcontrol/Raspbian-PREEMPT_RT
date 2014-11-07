@@ -1,17 +1,13 @@
-From 5abd9ffcfe43ab2fd8e3c5337489d0ddf03042c1 Mon Sep 17 00:00:00 2001
+From 96b8776a02de161462f3e69db2b59e9c91b891ec Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Fri, 29 Nov 2013 00:19:41 -0500
-Subject: [PATCH 182/327] migrate_disable pushd down in
- atomic_dec_and_spin_lock
+Subject: [PATCH] migrate_disable pushd down in atomic_dec_and_spin_lock
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/rtmutex.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/rtmutex.c b/kernel/rtmutex.c
-index bd83ef074e8f..dede95d856eb 100644
+index bd83ef0..dede95d 100644
 --- a/kernel/rtmutex.c
 +++ b/kernel/rtmutex.c
 @@ -1074,12 +1074,12 @@ int atomic_dec_and_spin_lock(atomic_t *atomic, spinlock_t *lock)
@@ -31,5 +27,5 @@ index bd83ef074e8f..dede95d856eb 100644
  }
  EXPORT_SYMBOL(atomic_dec_and_spin_lock);
 -- 
-2.1.1
+2.1.0
 

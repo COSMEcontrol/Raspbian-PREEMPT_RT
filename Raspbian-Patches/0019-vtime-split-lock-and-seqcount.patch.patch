@@ -1,18 +1,12 @@
-From a206dee83680ada6c38ae893449389dcb12a6be8 Mon Sep 17 00:00:00 2001
+From 0b9bdb603cb32b16ffcfaef6ad6077648394fdcb Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 23 Jul 2013 15:45:51 +0200
-Subject: [PATCH 019/327] vtime-split-lock-and-seqcount.patch
+Subject: [PATCH] vtime-split-lock-and-seqcount.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/init_task.h |  3 ++-
- include/linux/sched.h     |  3 ++-
- kernel/fork.c             |  3 ++-
- kernel/sched/cputime.c    | 62 ++++++++++++++++++++++++++++++-----------------
- 4 files changed, 46 insertions(+), 25 deletions(-)
 
 diff --git a/include/linux/init_task.h b/include/linux/init_task.h
-index 998f4dfedecf..f23c8c9fac51 100644
+index 998f4df..f23c8c9 100644
 --- a/include/linux/init_task.h
 +++ b/include/linux/init_task.h
 @@ -146,7 +146,8 @@ extern struct task_group root_task_group;
@@ -26,7 +20,7 @@ index 998f4dfedecf..f23c8c9fac51 100644
  	.vtime_snap_whence = VTIME_SYS,
  #else
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 3bcbffeea852..96f6c18f255c 100644
+index 3bcbffe..96f6c18 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1168,7 +1168,8 @@ struct task_struct {
@@ -40,7 +34,7 @@ index 3bcbffeea852..96f6c18f255c 100644
  	enum {
  		VTIME_SLEEPING = 0,
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 5b486126147f..ec448fb41b09 100644
+index 5b48612..ec448fb 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
 @@ -1252,7 +1252,8 @@ static struct task_struct *copy_process(unsigned long clone_flags,
@@ -54,7 +48,7 @@ index 5b486126147f..ec448fb41b09 100644
  	p->vtime_snap_whence = VTIME_SLEEPING;
  #endif
 diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index cfe2f268afaa..760e149fdcd3 100644
+index cfe2f26..760e149 100644
 --- a/kernel/sched/cputime.c
 +++ b/kernel/sched/cputime.c
 @@ -655,37 +655,45 @@ static void __vtime_account_system(struct task_struct *tsk)
@@ -211,5 +205,5 @@ index cfe2f268afaa..760e149fdcd3 100644
  
  
 -- 
-2.1.1
+2.1.0
 

@@ -1,18 +1,15 @@
-From 48cabe87f9a0d3bd3523546a1fc0b481f11306da Mon Sep 17 00:00:00 2001
+From ed5d031b471459b612388e49e9e6ea6b0302e9d5 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 26 Jul 2009 02:21:32 +0200
-Subject: [PATCH 219/327] x86: Use generic rwsem_spinlocks on -rt
+Subject: [PATCH] x86: Use generic rwsem_spinlocks on -rt
 
 Simplifies the separation of anon_rw_semaphores and rw_semaphores for
 -rt.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/x86/Kconfig | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index f968d8527190..0ed62db00295 100644
+index f968d85..0ed62db 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
 @@ -180,8 +180,11 @@ config ARCH_MAY_HAVE_PC_FDC
@@ -38,5 +35,5 @@ index f968d8527190..0ed62db00295 100644
  	  nor standard legacy replacement devices/features. e.g. Medfield does
  	  not contain i8259, i8254, HPET, legacy BIOS, most of the io ports.
 -- 
-2.1.1
+2.1.0
 

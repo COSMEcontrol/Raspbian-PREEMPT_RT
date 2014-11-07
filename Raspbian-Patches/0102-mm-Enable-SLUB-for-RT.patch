@@ -1,18 +1,14 @@
-From 7de8c6a73f3c2f962e506088f9250e7741d5143e Mon Sep 17 00:00:00 2001
+From c00218fa544306da4ead80b522e7405bedccb9c9 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 25 Oct 2012 10:32:35 +0100
-Subject: [PATCH 102/327] mm: Enable SLUB for RT
+Subject: [PATCH] mm: Enable SLUB for RT
 
 Make SLUB RT aware and remove the restriction in Kconfig.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- mm/slab.h |   4 +++
- mm/slub.c | 119 +++++++++++++++++++++++++++++++++++++++++++++++---------------
- 2 files changed, 95 insertions(+), 28 deletions(-)
 
 diff --git a/mm/slab.h b/mm/slab.h
-index a535033f7e9a..8ffb2876b2db 100644
+index a535033..8ffb287 100644
 --- a/mm/slab.h
 +++ b/mm/slab.h
 @@ -247,7 +247,11 @@ static inline struct kmem_cache *cache_from_obj(struct kmem_cache *s, void *x)
@@ -28,7 +24,7 @@ index a535033f7e9a..8ffb2876b2db 100644
  #ifdef CONFIG_SLAB
  	struct list_head slabs_partial;	/* partial list first, better asm code */
 diff --git a/mm/slub.c b/mm/slub.c
-index a88d94cfee20..2c7296e51311 100644
+index a88d94c..2c7296e 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
 @@ -1087,7 +1087,7 @@ static noinline struct kmem_cache_node *free_debug_processing(
@@ -398,5 +394,5 @@ index a88d94cfee20..2c7296e51311 100644
  
  	for (i = 0; i < t.count; i++) {
 -- 
-2.1.1
+2.1.0
 

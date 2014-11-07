@@ -1,7 +1,7 @@
-From ef102a933de58d9ed20c4eee7bd01c42257cbf40 Mon Sep 17 00:00:00 2001
+From 90c9c4b46941a9916a1da17bcdd1bd474c383224 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 6 Apr 2010 16:51:31 +0200
-Subject: [PATCH 169/327] md: raid5: Make raid5_percpu handling RT aware
+Subject: [PATCH] md: raid5: Make raid5_percpu handling RT aware
 
 __raid_run_ops() disables preemption with get_cpu() around the access
 to the raid5_percpu variables. That causes scheduling while atomic
@@ -13,13 +13,9 @@ preemptible.
 Reported-by: Udo van den Heuvel <udovdh@xs4all.nl>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Udo van den Heuvel <udovdh@xs4all.nl>
----
- drivers/md/raid5.c | 7 +++++--
- drivers/md/raid5.h | 1 +
- 2 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
-index 582bc3f69a43..96395d5a8ffa 100644
+index 582bc3f..96395d5 100644
 --- a/drivers/md/raid5.c
 +++ b/drivers/md/raid5.c
 @@ -1545,8 +1545,9 @@ static void raid_run_ops(struct stripe_head *sh, unsigned long ops_request)
@@ -52,7 +48,7 @@ index 582bc3f69a43..96395d5a8ffa 100644
  	put_online_cpus();
  
 diff --git a/drivers/md/raid5.h b/drivers/md/raid5.h
-index 2113ffa82c7a..0a5e1e1f4100 100644
+index 2113ffa..0a5e1e1 100644
 --- a/drivers/md/raid5.h
 +++ b/drivers/md/raid5.h
 @@ -444,6 +444,7 @@ struct r5conf {
@@ -64,5 +60,5 @@ index 2113ffa82c7a..0a5e1e1f4100 100644
  		void		*scribble;   /* space for constructing buffer
  					      * lists and performing address
 -- 
-2.1.1
+2.1.0
 

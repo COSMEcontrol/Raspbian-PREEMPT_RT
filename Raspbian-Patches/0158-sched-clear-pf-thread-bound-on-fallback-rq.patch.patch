@@ -1,15 +1,12 @@
-From c6b065a301a5fddbbb51aa37fbe015731d2af232 Mon Sep 17 00:00:00 2001
+From 722e91d06a70cdf085a5cbb71d4a50df7bb200cc Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 4 Nov 2011 20:48:36 +0100
-Subject: [PATCH 158/327] sched-clear-pf-thread-bound-on-fallback-rq.patch
+Subject: [PATCH] sched-clear-pf-thread-bound-on-fallback-rq.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 123d2ec6520f..acb13a9b6bb1 100644
+index 123d2ec..acb13a9 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -1247,6 +1247,12 @@ out:
@@ -26,5 +23,5 @@ index 123d2ec6520f..acb13a9b6bb1 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

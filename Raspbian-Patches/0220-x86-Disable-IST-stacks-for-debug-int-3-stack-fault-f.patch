@@ -1,8 +1,8 @@
-From 27ceb61c58f415d46a9a3a641a28a4638b289066 Mon Sep 17 00:00:00 2001
+From d3a1b43f4a938f846b134b50efeee58023906091 Mon Sep 17 00:00:00 2001
 From: Andi Kleen <ak@suse.de>
 Date: Fri, 3 Jul 2009 08:44:10 -0500
-Subject: [PATCH 220/327] x86: Disable IST stacks for debug/int 3/stack fault
- for PREEMPT_RT
+Subject: [PATCH] x86: Disable IST stacks for debug/int 3/stack fault for
+ PREEMPT_RT
 
 Normally the x86-64 trap handlers for debug/int 3/stack fault run
 on a special interrupt stack to make them more robust
@@ -37,14 +37,9 @@ But this patch is much simpler and should work too with minimal impact.
 Signed-off-by: Andi Kleen <ak@suse.de>
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/x86/include/asm/page_64_types.h | 21 +++++++++++++++------
- arch/x86/kernel/cpu/common.c         |  2 ++
- arch/x86/kernel/dumpstack_64.c       |  4 ++++
- 3 files changed, 21 insertions(+), 6 deletions(-)
 
 diff --git a/arch/x86/include/asm/page_64_types.h b/arch/x86/include/asm/page_64_types.h
-index 43dcd804ebd5..695e04d454b9 100644
+index 43dcd80..695e04d 100644
 --- a/arch/x86/include/asm/page_64_types.h
 +++ b/arch/x86/include/asm/page_64_types.h
 @@ -14,12 +14,21 @@
@@ -76,7 +71,7 @@ index 43dcd804ebd5..695e04d454b9 100644
  #define PUD_PAGE_SIZE		(_AC(1, UL) << PUD_SHIFT)
  #define PUD_PAGE_MASK		(~(PUD_PAGE_SIZE-1))
 diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 3533e2c082a3..d4e8eb83045f 100644
+index 3533e2c..d4e8eb8 100644
 --- a/arch/x86/kernel/cpu/common.c
 +++ b/arch/x86/kernel/cpu/common.c
 @@ -1110,7 +1110,9 @@ DEFINE_PER_CPU(struct task_struct *, fpu_owner_task);
@@ -90,7 +85,7 @@ index 3533e2c082a3..d4e8eb83045f 100644
  
  static DEFINE_PER_CPU_PAGE_ALIGNED(char, exception_stacks
 diff --git a/arch/x86/kernel/dumpstack_64.c b/arch/x86/kernel/dumpstack_64.c
-index addb207dab92..52b4bcd33b4f 100644
+index addb207..52b4bcd 100644
 --- a/arch/x86/kernel/dumpstack_64.c
 +++ b/arch/x86/kernel/dumpstack_64.c
 @@ -21,10 +21,14 @@
@@ -109,5 +104,5 @@ index addb207dab92..52b4bcd33b4f 100644
  #if DEBUG_STKSZ > EXCEPTION_STKSZ
  		[ N_EXCEPTION_STACKS ...
 -- 
-2.1.1
+2.1.0
 

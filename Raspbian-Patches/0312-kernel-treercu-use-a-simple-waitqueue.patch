@@ -1,16 +1,12 @@
-From f8ce7a071856119f1526e3134b29dabf8a0ad02a Mon Sep 17 00:00:00 2001
+From 6a4647caf0a17211a5d26ce118ebd6aae59d57b8 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Mon, 8 Apr 2013 16:09:57 +0200
-Subject: [PATCH 312/327] kernel/treercu: use a simple waitqueue
+Subject: [PATCH] kernel/treercu: use a simple waitqueue
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/rcutree.c | 13 +++++++------
- kernel/rcutree.h |  2 +-
- 2 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/kernel/rcutree.c b/kernel/rcutree.c
-index 8b08d3752d34..507fab16422b 100644
+index 8b08d37..507fab1 100644
 --- a/kernel/rcutree.c
 +++ b/kernel/rcutree.c
 @@ -1488,7 +1488,7 @@ static int __noreturn rcu_gp_kthread(void *arg)
@@ -69,7 +65,7 @@ index 8b08d3752d34..507fab16422b 100644
  	rnp = rsp->level[rcu_num_lvls - 1];
  	for_each_possible_cpu(i) {
 diff --git a/kernel/rcutree.h b/kernel/rcutree.h
-index 68ed6a8f2fe5..976b8a8a650c 100644
+index 68ed6a8..976b8a8 100644
 --- a/kernel/rcutree.h
 +++ b/kernel/rcutree.h
 @@ -403,7 +403,7 @@ struct rcu_state {
@@ -82,5 +78,5 @@ index 68ed6a8f2fe5..976b8a8a650c 100644
  
  	/* End of fields guarded by root rcu_node's lock. */
 -- 
-2.1.1
+2.1.0
 

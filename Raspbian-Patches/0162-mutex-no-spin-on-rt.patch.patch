@@ -1,15 +1,12 @@
-From c6a1c291d91be19899af069bbc82a24600db91c8 Mon Sep 17 00:00:00 2001
+From 1295f39c4cf6f2674a6574d0907669ede12ccb78 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 17 Jul 2011 21:51:45 +0200
-Subject: [PATCH 162/327] mutex-no-spin-on-rt.patch
+Subject: [PATCH] mutex-no-spin-on-rt.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/Kconfig.locks | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/Kconfig.locks b/kernel/Kconfig.locks
-index ecee67a00f5f..b867a1c4d96f 100644
+index ecee67a..b867a1c 100644
 --- a/kernel/Kconfig.locks
 +++ b/kernel/Kconfig.locks
 @@ -225,4 +225,4 @@ config ARCH_SUPPORTS_ATOMIC_RMW
@@ -19,5 +16,5 @@ index ecee67a00f5f..b867a1c4d96f 100644
 -	depends on SMP && !DEBUG_MUTEXES && ARCH_SUPPORTS_ATOMIC_RMW
 +	depends on SMP && !DEBUG_MUTEXES && ARCH_SUPPORTS_ATOMIC_RMW && !PREEMPT_RT_FULL
 -- 
-2.1.1
+2.1.0
 

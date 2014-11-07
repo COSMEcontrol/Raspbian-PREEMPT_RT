@@ -1,7 +1,7 @@
-From 22c640679b3d14f35732d10901475c66eed17e3e Mon Sep 17 00:00:00 2001
+From 5056ef9e724056a354d158afb1f50ab57e9b0f85 Mon Sep 17 00:00:00 2001
 From: Paul Gortmaker <paul.gortmaker@windriver.com>
 Date: Tue, 27 Aug 2013 14:20:26 -0400
-Subject: [PATCH 311/327] simple-wait: rename and export the equivalent of
+Subject: [PATCH] simple-wait: rename and export the equivalent of
  waitqueue_active()
 
 The function "swait_head_has_waiters()" was internalized into
@@ -13,13 +13,9 @@ We'll need to do this if we expect to expand its usage beyond RT.
 
 Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/wait-simple.h |  8 ++++++++
- kernel/wait-simple.c        | 10 +---------
- 2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/include/linux/wait-simple.h b/include/linux/wait-simple.h
-index 4efba4d28c48..f86bca2c41d5 100644
+index 4efba4d..f86bca2 100644
 --- a/include/linux/wait-simple.h
 +++ b/include/linux/wait-simple.h
 @@ -47,6 +47,14 @@ extern void swait_prepare(struct swait_head *head, struct swaiter *w, int state)
@@ -38,7 +34,7 @@ index 4efba4d28c48..f86bca2c41d5 100644
   * Wakeup functions
   */
 diff --git a/kernel/wait-simple.c b/kernel/wait-simple.c
-index 2c856267445b..7dfa86d1f654 100644
+index 2c85626..7dfa86d 100644
 --- a/kernel/wait-simple.c
 +++ b/kernel/wait-simple.c
 @@ -26,14 +26,6 @@ static inline void __swait_dequeue(struct swaiter *w)
@@ -66,5 +62,5 @@ index 2c856267445b..7dfa86d1f654 100644
  
  	raw_spin_lock_irqsave(&head->lock, flags);
 -- 
-2.1.1
+2.1.0
 

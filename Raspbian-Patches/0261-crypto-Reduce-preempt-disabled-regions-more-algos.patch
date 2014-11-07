@@ -1,7 +1,7 @@
-From 9f2c1a83ccbeeb926a8333c89f59d8c410564696 Mon Sep 17 00:00:00 2001
+From f7d6f13d9bd0b974bd7301c15e0872b5eef6632a Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 21 Feb 2014 17:24:04 +0100
-Subject: [PATCH 261/327] crypto: Reduce preempt disabled regions, more algos
+Subject: [PATCH] crypto: Reduce preempt disabled regions, more algos
 
 Don Estabrook reported
 | kernel: WARNING: CPU: 2 PID: 858 at kernel/sched/core.c:2428 migrate_disable+0xed/0x100()
@@ -37,13 +37,9 @@ the bug is gone.
 Cc: stable-rt@vger.kernel.org
 Reported-by: Don Estabrook <don.estabrook@gmail.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/x86/crypto/cast5_avx_glue.c | 21 +++++++++------------
- arch/x86/crypto/glue_helper.c    | 31 +++++++++++++++----------------
- 2 files changed, 24 insertions(+), 28 deletions(-)
 
 diff --git a/arch/x86/crypto/cast5_avx_glue.c b/arch/x86/crypto/cast5_avx_glue.c
-index c6631813dc11..2d48e83f00d3 100644
+index c663181..2d48e83 100644
 --- a/arch/x86/crypto/cast5_avx_glue.c
 +++ b/arch/x86/crypto/cast5_avx_glue.c
 @@ -60,7 +60,7 @@ static inline void cast5_fpu_end(bool fpu_enabled)
@@ -126,7 +122,7 @@ index c6631813dc11..2d48e83f00d3 100644
  		ctr_crypt_final(desc, &walk);
  		err = blkcipher_walk_done(desc, &walk, 0);
 diff --git a/arch/x86/crypto/glue_helper.c b/arch/x86/crypto/glue_helper.c
-index 432f1d76ceb8..4a2bd21c2137 100644
+index 432f1d76..4a2bd21 100644
 --- a/arch/x86/crypto/glue_helper.c
 +++ b/arch/x86/crypto/glue_helper.c
 @@ -39,7 +39,7 @@ static int __glue_ecb_crypt_128bit(const struct common_glue_ctx *gctx,
@@ -245,5 +241,5 @@ index 432f1d76ceb8..4a2bd21c2137 100644
  }
  EXPORT_SYMBOL_GPL(glue_xts_crypt_128bit);
 -- 
-2.1.1
+2.1.0
 

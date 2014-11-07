@@ -1,7 +1,7 @@
-From e08c2b09c96c44ffb66e0d4c0bdb5ad5280a5e8b Mon Sep 17 00:00:00 2001
+From 4b27efceebe6f02f6c9f8bd77be7d0550b638b30 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 22 Jun 2011 19:47:02 +0200
-Subject: [PATCH 017/327] block: Shorten interrupt disabled regions
+Subject: [PATCH] block: Shorten interrupt disabled regions
 
 Moving the blk_sched_flush_plug() call out of the interrupt/preempt
 disabled region in the scheduler allows us to replace
@@ -42,12 +42,9 @@ Cc: Tejun Heo <tj@kernel.org>
 Cc: Jens Axboe <axboe@kernel.dk>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>
 Link: http://lkml.kernel.org/r/20110622174919.025446432@linutronix.de
----
- block/blk-core.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
 
 diff --git a/block/blk-core.c b/block/blk-core.c
-index bf214ae98937..069853130dad 100644
+index bf214ae..0698531 100644
 --- a/block/blk-core.c
 +++ b/block/blk-core.c
 @@ -2925,7 +2925,7 @@ static void queue_unplugged(struct request_queue *q, unsigned int depth,
@@ -98,5 +95,5 @@ index bf214ae98937..069853130dad 100644
  
  void blk_finish_plug(struct blk_plug *plug)
 -- 
-2.1.1
+2.1.0
 

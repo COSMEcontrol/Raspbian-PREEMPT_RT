@@ -1,15 +1,12 @@
-From ee7dca7538c2a90a0a7a16fadc4902eb68c32799 Mon Sep 17 00:00:00 2001
+From b2e668dbb350f52e075d6e164776650052e4ece9 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 17 Jul 2011 21:42:26 +0200
-Subject: [PATCH 232/327] Use local irq lock instead of irq disable regions
+Subject: [PATCH] Use local irq lock instead of irq disable regions
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/workqueue.c | 33 ++++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
 
 diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 2751e5aeecba..09fb89f259e6 100644
+index 2751e5a..09fb89f 100644
 --- a/kernel/workqueue.c
 +++ b/kernel/workqueue.c
 @@ -48,6 +48,7 @@
@@ -152,5 +149,5 @@ index 2751e5aeecba..09fb89f259e6 100644
  	if (pool) {
  		spin_lock_irqsave(&pool->lock, flags);
 -- 
-2.1.1
+2.1.0
 

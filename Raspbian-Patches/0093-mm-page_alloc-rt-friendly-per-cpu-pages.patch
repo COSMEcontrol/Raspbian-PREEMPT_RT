@@ -1,7 +1,7 @@
-From 8f94d791d02c8517ce2152c425ed74a5e5ce44a5 Mon Sep 17 00:00:00 2001
+From 23a2eca8b568a7b276fddc9c6dcf0cb0359ecaf8 Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:29:37 -0500
-Subject: [PATCH 093/327] mm: page_alloc: rt-friendly per-cpu pages
+Subject: [PATCH] mm: page_alloc: rt-friendly per-cpu pages
 
 rt-friendly per-cpu pages: convert the irqs-off per-cpu locking
 method into a preemptible, explicit-per-cpu-locks method.
@@ -12,12 +12,9 @@ Contains fixes from:
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- mm/page_alloc.c | 53 +++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 16 deletions(-)
 
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index d8e96d172037..22c1ab4c63b2 100644
+index d8e96d1..22c1ab4 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
 @@ -61,6 +61,7 @@
@@ -201,5 +198,5 @@ index d8e96d172037..22c1ab4c63b2 100644
  
  #ifdef CONFIG_MEMORY_HOTREMOVE
 -- 
-2.1.1
+2.1.0
 

@@ -1,17 +1,12 @@
-From 21d2031a589b1584ea21e343ec7209b201dbd999 Mon Sep 17 00:00:00 2001
+From 5951679eaf18e932da454d4f842ee7aa5555cc3f Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 10 Jun 2011 11:04:15 +0200
-Subject: [PATCH 170/327] rtmutex-futex-prepare-rt.patch
+Subject: [PATCH] rtmutex-futex-prepare-rt.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/futex.c          | 77 +++++++++++++++++++++++++++++++++++++++----------
- kernel/rtmutex.c        | 32 +++++++++++++++++---
- kernel/rtmutex_common.h |  2 ++
- 3 files changed, 92 insertions(+), 19 deletions(-)
 
 diff --git a/kernel/futex.c b/kernel/futex.c
-index e4b9b60e25b1..d13796124f99 100644
+index e4b9b60..d137961 100644
 --- a/kernel/futex.c
 +++ b/kernel/futex.c
 @@ -1574,6 +1574,16 @@ retry_private:
@@ -131,7 +126,7 @@ index e4b9b60e25b1..d13796124f99 100644
  		 * Fixup the pi_state owner and possibly acquire the lock if we
  		 * haven't already.
 diff --git a/kernel/rtmutex.c b/kernel/rtmutex.c
-index 911829b1cda8..c9d8a2a858a0 100644
+index 911829b..c9d8a2a 100644
 --- a/kernel/rtmutex.c
 +++ b/kernel/rtmutex.c
 @@ -68,6 +68,11 @@ static void fixup_rt_mutex_waiters(struct rt_mutex *lock)
@@ -209,7 +204,7 @@ index 911829b1cda8..c9d8a2a858a0 100644
  		return;
  	}
 diff --git a/kernel/rtmutex_common.h b/kernel/rtmutex_common.h
-index 53a66c85261b..b43d832f4f6f 100644
+index 53a66c8..b43d832 100644
 --- a/kernel/rtmutex_common.h
 +++ b/kernel/rtmutex_common.h
 @@ -103,6 +103,8 @@ static inline struct task_struct *rt_mutex_owner(struct rt_mutex *lock)
@@ -222,5 +217,5 @@ index 53a66c85261b..b43d832f4f6f 100644
  extern void rt_mutex_init_proxy_locked(struct rt_mutex *lock,
  				       struct task_struct *proxy_owner);
 -- 
-2.1.1
+2.1.0
 

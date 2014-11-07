@@ -1,7 +1,7 @@
-From 42b1f2f0a5df3975721c80821c279c4538e88251 Mon Sep 17 00:00:00 2001
+From 2224cc19cab36eac84d9e9082145a697bc45cc66 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Fri, 17 Jan 2014 20:41:58 +0100
-Subject: [PATCH 091/327] use local spin_locks in local_lock
+Subject: [PATCH] use local spin_locks in local_lock
 
 Drop recursive call to migrate_disabel/enable for local_*lock* api
 reported by Steven Rostedt.
@@ -25,12 +25,9 @@ it would break softirq_lock/unlock with respect to migration.
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/locallock.h | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/include/linux/locallock.h b/include/linux/locallock.h
-index e7bd8be71f8c..eb338ce64aa9 100644
+index e7bd8be..eb338ce 100644
 --- a/include/linux/locallock.h
 +++ b/include/linux/locallock.h
 @@ -36,10 +36,20 @@ struct local_irq_lock {
@@ -83,5 +80,5 @@ index e7bd8be71f8c..eb338ce64aa9 100644
  #define local_lock_cpu(lvar)						\
  	({								\
 -- 
-2.1.1
+2.1.0
 

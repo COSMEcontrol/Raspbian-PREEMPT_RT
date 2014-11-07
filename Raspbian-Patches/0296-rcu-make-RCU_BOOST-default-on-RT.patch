@@ -1,7 +1,7 @@
-From 8f997ff72478684ff46e72f8ac8d15bcc6524aca Mon Sep 17 00:00:00 2001
+From 13530edcc110f82c3702f5e133141f451330a777 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 21 Mar 2014 20:19:05 +0100
-Subject: [PATCH 296/327] rcu: make RCU_BOOST default on RT
+Subject: [PATCH] rcu: make RCU_BOOST default on RT
 
 Since it is no longer invoked from the softirq people run into OOM more
 often if the priority of the RCU thread is too low. Making boosting
@@ -10,12 +10,9 @@ someone knows better.
 
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- init/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/Kconfig b/init/Kconfig
-index 4be3c6c71997..836b34ecea56 100644
+index 4be3c6c..836b34e 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
 @@ -642,7 +642,7 @@ config TREE_RCU_TRACE
@@ -28,5 +25,5 @@ index 4be3c6c71997..836b34ecea56 100644
  	  This option boosts the priority of preempted RCU readers that
  	  block the current preemptible RCU grace period for too long.
 -- 
-2.1.1
+2.1.0
 

@@ -1,18 +1,14 @@
-From 6fb9f82bf09e7bdedfcfc63c6c9c7a50e96b29f1 Mon Sep 17 00:00:00 2001
+From aa5a13d8303c8c50a009a469c817ef72591e91de Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sat, 25 Jul 2009 22:06:27 +0200
-Subject: [PATCH 037/327] mm: Remove preempt count from pagefault
- disable/enable
+Subject: [PATCH] mm: Remove preempt count from pagefault disable/enable
 
 Now that all users are cleaned up, we can remove the preemption count.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- mm/memory.c | 7 -------
- 1 file changed, 7 deletions(-)
 
 diff --git a/mm/memory.c b/mm/memory.c
-index c20bb28848eb..3d22aa4c81f9 100644
+index c20bb28..3d22aa4 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
 @@ -3750,7 +3750,6 @@ unlock:
@@ -37,5 +33,5 @@ index c20bb28848eb..3d22aa4c81f9 100644
  EXPORT_SYMBOL(pagefault_enable);
  #endif
 -- 
-2.1.1
+2.1.0
 

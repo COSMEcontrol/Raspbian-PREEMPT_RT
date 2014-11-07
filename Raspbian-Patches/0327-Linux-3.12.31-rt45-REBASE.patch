@@ -1,19 +1,16 @@
-From 4cf6ef68a2c0721088e115b286c0b1c0a1f1bfb9 Mon Sep 17 00:00:00 2001
+From 08cac685327e38d0a37bc5f9b1f67bb468020f7a Mon Sep 17 00:00:00 2001
 From: "Steven Rostedt (Red Hat)" <rostedt@goodmis.org>
 Date: Thu, 17 Jul 2014 11:08:34 -0400
-Subject: [PATCH 327/327] Linux 3.12.31-rt45 REBASE
+Subject: [PATCH] Linux 3.12.31-rt45 REBASE
 
----
- localversion-rt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/localversion-rt b/localversion-rt
-index c5b71f9a229d..38c40b21a885 100644
+index c5b71f9..38c40b2 100644
 --- a/localversion-rt
 +++ b/localversion-rt
 @@ -1 +1 @@
 --rt25
 +-rt45
 -- 
-2.1.1
+2.1.0
 

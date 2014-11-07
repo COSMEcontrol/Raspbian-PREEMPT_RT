@@ -1,7 +1,7 @@
-From 4c4fcd587948d52c370295c9a42d47aa844a046e Mon Sep 17 00:00:00 2001
+From 57c8a9f52b647658737809af6bb0184a3713cc41 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Tue, 29 Apr 2014 20:13:08 -0400
-Subject: [PATCH 319/327] rt: Move migrate_disable up in trylocks
+Subject: [PATCH] rt: Move migrate_disable up in trylocks
 
 The changes to move the migrate_disable() down in the trylocks()
 caused race conditions to appear in the cpu hotplug code. The
@@ -19,12 +19,9 @@ Cc: linux-rt-users <linux-rt-users@vger.kernel.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: John Kacur <jkacur@redhat.com>
 Cc: Clark Williams <williams@redhat.com>
----
- kernel/rt.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
 
 diff --git a/kernel/rt.c b/kernel/rt.c
-index 5d177272ffb4..5f44defabe02 100644
+index 5d17727..5f44def 100644
 --- a/kernel/rt.c
 +++ b/kernel/rt.c
 @@ -180,12 +180,15 @@ EXPORT_SYMBOL(_mutex_unlock);
@@ -74,5 +71,5 @@ index 5d177272ffb4..5f44defabe02 100644
  	rwlock->read_depth++;
  }
 -- 
-2.1.1
+2.1.0
 

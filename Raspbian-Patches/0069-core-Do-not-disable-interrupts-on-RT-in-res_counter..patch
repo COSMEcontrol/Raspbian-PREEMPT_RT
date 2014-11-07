@@ -1,8 +1,7 @@
-From 596d959fe4b36f9ee9ac1ecd8eb002072756a0d2 Mon Sep 17 00:00:00 2001
+From 1596dccd94e2e70a82f508c2afaf8c6275c84b6d Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:44:33 -0500
-Subject: [PATCH 069/327] core: Do not disable interrupts on RT in
- res_counter.c
+Subject: [PATCH] core: Do not disable interrupts on RT in res_counter.c
 
 Frederic Weisbecker reported this warning:
 
@@ -43,12 +42,9 @@ So replace it with _nort(). This code needs a second look.
 Reported-by: Frederic Weisbecker <fweisbec@gmail.com>
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/res_counter.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/res_counter.c b/kernel/res_counter.c
-index 4aa8a305aede..3fbcb0d712bb 100644
+index 4aa8a30..3fbcb0d 100644
 --- a/kernel/res_counter.c
 +++ b/kernel/res_counter.c
 @@ -49,7 +49,7 @@ static int __res_counter_charge(struct res_counter *counter, unsigned long val,
@@ -88,5 +84,5 @@ index 4aa8a305aede..3fbcb0d712bb 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

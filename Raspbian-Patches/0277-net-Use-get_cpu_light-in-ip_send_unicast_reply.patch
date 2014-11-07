@@ -1,15 +1,12 @@
-From 71befc9ebbe3b409e4ef67e426ae4df5c5ade570 Mon Sep 17 00:00:00 2001
+From db0a0d73c1f8048e7045435cc30c4f0f8d06330e Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 1 Oct 2012 17:12:35 +0100
-Subject: [PATCH 277/327] net: Use get_cpu_light() in ip_send_unicast_reply()
+Subject: [PATCH] net: Use get_cpu_light() in ip_send_unicast_reply()
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- net/ipv4/ip_output.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/net/ipv4/ip_output.c b/net/ipv4/ip_output.c
-index c1cb9475fadf..d09f87c37095 100644
+index c1cb947..d09f87c 100644
 --- a/net/ipv4/ip_output.c
 +++ b/net/ipv4/ip_output.c
 @@ -1504,7 +1504,8 @@ void ip_send_unicast_reply(struct net *net, struct sk_buff *skb, __be32 daddr,
@@ -32,5 +29,5 @@ index c1cb9475fadf..d09f87c37095 100644
  	ip_rt_put(rt);
  }
 -- 
-2.1.1
+2.1.0
 

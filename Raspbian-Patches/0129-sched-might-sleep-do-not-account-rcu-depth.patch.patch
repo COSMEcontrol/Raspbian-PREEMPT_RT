@@ -1,16 +1,12 @@
-From 4edbf71700da19e1740eea98f2e08a249220e7fe Mon Sep 17 00:00:00 2001
+From bc8b5dd54883b7a972755e68706be968a3c15646 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 7 Jun 2011 09:19:06 +0200
-Subject: [PATCH 129/327] sched-might-sleep-do-not-account-rcu-depth.patch
+Subject: [PATCH] sched-might-sleep-do-not-account-rcu-depth.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/rcupdate.h | 7 +++++++
- kernel/sched/core.c      | 3 ++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index f1f1bc39346b..e56a6b20a071 100644
+index f1f1bc3..e56a6b2 100644
 --- a/include/linux/rcupdate.h
 +++ b/include/linux/rcupdate.h
 @@ -190,6 +190,11 @@ void synchronize_rcu(void);
@@ -35,7 +31,7 @@ index f1f1bc39346b..e56a6b20a071 100644
  
  /* Internal to kernel */
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 56386af60c82..fac1bd364ac6 100644
+index 56386af..fac1bd3 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -6688,7 +6688,8 @@ void __init sched_init(void)
@@ -49,5 +45,5 @@ index 56386af60c82..fac1bd364ac6 100644
  	return (nested == preempt_offset);
  }
 -- 
-2.1.1
+2.1.0
 

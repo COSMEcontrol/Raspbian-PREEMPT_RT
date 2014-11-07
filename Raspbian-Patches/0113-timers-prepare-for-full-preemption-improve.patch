@@ -1,7 +1,7 @@
-From d17004c390118124d8d17fddd898387495cd5851 Mon Sep 17 00:00:00 2001
+From b6626b8902fb0e9e99f348b4e5c3f8143ba0e6d7 Mon Sep 17 00:00:00 2001
 From: Zhao Hongjiang <zhaohongjiang@huawei.com>
 Date: Wed, 17 Apr 2013 17:44:16 +0800
-Subject: [PATCH 113/327] timers: prepare for full preemption improve
+Subject: [PATCH] timers: prepare for full preemption improve
 
 wake_up should do nothing on the nort, so we should use wakeup_timer_waiters,
 also fix a spell mistake.
@@ -10,12 +10,9 @@ Cc: stable-rt@vger.kernel.org
 Signed-off-by: Zhao Hongjiang <zhaohongjiang@huawei.com>
 [bigeasy: s/CONFIG_PREEMPT_RT_BASE/CONFIG_PREEMPT_RT_FULL/]
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/timer.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/timer.c b/kernel/timer.c
-index 4ec998d04820..8e798caedee7 100644
+index 4ec998d..8e798ca 100644
 --- a/kernel/timer.c
 +++ b/kernel/timer.c
 @@ -78,7 +78,9 @@ struct tvec_root {
@@ -57,5 +54,5 @@ index 4ec998d04820..8e798caedee7 100644
  	for (j = 0; j < TVN_SIZE; j++) {
  		INIT_LIST_HEAD(base->tv5.vec + j);
 -- 
-2.1.1
+2.1.0
 

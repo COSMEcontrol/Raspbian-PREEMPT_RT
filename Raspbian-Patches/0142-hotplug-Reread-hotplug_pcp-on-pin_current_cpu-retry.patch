@@ -1,8 +1,7 @@
-From 9f4fa483cb7709cb686d92ca6919f510f63a6f4d Mon Sep 17 00:00:00 2001
+From d21c8b2e217d60dd6ceac1a2bbcbcd8e6344ac5b Mon Sep 17 00:00:00 2001
 From: Yong Zhang <yong.zhang0@gmail.com>
 Date: Thu, 28 Jul 2011 11:16:00 +0800
-Subject: [PATCH 142/327] hotplug: Reread hotplug_pcp on pin_current_cpu()
- retry
+Subject: [PATCH] hotplug: Reread hotplug_pcp on pin_current_cpu() retry
 
 When retry happens, it's likely that the task has been migrated to
 another cpu (except unplug failed), but it still derefernces the
@@ -15,12 +14,9 @@ Signed-off-by: Yong Zhang <yong.zhang0@gmail.com>
 Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Link: http://lkml.kernel.org/r/20110728031600.GA338@windriver.com
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/cpu.c b/kernel/cpu.c
-index 3a4652d78e3c..a2518ae63bbc 100644
+index 3a4652d..a2518ae 100644
 --- a/kernel/cpu.c
 +++ b/kernel/cpu.c
 @@ -81,9 +81,11 @@ static DEFINE_PER_CPU(struct hotplug_pcp, hotplug_pcp);
@@ -37,5 +33,5 @@ index 3a4652d78e3c..a2518ae63bbc 100644
  	    hp->unplug == current) {
  		hp->refcount++;
 -- 
-2.1.1
+2.1.0
 

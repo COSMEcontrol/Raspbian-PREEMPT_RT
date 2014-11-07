@@ -1,19 +1,16 @@
-From bdf82cc7a7766daf116c092203b6ef2858cc8107 Mon Sep 17 00:00:00 2001
+From 9772c04e0ef4bf11fe7e8cfa3b02f7485df5139d Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 28 Sep 2012 10:49:42 +0100
-Subject: [PATCH 284/327] rt: rwsem/rwlock: lockdep annotations
+Subject: [PATCH] rt: rwsem/rwlock: lockdep annotations
 
 rwlocks and rwsems on RT do not allow multiple readers. Annotate the
 lockdep acquire functions accordingly.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- kernel/rt.c | 44 +++++++++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 19 deletions(-)
 
 diff --git a/kernel/rt.c b/kernel/rt.c
-index a9925c67e603..5d177272ffb4 100644
+index a9925c6..5d17727 100644
 --- a/kernel/rt.c
 +++ b/kernel/rt.c
 @@ -213,17 +213,16 @@ int __lockfunc rt_read_trylock(rwlock_t *rwlock)
@@ -128,5 +125,5 @@ index a9925c67e603..5d177272ffb4 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

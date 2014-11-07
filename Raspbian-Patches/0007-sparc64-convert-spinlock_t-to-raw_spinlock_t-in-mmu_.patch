@@ -1,24 +1,16 @@
-From 1b2af70932aa4767a5edc97e3612fea01e700eaa Mon Sep 17 00:00:00 2001
+From 7ad39f32525b77a60251a67cc04aec9d3ec6fbec Mon Sep 17 00:00:00 2001
 From: Allen Pais <allen.pais@oracle.com>
 Date: Fri, 13 Dec 2013 09:44:42 +0530
-Subject: [PATCH 007/327] sparc64: convert spinlock_t to raw_spinlock_t in
+Subject: [PATCH] sparc64: convert spinlock_t to raw_spinlock_t in
  mmu_context_t
 
 Issue debugged by Thomas Gleixner <tglx@linutronix.de>
 
 Signed-off-by: Allen Pais <allen.pais@oracle.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/sparc/Kconfig                      |  1 +
- arch/sparc/include/asm/mmu_64.h         |  2 +-
- arch/sparc/include/asm/mmu_context_64.h |  8 ++++----
- arch/sparc/kernel/smp_64.c              |  4 ++--
- arch/sparc/mm/init_64.c                 |  4 ++--
- arch/sparc/mm/tsb.c                     | 16 ++++++++--------
- 6 files changed, 18 insertions(+), 17 deletions(-)
 
 diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index 5a3619b088b6..5bbb029f475e 100644
+index 5a3619b..5bbb029 100644
 --- a/arch/sparc/Kconfig
 +++ b/arch/sparc/Kconfig
 @@ -26,6 +26,7 @@ config SPARC
@@ -30,7 +22,7 @@ index 5a3619b088b6..5bbb029f475e 100644
  	select ARCH_WANT_IPC_PARSE_VERSION
  	select USE_GENERIC_SMP_HELPERS if SMP
 diff --git a/arch/sparc/include/asm/mmu_64.h b/arch/sparc/include/asm/mmu_64.h
-index 76092c4dd277..e945ddb9947f 100644
+index 76092c4..e945ddb 100644
 --- a/arch/sparc/include/asm/mmu_64.h
 +++ b/arch/sparc/include/asm/mmu_64.h
 @@ -90,7 +90,7 @@ struct tsb_config {
@@ -43,7 +35,7 @@ index 76092c4dd277..e945ddb9947f 100644
  	unsigned long		huge_pte_count;
  	struct page		*pgtable_page;
 diff --git a/arch/sparc/include/asm/mmu_context_64.h b/arch/sparc/include/asm/mmu_context_64.h
-index 3d528f06e4b0..3a856241b655 100644
+index 3d528f0..3a85624 100644
 --- a/arch/sparc/include/asm/mmu_context_64.h
 +++ b/arch/sparc/include/asm/mmu_context_64.h
 @@ -77,7 +77,7 @@ static inline void switch_mm(struct mm_struct *old_mm, struct mm_struct *mm, str
@@ -83,7 +75,7 @@ index 3d528f06e4b0..3a856241b655 100644
  
  #endif /* !(__ASSEMBLY__) */
 diff --git a/arch/sparc/kernel/smp_64.c b/arch/sparc/kernel/smp_64.c
-index 643bf38ed619..6fe005188ba5 100644
+index 643bf38..6fe0051 100644
 --- a/arch/sparc/kernel/smp_64.c
 +++ b/arch/sparc/kernel/smp_64.c
 @@ -976,12 +976,12 @@ void __irq_entry smp_new_mmu_context_version_client(int irq, struct pt_regs *reg
@@ -102,7 +94,7 @@ index 643bf38ed619..6fe005188ba5 100644
  	load_secondary_context(mm);
  	__flush_tlb_mm(CTX_HWBITS(mm->context),
 diff --git a/arch/sparc/mm/init_64.c b/arch/sparc/mm/init_64.c
-index b26015f49c0d..a3b788dc7e24 100644
+index b26015f..a3b788d 100644
 --- a/arch/sparc/mm/init_64.c
 +++ b/arch/sparc/mm/init_64.c
 @@ -354,7 +354,7 @@ void update_mmu_cache(struct vm_area_struct *vma, unsigned long address, pte_t *
@@ -124,7 +116,7 @@ index b26015f49c0d..a3b788dc7e24 100644
  
  void flush_dcache_page(struct page *page)
 diff --git a/arch/sparc/mm/tsb.c b/arch/sparc/mm/tsb.c
-index 71d99a6c75a7..46572a5a0971 100644
+index 71d99a6..46572a5 100644
 --- a/arch/sparc/mm/tsb.c
 +++ b/arch/sparc/mm/tsb.c
 @@ -73,7 +73,7 @@ void flush_tsb_user(struct tlb_batch *tb)
@@ -199,5 +191,5 @@ index 71d99a6c75a7..46572a5a0971 100644
  	mm->context.sparc64_ctx_val = 0UL;
  
 -- 
-2.1.1
+2.1.0
 

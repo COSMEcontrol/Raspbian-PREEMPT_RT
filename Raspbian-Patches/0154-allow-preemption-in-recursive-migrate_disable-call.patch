@@ -1,7 +1,7 @@
-From 9749c806a401c70ced78e0a83dbd91c5a103055a Mon Sep 17 00:00:00 2001
+From a6db16933a717ac62cada5e54269dbc450738e84 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Wed, 20 Nov 2013 07:22:09 +0800
-Subject: [PATCH 154/327] allow preemption in recursive migrate_disable call
+Subject: [PATCH] allow preemption in recursive migrate_disable call
 
 Minor cleanup in migrate_disable/migrate_enable. The recursive case
 does not need to disable preemption as it is "pinned" to the current
@@ -9,12 +9,9 @@ cpu any way so it is safe to preempt it.
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/sched/core.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 007dec89347f..c3dedbb6a663 100644
+index 007dec8..c3dedbb 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2419,13 +2419,12 @@ void migrate_disable(void)
@@ -48,5 +45,5 @@ index 007dec89347f..c3dedbb6a663 100644
  		/*
  		 * See comment in update_migrate_disable() about locking.
 -- 
-2.1.1
+2.1.0
 

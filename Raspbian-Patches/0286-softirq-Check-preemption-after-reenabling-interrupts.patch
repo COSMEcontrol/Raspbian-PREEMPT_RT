@@ -1,7 +1,7 @@
-From 17640eb88a7cd46296ae87a4df7b31552d5745dc Mon Sep 17 00:00:00 2001
+From a9712d6573ac14d07496b65af12e05a33f2a97d0 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 13 Nov 2011 17:17:09 +0100
-Subject: [PATCH 286/327] softirq: Check preemption after reenabling interrupts
+Subject: [PATCH] softirq: Check preemption after reenabling interrupts
 
 raise_softirq_irqoff() disables interrupts and wakes the softirq
 daemon, but after reenabling interrupts there is no preemption check,
@@ -14,15 +14,9 @@ ones which show this behaviour.
 Reported-by: Carsten Emde <cbe@osadl.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- block/blk-iopoll.c      | 3 +++
- block/blk-softirq.c     | 3 +++
- include/linux/preempt.h | 3 +++
- net/core/dev.c          | 6 ++++++
- 4 files changed, 15 insertions(+)
 
 diff --git a/block/blk-iopoll.c b/block/blk-iopoll.c
-index 4b8d9b541112..15b4f084190a 100644
+index 4b8d9b54..15b4f08 100644
 --- a/block/blk-iopoll.c
 +++ b/block/blk-iopoll.c
 @@ -38,6 +38,7 @@ void blk_iopoll_sched(struct blk_iopoll *iop)
@@ -50,7 +44,7 @@ index 4b8d9b541112..15b4f084190a 100644
  
  	return NOTIFY_OK;
 diff --git a/block/blk-softirq.c b/block/blk-softirq.c
-index ec9e60636f43..814b3db1626b 100644
+index ec9e606..814b3db 100644
 --- a/block/blk-softirq.c
 +++ b/block/blk-softirq.c
 @@ -51,6 +51,7 @@ static void trigger_softirq(void *data)
@@ -78,7 +72,7 @@ index ec9e60636f43..814b3db1626b 100644
  
  /**
 diff --git a/include/linux/preempt.h b/include/linux/preempt.h
-index 116ac32213e0..7d08aab56d51 100644
+index 116ac32..7d08aab 100644
 --- a/include/linux/preempt.h
 +++ b/include/linux/preempt.h
 @@ -72,8 +72,10 @@ do { \
@@ -101,7 +95,7 @@ index 116ac32213e0..7d08aab56d51 100644
  #endif /* CONFIG_PREEMPT_COUNT */
  
 diff --git a/net/core/dev.c b/net/core/dev.c
-index 69ed7ecf5842..3db9b6720c79 100644
+index 69ed7ec..3db9b67 100644
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
 @@ -2142,6 +2142,7 @@ static inline void __netif_reschedule(struct Qdisc *q)
@@ -153,5 +147,5 @@ index 69ed7ecf5842..3db9b6720c79 100644
  	/* Process offline CPU's input_pkt_queue */
  	while ((skb = __skb_dequeue(&oldsd->process_queue))) {
 -- 
-2.1.1
+2.1.0
 

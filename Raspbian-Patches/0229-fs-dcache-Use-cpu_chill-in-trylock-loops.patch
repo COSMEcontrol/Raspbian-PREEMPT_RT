@@ -1,7 +1,7 @@
-From ec90fa95f9dc26921f2067cdfbdb5cecd4e68f72 Mon Sep 17 00:00:00 2001
+From b1c9f2829a28522788beb4102b62ee7caf216a4f Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 7 Mar 2012 21:00:34 +0100
-Subject: [PATCH 229/327] fs: dcache: Use cpu_chill() in trylock loops
+Subject: [PATCH] fs: dcache: Use cpu_chill() in trylock loops
 
 Retry loops on RT might loop forever when the modifying side was
 preempted. Use cpu_chill() instead of cpu_relax() to let the system
@@ -9,15 +9,9 @@ make progress.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- fs/autofs4/autofs_i.h | 1 +
- fs/autofs4/expire.c   | 2 +-
- fs/dcache.c           | 5 +++--
- fs/namespace.c        | 3 ++-
- 4 files changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/fs/autofs4/autofs_i.h b/fs/autofs4/autofs_i.h
-index 3f1128b37e46..c2ed9c4f4cb1 100644
+index 3f1128b..c2ed9c4 100644
 --- a/fs/autofs4/autofs_i.h
 +++ b/fs/autofs4/autofs_i.h
 @@ -34,6 +34,7 @@
@@ -29,7 +23,7 @@ index 3f1128b37e46..c2ed9c4f4cb1 100644
  #include <asm/uaccess.h>
  
 diff --git a/fs/autofs4/expire.c b/fs/autofs4/expire.c
-index 3d9d3f5d5dda..b422ad6511ae 100644
+index 3d9d3f5..b422ad6 100644
 --- a/fs/autofs4/expire.c
 +++ b/fs/autofs4/expire.c
 @@ -157,7 +157,7 @@ again:
@@ -42,7 +36,7 @@ index 3d9d3f5d5dda..b422ad6511ae 100644
  			}
  			spin_unlock(&p->d_lock);
 diff --git a/fs/dcache.c b/fs/dcache.c
-index 87b70fe7eccc..dc528d61dcee 100644
+index 87b70fe..dc528d6 100644
 --- a/fs/dcache.c
 +++ b/fs/dcache.c
 @@ -19,6 +19,7 @@
@@ -72,7 +66,7 @@ index 87b70fe7eccc..dc528d61dcee 100644
  		}
  		dentry->d_flags &= ~DCACHE_CANT_MOUNT;
 diff --git a/fs/namespace.c b/fs/namespace.c
-index 65380f66f94d..bf799735c05c 100644
+index 65380f6..bf79973 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
 @@ -23,6 +23,7 @@
@@ -93,5 +87,5 @@ index 65380f66f94d..bf799735c05c 100644
  	}
  	/*
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From ee590cd32f9602d6b1c02cac0b1820afddaaa441 Mon Sep 17 00:00:00 2001
+From 5c4b7d029f802bb2a297d4983726e069e6858517 Mon Sep 17 00:00:00 2001
 From: Tiejun Chen <tiejun.chen@windriver.com>
 Date: Thu, 7 Nov 2013 10:06:07 +0800
-Subject: [PATCH 273/327] cpu_down: move migrate_enable() back
+Subject: [PATCH] cpu_down: move migrate_enable() back
 
 Commit 08c1ab68, "hotplug-use-migrate-disable.patch", intends to
 use migrate_enable()/migrate_disable() to replace that combination
@@ -29,12 +29,9 @@ So we should move migrate_enable() as the original scheme.
 
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Tiejun Chen <tiejun.chen@windriver.com>
----
- kernel/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/cpu.c b/kernel/cpu.c
-index 423ba3489a61..6d2cab15a585 100644
+index 423ba34..6d2cab1 100644
 --- a/kernel/cpu.c
 +++ b/kernel/cpu.c
 @@ -601,6 +601,7 @@ static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
@@ -54,5 +51,5 @@ index 423ba3489a61..6d2cab15a585 100644
  	if (!err)
  		cpu_notify_nofail(CPU_POST_DEAD | mod, hcpu);
 -- 
-2.1.1
+2.1.0
 

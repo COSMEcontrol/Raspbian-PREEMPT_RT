@@ -1,19 +1,14 @@
-From 72636fb95d4a382b183a93c7590a0e91d3f0f937 Mon Sep 17 00:00:00 2001
+From 58eabc5c7047ae3ca9d357ee7c2108156565b2db Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 24 Jul 2011 12:11:43 +0200
-Subject: [PATCH 059/327] kconfig-disable-a-few-options-rt.patch
+Subject: [PATCH] kconfig-disable-a-few-options-rt.patch
 
 Disable stuff which is known to have issues on RT
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/Kconfig        | 1 +
- drivers/net/Kconfig | 1 +
- mm/Kconfig          | 2 +-
- 3 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/arch/Kconfig b/arch/Kconfig
-index af2cc6eabcc7..77e7e80963d5 100644
+index af2cc6e..77e7e80 100644
 --- a/arch/Kconfig
 +++ b/arch/Kconfig
 @@ -6,6 +6,7 @@ config OPROFILE
@@ -25,7 +20,7 @@ index af2cc6eabcc7..77e7e80963d5 100644
  	select RING_BUFFER_ALLOW_SWAP
  	help
 diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
-index b45b240889f5..7bbdf63d33b2 100644
+index b45b240..7bbdf63 100644
 --- a/drivers/net/Kconfig
 +++ b/drivers/net/Kconfig
 @@ -160,6 +160,7 @@ config VXLAN
@@ -37,7 +32,7 @@ index b45b240889f5..7bbdf63d33b2 100644
  	If you want to log kernel messages over the network, enable this.
  	See <file:Documentation/networking/netconsole.txt> for details.
 diff --git a/mm/Kconfig b/mm/Kconfig
-index 2a092f5fa95a..b183a9100fad 100644
+index 2a092f5..b183a91 100644
 --- a/mm/Kconfig
 +++ b/mm/Kconfig
 @@ -387,7 +387,7 @@ config NOMMU_INITIAL_TRIM_EXCESS
@@ -50,5 +45,5 @@ index 2a092f5fa95a..b183a9100fad 100644
  	help
  	  Transparent Hugepages allows the kernel to use huge pages and
 -- 
-2.1.1
+2.1.0
 

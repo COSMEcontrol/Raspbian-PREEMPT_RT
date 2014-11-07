@@ -1,7 +1,7 @@
-From 4d9e6b8517a42ec6f5a0ee7356fc069957152f64 Mon Sep 17 00:00:00 2001
+From 24ce5773a6c069c0ae56d54d186c27a80b5f4e87 Mon Sep 17 00:00:00 2001
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Date: Wed, 5 Oct 2011 11:45:18 -0700
-Subject: [PATCH 200/327] rcu: Make ksoftirqd do RCU quiescent states
+Subject: [PATCH] rcu: Make ksoftirqd do RCU quiescent states
 
 Implementing RCU-bh in terms of RCU-preempt makes the system vulnerable
 to network-based denial-of-service attacks.  This patch therefore
@@ -22,15 +22,9 @@ in cases where __do_softirq() is invoked directly from ksoftirqd.
 Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 Link: http://lkml.kernel.org/r/20111005184518.GA21601@linux.vnet.ibm.com
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/rcupdate.h |  6 ------
- kernel/rcutree.c         |  9 ++++++++-
- kernel/rcutree_plugin.h  |  8 +++++++-
- kernel/softirq.c         | 20 +++++++++++++-------
- 4 files changed, 28 insertions(+), 15 deletions(-)
 
 diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
-index 7d754bf29c4b..8b2693d1445f 100644
+index 7d754bf..8b2693d 100644
 --- a/include/linux/rcupdate.h
 +++ b/include/linux/rcupdate.h
 @@ -229,13 +229,7 @@ static inline int rcu_preempt_depth(void)
@@ -48,7 +42,7 @@ index 7d754bf29c4b..8b2693d1445f 100644
  struct notifier_block;
  extern void rcu_idle_enter(void);
 diff --git a/kernel/rcutree.c b/kernel/rcutree.c
-index d52e23b278d7..8104cb26a144 100644
+index d52e23b..8104cb2 100644
 --- a/kernel/rcutree.c
 +++ b/kernel/rcutree.c
 @@ -199,7 +199,14 @@ void rcu_sched_qs(int cpu)
@@ -68,7 +62,7 @@ index d52e23b278d7..8104cb26a144 100644
  {
  	struct rcu_data *rdp = &per_cpu(rcu_bh_data, cpu);
 diff --git a/kernel/rcutree_plugin.h b/kernel/rcutree_plugin.h
-index d2da9522d818..63e052013d76 100644
+index d2da952..63e0520 100644
 --- a/kernel/rcutree_plugin.h
 +++ b/kernel/rcutree_plugin.h
 @@ -1553,7 +1553,7 @@ static void rcu_prepare_kthreads(int cpu)
@@ -108,7 +102,7 @@ index d2da9522d818..63e052013d76 100644
  /*
   * Prepare a CPU for idle from an RCU perspective.  The first major task
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 37482daed90a..869290835b5b 100644
+index 37482da..8692908 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -142,7 +142,7 @@ static void wakeup_softirqd(void)
@@ -181,5 +175,5 @@ index 37482daed90a..869290835b5b 100644
  	unpin_current_cpu();
  	preempt_disable();
 -- 
-2.1.1
+2.1.0
 

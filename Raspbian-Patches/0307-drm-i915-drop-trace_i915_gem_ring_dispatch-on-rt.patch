@@ -1,7 +1,7 @@
-From 96a34c29cd228e235590d144ed0b63c46f11a9a1 Mon Sep 17 00:00:00 2001
+From c5dccd750afd4a7216dab0facadbbafe1e749c8a Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Thu, 25 Apr 2013 18:12:52 +0200
-Subject: [PATCH 307/327] drm/i915: drop trace_i915_gem_ring_dispatch on rt
+Subject: [PATCH] drm/i915: drop trace_i915_gem_ring_dispatch on rt
 
 This tracepoint is responsible for:
 
@@ -41,12 +41,9 @@ so it is gone now on RT.
 Cc: stable-rt@vger.kernel.org
 Reported-by: Joakim Hernberg <jbh@alchemy.lu>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/gpu/drm/i915/i915_gem_execbuffer.c | 2 ++
- 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/i915_gem_execbuffer.c
-index c08287f8bbf4..d5f6beef2d38 100644
+index c08287f..d5f6bee 100644
 --- a/drivers/gpu/drm/i915/i915_gem_execbuffer.c
 +++ b/drivers/gpu/drm/i915/i915_gem_execbuffer.c
 @@ -1129,7 +1129,9 @@ i915_gem_do_execbuffer(struct drm_device *dev, void *data,
@@ -60,5 +57,5 @@ index c08287f8bbf4..d5f6beef2d38 100644
  	i915_gem_execbuffer_move_to_active(&eb->objects, vm, ring);
  	i915_gem_execbuffer_retire_commands(dev, file, ring, batch_obj);
 -- 
-2.1.1
+2.1.0
 

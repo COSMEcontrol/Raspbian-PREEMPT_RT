@@ -1,8 +1,7 @@
-From 723babab934722f28e9cbb473705af499ff808a7 Mon Sep 17 00:00:00 2001
+From b17dae9c49f920e92ed40c1ef5d7e6dd5e16f829 Mon Sep 17 00:00:00 2001
 From: Benedikt Spranger <b.spranger@linutronix.de>
 Date: Mon, 8 Mar 2010 18:57:04 +0100
-Subject: [PATCH 030/327] clocksource: TCLIB: Allow higher clock rates for
- clock events
+Subject: [PATCH] clocksource: TCLIB: Allow higher clock rates for clock events
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -14,13 +13,9 @@ Add a compile time selection to allow higher clock resulution.
 
 Signed-off-by: Benedikt Spranger <b.spranger@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- drivers/clocksource/tcb_clksrc.c | 38 ++++++++++++++++++++++----------------
- drivers/misc/Kconfig             | 12 ++++++++++--
- 2 files changed, 32 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/clocksource/tcb_clksrc.c b/drivers/clocksource/tcb_clksrc.c
-index 8a6187225dd0..a00dfafc4e86 100644
+index 8a61872..a00dfaf 100644
 --- a/drivers/clocksource/tcb_clksrc.c
 +++ b/drivers/clocksource/tcb_clksrc.c
 @@ -23,8 +23,7 @@
@@ -135,7 +130,7 @@ index 8a6187225dd0..a00dfafc4e86 100644
  }
  arch_initcall(tcb_clksrc_init);
 diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index 8dacd4c9ee87..bc680851b3ff 100644
+index aa7eea4..bf94251 100644
 --- a/drivers/misc/Kconfig
 +++ b/drivers/misc/Kconfig
 @@ -78,8 +78,7 @@ config ATMEL_TCB_CLKSRC
@@ -165,5 +160,5 @@ index 8dacd4c9ee87..bc680851b3ff 100644
  	tristate "Dummy IRQ handler"
  	default n
 -- 
-2.1.1
+2.1.0
 

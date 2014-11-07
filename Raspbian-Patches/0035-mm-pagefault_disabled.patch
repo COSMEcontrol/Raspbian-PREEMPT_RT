@@ -1,42 +1,16 @@
-From e1392d8f8035410fd58b9d295394881c66aec41e Mon Sep 17 00:00:00 2001
+From de40b30a5f2711c4ca3321c8351332ce7aa7b5e3 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Date: Thu, 11 Aug 2011 15:31:31 +0200
-Subject: [PATCH 035/327] mm: pagefault_disabled()
+Subject: [PATCH] mm: pagefault_disabled()
 
 Wrap the test for pagefault_disabled() into a helper, this allows us
 to remove the need for current->pagefault_disabled on !-rt kernels.
 
 Signed-off-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Link: http://lkml.kernel.org/n/tip-3yy517m8zsi9fpsf14xfaqkw@git.kernel.org
----
- arch/alpha/mm/fault.c      |  2 +-
- arch/arm/mm/fault.c        |  2 +-
- arch/avr32/mm/fault.c      |  3 +--
- arch/cris/mm/fault.c       |  2 +-
- arch/frv/mm/fault.c        |  2 +-
- arch/ia64/mm/fault.c       |  2 +-
- arch/m32r/mm/fault.c       |  2 +-
- arch/m68k/mm/fault.c       |  2 +-
- arch/microblaze/mm/fault.c |  2 +-
- arch/mips/mm/fault.c       |  2 +-
- arch/mn10300/mm/fault.c    |  2 +-
- arch/parisc/mm/fault.c     |  2 +-
- arch/powerpc/mm/fault.c    |  2 +-
- arch/s390/mm/fault.c       |  8 ++++----
- arch/score/mm/fault.c      |  2 +-
- arch/sh/mm/fault.c         |  2 +-
- arch/sparc/mm/fault_32.c   |  2 +-
- arch/sparc/mm/fault_64.c   |  2 +-
- arch/tile/mm/fault.c       |  2 +-
- arch/um/kernel/trap.c      |  2 +-
- arch/x86/mm/fault.c        |  2 +-
- arch/xtensa/mm/fault.c     |  2 +-
- include/linux/sched.h      | 14 ++++++++++++++
- kernel/fork.c              |  2 ++
- 24 files changed, 41 insertions(+), 26 deletions(-)
 
 diff --git a/arch/alpha/mm/fault.c b/arch/alpha/mm/fault.c
-index 4d6b1204be3d..ee01270f200d 100644
+index 4d6b120..ee01270 100644
 --- a/arch/alpha/mm/fault.c
 +++ b/arch/alpha/mm/fault.c
 @@ -107,7 +107,7 @@ do_page_fault(unsigned long address, unsigned long mmcsr,
@@ -49,7 +23,7 @@ index 4d6b1204be3d..ee01270f200d 100644
  
  #ifdef CONFIG_ALPHA_LARGE_VMALLOC
 diff --git a/arch/arm/mm/fault.c b/arch/arm/mm/fault.c
-index 9e92a6ca6137..b40d4bab8e07 100644
+index 9e92a6c..b40d4ba 100644
 --- a/arch/arm/mm/fault.c
 +++ b/arch/arm/mm/fault.c
 @@ -277,7 +277,7 @@ do_page_fault(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
@@ -62,7 +36,7 @@ index 9e92a6ca6137..b40d4bab8e07 100644
  
  	if (user_mode(regs))
 diff --git a/arch/avr32/mm/fault.c b/arch/avr32/mm/fault.c
-index 541d1084c381..25920d299dbe 100644
+index 541d108..25920d2 100644
 --- a/arch/avr32/mm/fault.c
 +++ b/arch/avr32/mm/fault.c
 @@ -81,8 +81,7 @@ asmlinkage void do_page_fault(unsigned long ecr, struct pt_regs *regs)
@@ -76,7 +50,7 @@ index 541d1084c381..25920d299dbe 100644
  
  	local_irq_enable();
 diff --git a/arch/cris/mm/fault.c b/arch/cris/mm/fault.c
-index 69fe7c73eb6d..281e85940fc8 100644
+index 69fe7c7..281e859 100644
 --- a/arch/cris/mm/fault.c
 +++ b/arch/cris/mm/fault.c
 @@ -113,7 +113,7 @@ do_page_fault(unsigned long address, struct pt_regs *regs,
@@ -89,7 +63,7 @@ index 69fe7c73eb6d..281e85940fc8 100644
  
  	if (user_mode(regs))
 diff --git a/arch/frv/mm/fault.c b/arch/frv/mm/fault.c
-index de6a23e26743..8d9fc16aa40b 100644
+index de6a23e..8d9fc16 100644
 --- a/arch/frv/mm/fault.c
 +++ b/arch/frv/mm/fault.c
 @@ -78,7 +78,7 @@ asmlinkage void do_page_fault(int datammu, unsigned long esr0, unsigned long ear
@@ -102,7 +76,7 @@ index de6a23e26743..8d9fc16aa40b 100644
  
  	if (user_mode(__frame))
 diff --git a/arch/ia64/mm/fault.c b/arch/ia64/mm/fault.c
-index aae5478eb824..164db10c56da 100644
+index aae5478..164db10 100644
 --- a/arch/ia64/mm/fault.c
 +++ b/arch/ia64/mm/fault.c
 @@ -96,7 +96,7 @@ ia64_do_page_fault (unsigned long address, unsigned long isr, struct pt_regs *re
@@ -115,7 +89,7 @@ index aae5478eb824..164db10c56da 100644
  
  #ifdef CONFIG_VIRTUAL_MEM_MAP
 diff --git a/arch/m32r/mm/fault.c b/arch/m32r/mm/fault.c
-index d351a6518acb..ccb6797c40ca 100644
+index d351a65..ccb6797 100644
 --- a/arch/m32r/mm/fault.c
 +++ b/arch/m32r/mm/fault.c
 @@ -114,7 +114,7 @@ asmlinkage void do_page_fault(struct pt_regs *regs, unsigned long error_code,
@@ -128,7 +102,7 @@ index d351a6518acb..ccb6797c40ca 100644
  
  	if (error_code & ACE_USERMODE)
 diff --git a/arch/m68k/mm/fault.c b/arch/m68k/mm/fault.c
-index 55607e392b67..76bee375a3e0 100644
+index 55607e3..76bee37 100644
 --- a/arch/m68k/mm/fault.c
 +++ b/arch/m68k/mm/fault.c
 @@ -85,7 +85,7 @@ int do_page_fault(struct pt_regs *regs, unsigned long address,
@@ -141,7 +115,7 @@ index 55607e392b67..76bee375a3e0 100644
  
  	if (user_mode(regs))
 diff --git a/arch/microblaze/mm/fault.c b/arch/microblaze/mm/fault.c
-index 21d96de43d92..13d6b07981d5 100644
+index 21d96de..13d6b07 100644
 --- a/arch/microblaze/mm/fault.c
 +++ b/arch/microblaze/mm/fault.c
 @@ -107,7 +107,7 @@ void do_page_fault(struct pt_regs *regs, unsigned long address,
@@ -154,7 +128,7 @@ index 21d96de43d92..13d6b07981d5 100644
  			goto bad_area_nosemaphore;
  
 diff --git a/arch/mips/mm/fault.c b/arch/mips/mm/fault.c
-index 5494999ff51d..6a492c05ab7a 100644
+index 5494999..6a492c0 100644
 --- a/arch/mips/mm/fault.c
 +++ b/arch/mips/mm/fault.c
 @@ -89,7 +89,7 @@ static void __kprobes __do_page_fault(struct pt_regs *regs, unsigned long write,
@@ -167,7 +141,7 @@ index 5494999ff51d..6a492c05ab7a 100644
  
  	if (user_mode(regs))
 diff --git a/arch/mn10300/mm/fault.c b/arch/mn10300/mm/fault.c
-index 4886c2dcd419..8bd442595321 100644
+index 4886c2d..8bd4425 100644
 --- a/arch/mn10300/mm/fault.c
 +++ b/arch/mn10300/mm/fault.c
 @@ -168,7 +168,7 @@ asmlinkage void do_page_fault(struct pt_regs *regs, unsigned long fault_code,
@@ -180,7 +154,7 @@ index 4886c2dcd419..8bd442595321 100644
  
  	if ((fault_code & MMUFCR_xFC_ACCESS) == MMUFCR_xFC_ACCESS_USR)
 diff --git a/arch/parisc/mm/fault.c b/arch/parisc/mm/fault.c
-index 68b56fe820ad..f16f57b4faec 100644
+index 68b56fe..f16f57b 100644
 --- a/arch/parisc/mm/fault.c
 +++ b/arch/parisc/mm/fault.c
 @@ -177,7 +177,7 @@ void do_page_fault(struct pt_regs *regs, unsigned long code,
@@ -193,7 +167,7 @@ index 68b56fe820ad..f16f57b4faec 100644
  
  	tsk = current;
 diff --git a/arch/powerpc/mm/fault.c b/arch/powerpc/mm/fault.c
-index 41230cd06def..45aa26e2c481 100644
+index 41230cd..45aa26e 100644
 --- a/arch/powerpc/mm/fault.c
 +++ b/arch/powerpc/mm/fault.c
 @@ -261,7 +261,7 @@ int __kprobes do_page_fault(struct pt_regs *regs, unsigned long address,
@@ -206,7 +180,7 @@ index 41230cd06def..45aa26e2c481 100644
  			rc = SIGSEGV;
  			goto bail;
 diff --git a/arch/s390/mm/fault.c b/arch/s390/mm/fault.c
-index a4742e92e8d4..6b0efce011c4 100644
+index a4742e9..6b0efce 100644
 --- a/arch/s390/mm/fault.c
 +++ b/arch/s390/mm/fault.c
 @@ -296,8 +296,8 @@ static inline int do_exception(struct pt_regs *regs, int access)
@@ -232,7 +206,7 @@ index a4742e92e8d4..6b0efce011c4 100644
  
  	down_read(&mm->mmap_sem);
 diff --git a/arch/score/mm/fault.c b/arch/score/mm/fault.c
-index 98384f7aaeac..35d339b29583 100644
+index 98384f7..35d339b 100644
 --- a/arch/score/mm/fault.c
 +++ b/arch/score/mm/fault.c
 @@ -73,7 +73,7 @@ asmlinkage void do_page_fault(struct pt_regs *regs, unsigned long write,
@@ -245,7 +219,7 @@ index 98384f7aaeac..35d339b29583 100644
  
  	if (user_mode(regs))
 diff --git a/arch/sh/mm/fault.c b/arch/sh/mm/fault.c
-index a2aa4ff2ff30..6589138ad72e 100644
+index a2aa4ff..6589138 100644
 --- a/arch/sh/mm/fault.c
 +++ b/arch/sh/mm/fault.c
 @@ -438,7 +438,7 @@ asmlinkage void __kprobes do_page_fault(struct pt_regs *regs,
@@ -258,7 +232,7 @@ index a2aa4ff2ff30..6589138ad72e 100644
  		return;
  	}
 diff --git a/arch/sparc/mm/fault_32.c b/arch/sparc/mm/fault_32.c
-index 7d51c0590c57..2eaca28db84b 100644
+index 7d51c05..2eaca28 100644
 --- a/arch/sparc/mm/fault_32.c
 +++ b/arch/sparc/mm/fault_32.c
 @@ -199,7 +199,7 @@ asmlinkage void do_sparc_fault(struct pt_regs *regs, int text_fault, int write,
@@ -271,7 +245,7 @@ index 7d51c0590c57..2eaca28db84b 100644
  
  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
 diff --git a/arch/sparc/mm/fault_64.c b/arch/sparc/mm/fault_64.c
-index 5cecb2d80cb9..fa89a16f388e 100644
+index 5cecb2d..fa89a16 100644
 --- a/arch/sparc/mm/fault_64.c
 +++ b/arch/sparc/mm/fault_64.c
 @@ -330,7 +330,7 @@ asmlinkage void __kprobes do_sparc64_fault(struct pt_regs *regs)
@@ -284,7 +258,7 @@ index 5cecb2d80cb9..fa89a16f388e 100644
  
  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
 diff --git a/arch/tile/mm/fault.c b/arch/tile/mm/fault.c
-index d28fe5abca34..40f30ac4ece0 100644
+index d28fe5a..40f30ac 100644
 --- a/arch/tile/mm/fault.c
 +++ b/arch/tile/mm/fault.c
 @@ -357,7 +357,7 @@ static int handle_page_fault(struct pt_regs *regs,
@@ -297,7 +271,7 @@ index d28fe5abca34..40f30ac4ece0 100644
  		goto bad_area_nosemaphore;
  	}
 diff --git a/arch/um/kernel/trap.c b/arch/um/kernel/trap.c
-index 9e9ad499aca5..100a27830108 100644
+index 9e9ad49..100a278 100644
 --- a/arch/um/kernel/trap.c
 +++ b/arch/um/kernel/trap.c
 @@ -38,7 +38,7 @@ int handle_page_fault(unsigned long address, unsigned long ip,
@@ -310,7 +284,7 @@ index 9e9ad499aca5..100a27830108 100644
  
  	if (is_user)
 diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-index f250a044e015..b5c8e376f9a5 100644
+index f250a04..b5c8e37 100644
 --- a/arch/x86/mm/fault.c
 +++ b/arch/x86/mm/fault.c
 @@ -1098,7 +1098,7 @@ __do_page_fault(struct pt_regs *regs, unsigned long error_code)
@@ -323,7 +297,7 @@ index f250a044e015..b5c8e376f9a5 100644
  		return;
  	}
 diff --git a/arch/xtensa/mm/fault.c b/arch/xtensa/mm/fault.c
-index 904c4799da28..ff5c9c76af05 100644
+index 904c479..ff5c9c7 100644
 --- a/arch/xtensa/mm/fault.c
 +++ b/arch/xtensa/mm/fault.c
 @@ -57,7 +57,7 @@ void do_page_fault(struct pt_regs *regs)
@@ -336,7 +310,7 @@ index 904c4799da28..ff5c9c76af05 100644
  		return;
  	}
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 9b1c92314f5b..923c26ed026c 100644
+index 9b1c923..923c26e 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -52,6 +52,7 @@ struct sched_param {
@@ -376,7 +350,7 @@ index 9b1c92314f5b..923c26ed026c 100644
  {
  	return task->pids[PIDTYPE_PID].pid;
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 4d376e8b6437..599033b525e8 100644
+index 4d376e8..599033b 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
 @@ -1307,7 +1307,9 @@ static struct task_struct *copy_process(unsigned long clone_flags,
@@ -390,5 +364,5 @@ index 4d376e8b6437..599033b525e8 100644
  	p->lockdep_depth = 0; /* no locks held yet */
  	p->curr_chain_key = 0;
 -- 
-2.1.1
+2.1.0
 

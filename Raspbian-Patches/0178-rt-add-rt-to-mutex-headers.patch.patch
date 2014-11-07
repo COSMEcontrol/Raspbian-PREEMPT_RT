@@ -1,17 +1,12 @@
-From 38d25392ec981692cd48a30d28071c89cdb2a500 Mon Sep 17 00:00:00 2001
+From 012dfd8efc7d8274a4c33082b11b815bd68da95a Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 29 Jun 2011 20:56:22 +0200
-Subject: [PATCH 178/327] rt-add-rt-to-mutex-headers.patch
+Subject: [PATCH] rt-add-rt-to-mutex-headers.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/mutex.h    | 20 ++++++++----
- include/linux/mutex_rt.h | 84 ++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 97 insertions(+), 7 deletions(-)
- create mode 100644 include/linux/mutex_rt.h
 
 diff --git a/include/linux/mutex.h b/include/linux/mutex.h
-index bab49da8a0f0..79e172a7994f 100644
+index bab49da..79e172a 100644
 --- a/include/linux/mutex.h
 +++ b/include/linux/mutex.h
 @@ -18,6 +18,17 @@
@@ -57,7 +52,7 @@ index bab49da8a0f0..79e172a7994f 100644
  #ifndef arch_mutex_cpu_relax
 diff --git a/include/linux/mutex_rt.h b/include/linux/mutex_rt.h
 new file mode 100644
-index 000000000000..c38a44b14da5
+index 0000000..c38a44b
 --- /dev/null
 +++ b/include/linux/mutex_rt.h
 @@ -0,0 +1,84 @@
@@ -146,5 +141,5 @@ index 000000000000..c38a44b14da5
 +
 +#endif
 -- 
-2.1.1
+2.1.0
 

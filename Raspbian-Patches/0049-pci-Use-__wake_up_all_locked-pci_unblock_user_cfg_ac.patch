@@ -1,8 +1,7 @@
-From 7ced2cfa4fc0ce38622b27a99a8d728e12bd1805 Mon Sep 17 00:00:00 2001
+From 2ad143a56a8343facff9aeb84e6c920b1c5210a8 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 1 Dec 2011 00:07:16 +0100
-Subject: [PATCH 049/327] pci: Use __wake_up_all_locked
- pci_unblock_user_cfg_access()
+Subject: [PATCH] pci: Use __wake_up_all_locked pci_unblock_user_cfg_access()
 
 The waitqueue is protected by the pci_lock, so we can just avoid to
 lock the waitqueue lock itself. That prevents the
@@ -10,12 +9,9 @@ might_sleep()/scheduling while atomic problem on RT
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- drivers/pci/access.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/pci/access.c b/drivers/pci/access.c
-index 0857ca981fae..8bb624e433d1 100644
+index 0857ca9..8bb624e 100644
 --- a/drivers/pci/access.c
 +++ b/drivers/pci/access.c
 @@ -465,7 +465,7 @@ void pci_cfg_access_unlock(struct pci_dev *dev)
@@ -28,5 +24,5 @@ index 0857ca981fae..8bb624e433d1 100644
  }
  EXPORT_SYMBOL_GPL(pci_cfg_access_unlock);
 -- 
-2.1.1
+2.1.0
 

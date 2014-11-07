@@ -1,8 +1,8 @@
-From 1aaefe827bf5e12396385e0bd7341486be220b7c Mon Sep 17 00:00:00 2001
+From 92570104f23e54743fedf014ab0bc58386e3744c Mon Sep 17 00:00:00 2001
 From: Yang Shi <yang.shi@windriver.com>
 Date: Wed, 30 Oct 2013 11:48:33 -0700
-Subject: [PATCH 106/327] mm/memcontrol: Don't call schedule_work_on in
- preemption disabled context
+Subject: [PATCH] mm/memcontrol: Don't call schedule_work_on in preemption
+ disabled context
 
 The following trace is triggered when running ltp oom test cases:
 
@@ -43,12 +43,9 @@ replace the pair of get/put_cpu() to get/put_cpu_light().
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Yang Shi <yang.shi@windriver.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- mm/memcontrol.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 4e705ed74b81..9419b74fb32a 100644
+index 207a54b..74c72d4 100644
 --- a/mm/memcontrol.c
 +++ b/mm/memcontrol.c
 @@ -2478,7 +2478,7 @@ static void drain_all_stock(struct mem_cgroup *root_memcg, bool sync)
@@ -70,5 +67,5 @@ index 4e705ed74b81..9419b74fb32a 100644
  	if (!sync)
  		goto out;
 -- 
-2.1.1
+2.1.0
 

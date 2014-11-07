@@ -1,17 +1,13 @@
-From 6853e0dd92a8cca5d453d9957f00d1a5cd7b283d Mon Sep 17 00:00:00 2001
+From da217a19731b4e50fc0a2453deb830e22f5c463e Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Fri, 29 Nov 2013 00:21:59 -0500
-Subject: [PATCH 184/327] migrate_disable pushd down in
- rt_write_trylock_irqsave
+Subject: [PATCH] migrate_disable pushd down in rt_write_trylock_irqsave
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/rt.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/rt.c b/kernel/rt.c
-index ff56d3cc36b3..d58b4105ab0a 100644
+index ff56d3c..d58b410 100644
 --- a/kernel/rt.c
 +++ b/kernel/rt.c
 @@ -196,10 +196,9 @@ int __lockfunc rt_write_trylock_irqsave(rwlock_t *rwlock, unsigned long *flags)
@@ -28,5 +24,5 @@ index ff56d3cc36b3..d58b4105ab0a 100644
  }
  EXPORT_SYMBOL(rt_write_trylock_irqsave);
 -- 
-2.1.1
+2.1.0
 

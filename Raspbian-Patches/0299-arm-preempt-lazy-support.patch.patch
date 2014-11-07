@@ -1,19 +1,12 @@
-From 92e4b1b64fa873fe2f5c433ff3c8d78ac47f1bef Mon Sep 17 00:00:00 2001
+From 0268caf9b8dff7bc07ef4b659d2cc59ce4278281 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 31 Oct 2012 12:04:11 +0100
-Subject: [PATCH 299/327] arm-preempt-lazy-support.patch
+Subject: [PATCH] arm-preempt-lazy-support.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/arm/Kconfig                   |  1 +
- arch/arm/include/asm/thread_info.h |  3 +++
- arch/arm/kernel/asm-offsets.c      |  1 +
- arch/arm/kernel/entry-armv.S       | 13 +++++++++++--
- arch/arm/kernel/signal.c           |  3 ++-
- 5 files changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 99e1ce978cf9..ad101e4272df 100644
+index b2eb510..0461ec1 100644
 --- a/arch/arm/Kconfig
 +++ b/arch/arm/Kconfig
 @@ -52,6 +52,7 @@ config ARM
@@ -25,7 +18,7 @@ index 99e1ce978cf9..ad101e4272df 100644
  	select HAVE_SYSCALL_TRACEPOINTS
  	select HAVE_UID16
 diff --git a/arch/arm/include/asm/thread_info.h b/arch/arm/include/asm/thread_info.h
-index df5e13d64f2c..33cb5115ccbb 100644
+index df5e13d..33cb511 100644
 --- a/arch/arm/include/asm/thread_info.h
 +++ b/arch/arm/include/asm/thread_info.h
 @@ -60,6 +60,7 @@ struct arm_restart_block {
@@ -53,7 +46,7 @@ index df5e13d64f2c..33cb5115ccbb 100644
  #define _TIF_SYSCALL_AUDIT	(1 << TIF_SYSCALL_AUDIT)
  #define _TIF_SYSCALL_TRACEPOINT	(1 << TIF_SYSCALL_TRACEPOINT)
 diff --git a/arch/arm/kernel/asm-offsets.c b/arch/arm/kernel/asm-offsets.c
-index ded041711beb..12e46dd0661f 100644
+index ded0417..12e46dd 100644
 --- a/arch/arm/kernel/asm-offsets.c
 +++ b/arch/arm/kernel/asm-offsets.c
 @@ -54,6 +54,7 @@ int main(void)
@@ -65,7 +58,7 @@ index ded041711beb..12e46dd0661f 100644
    DEFINE(TI_TASK,		offsetof(struct thread_info, task));
    DEFINE(TI_EXEC_DOMAIN,	offsetof(struct thread_info, exec_domain));
 diff --git a/arch/arm/kernel/entry-armv.S b/arch/arm/kernel/entry-armv.S
-index ec3e5cf46308..8c5e809c1f07 100644
+index ec3e5cf..8c5e809 100644
 --- a/arch/arm/kernel/entry-armv.S
 +++ b/arch/arm/kernel/entry-armv.S
 @@ -205,11 +205,18 @@ __irq_svc:
@@ -99,7 +92,7 @@ index ec3e5cf46308..8c5e809c1f07 100644
  	b	1b
  #endif
 diff --git a/arch/arm/kernel/signal.c b/arch/arm/kernel/signal.c
-index ab3304225272..d1b0bfd1f0cf 100644
+index ab33042..d1b0bfd 100644
 --- a/arch/arm/kernel/signal.c
 +++ b/arch/arm/kernel/signal.c
 @@ -589,7 +589,8 @@ asmlinkage int
@@ -113,5 +106,5 @@ index ab3304225272..d1b0bfd1f0cf 100644
  		} else {
  			if (unlikely(!user_mode(regs)))
 -- 
-2.1.1
+2.1.0
 

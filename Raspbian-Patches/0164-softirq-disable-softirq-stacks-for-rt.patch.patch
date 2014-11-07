@@ -1,23 +1,12 @@
-From c8a087b877e050f72ce50e70afa9620845920dc3 Mon Sep 17 00:00:00 2001
+From 667d1f5341e080effc85bff25b4f0852c3e84617 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 18 Jul 2011 13:59:17 +0200
-Subject: [PATCH 164/327] softirq-disable-softirq-stacks-for-rt.patch
+Subject: [PATCH] softirq-disable-softirq-stacks-for-rt.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/powerpc/kernel/irq.c     | 2 ++
- arch/powerpc/kernel/misc_32.S | 2 ++
- arch/powerpc/kernel/misc_64.S | 2 ++
- arch/sh/kernel/irq.c          | 2 ++
- arch/sparc/kernel/irq_64.c    | 2 ++
- arch/x86/kernel/entry_64.S    | 2 ++
- arch/x86/kernel/irq_32.c      | 2 ++
- arch/x86/kernel/irq_64.c      | 3 ++-
- include/linux/interrupt.h     | 3 +--
- 9 files changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/arch/powerpc/kernel/irq.c b/arch/powerpc/kernel/irq.c
-index c7cb8c232d2f..f3ed55a75259 100644
+index c7cb8c2..f3ed55a 100644
 --- a/arch/powerpc/kernel/irq.c
 +++ b/arch/powerpc/kernel/irq.c
 @@ -594,6 +594,7 @@ void irq_ctx_init(void)
@@ -37,7 +26,7 @@ index c7cb8c232d2f..f3ed55a75259 100644
  irq_hw_number_t virq_to_hw(unsigned int virq)
  {
 diff --git a/arch/powerpc/kernel/misc_32.S b/arch/powerpc/kernel/misc_32.S
-index ace34137a501..84cbc948c25a 100644
+index ace3413..84cbc94 100644
 --- a/arch/powerpc/kernel/misc_32.S
 +++ b/arch/powerpc/kernel/misc_32.S
 @@ -40,6 +40,7 @@
@@ -57,7 +46,7 @@ index ace34137a501..84cbc948c25a 100644
  /*
   * void call_do_irq(struct pt_regs *regs, struct thread_info *irqtp);
 diff --git a/arch/powerpc/kernel/misc_64.S b/arch/powerpc/kernel/misc_64.S
-index e59caf874d05..f93987eb4399 100644
+index e59caf8..f93987e 100644
 --- a/arch/powerpc/kernel/misc_64.S
 +++ b/arch/powerpc/kernel/misc_64.S
 @@ -29,6 +29,7 @@
@@ -77,7 +66,7 @@ index e59caf874d05..f93987eb4399 100644
  _GLOBAL(call_do_irq)
  	mflr	r0
 diff --git a/arch/sh/kernel/irq.c b/arch/sh/kernel/irq.c
-index 063af10ff3c1..ae4b14181b80 100644
+index 063af10..ae4b141 100644
 --- a/arch/sh/kernel/irq.c
 +++ b/arch/sh/kernel/irq.c
 @@ -149,6 +149,7 @@ void irq_ctx_exit(int cpu)
@@ -97,7 +86,7 @@ index 063af10ff3c1..ae4b14181b80 100644
  static inline void handle_one_irq(unsigned int irq)
  {
 diff --git a/arch/sparc/kernel/irq_64.c b/arch/sparc/kernel/irq_64.c
-index d4840cec2c55..d74fa7f86a8a 100644
+index d4840ce..d74fa7f 100644
 --- a/arch/sparc/kernel/irq_64.c
 +++ b/arch/sparc/kernel/irq_64.c
 @@ -698,6 +698,7 @@ void __irq_entry handler_irq(int pil, struct pt_regs *regs)
@@ -117,7 +106,7 @@ index d4840cec2c55..d74fa7f86a8a 100644
  #ifdef CONFIG_HOTPLUG_CPU
  void fixup_irqs(void)
 diff --git a/arch/x86/kernel/entry_64.S b/arch/x86/kernel/entry_64.S
-index 207da8d92f75..b088be482f54 100644
+index 207da8d..b088be4 100644
 --- a/arch/x86/kernel/entry_64.S
 +++ b/arch/x86/kernel/entry_64.S
 @@ -1406,6 +1406,7 @@ bad_gs:
@@ -137,7 +126,7 @@ index 207da8d92f75..b088be482f54 100644
  #ifdef CONFIG_XEN
  zeroentry xen_hypervisor_callback xen_do_hypervisor_callback
 diff --git a/arch/x86/kernel/irq_32.c b/arch/x86/kernel/irq_32.c
-index 4186755f1d7c..9da1bc7edea4 100644
+index 4186755..9da1bc7 100644
 --- a/arch/x86/kernel/irq_32.c
 +++ b/arch/x86/kernel/irq_32.c
 @@ -149,6 +149,7 @@ void irq_ctx_init(int cpu)
@@ -157,7 +146,7 @@ index 4186755f1d7c..9da1bc7edea4 100644
  bool handle_irq(unsigned irq, struct pt_regs *regs)
  {
 diff --git a/arch/x86/kernel/irq_64.c b/arch/x86/kernel/irq_64.c
-index d04d3ecded62..831f247b5798 100644
+index d04d3ec..831f247 100644
 --- a/arch/x86/kernel/irq_64.c
 +++ b/arch/x86/kernel/irq_64.c
 @@ -88,7 +88,7 @@ bool handle_irq(unsigned irq, struct pt_regs *regs)
@@ -175,7 +164,7 @@ index d04d3ecded62..831f247b5798 100644
  }
 +#endif
 diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index f729351083f6..2c199dcfea73 100644
+index f7293510..2c199dc 100644
 --- a/include/linux/interrupt.h
 +++ b/include/linux/interrupt.h
 @@ -415,10 +415,9 @@ struct softirq_action
@@ -191,5 +180,5 @@ index f729351083f6..2c199dcfea73 100644
  #else
  extern void thread_do_softirq(void);
 -- 
-2.1.1
+2.1.0
 

@@ -1,8 +1,8 @@
-From f40f5f3ad3a06880406e1dda916d357fd745194f Mon Sep 17 00:00:00 2001
+From 6565cd24f912432096b8b18b0c1699800f015e58 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Mon, 19 Aug 2013 17:33:25 -0400
-Subject: [PATCH 052/327] hwlat-detector: Update hwlat_detector to add outer
- loop detection
+Subject: [PATCH] hwlat-detector: Update hwlat_detector to add outer loop
+ detection
 
 The hwlat_detector reads two timestamps in a row, then reports any
 gap between those calls. The problem is, it misses everything between
@@ -42,12 +42,9 @@ There's some hardware latency that takes 2 microseconds to run.
 
 Signed-off-by: Steven Rostedt <srostedt@redhat.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/misc/hwlat_detector.c | 32 ++++++++++++++++++++++++++------
- 1 file changed, 26 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/misc/hwlat_detector.c b/drivers/misc/hwlat_detector.c
-index 6864f3c24c8b..c07e85932cbf 100644
+index 6864f3c..c07e859 100644
 --- a/drivers/misc/hwlat_detector.c
 +++ b/drivers/misc/hwlat_detector.c
 @@ -143,6 +143,7 @@ static void detector_exit(void);
@@ -128,5 +125,5 @@ index 6864f3c24c8b..c07e85932cbf 100644
  
  	/* handling partial reads is more trouble than it's worth */
 -- 
-2.1.1
+2.1.0
 

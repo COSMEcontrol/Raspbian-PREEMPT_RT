@@ -1,8 +1,7 @@
-From e966381bfa8a5315559a8dda6c5983e280f20da6 Mon Sep 17 00:00:00 2001
+From b7a2e164d27d7818223c0f69f7b2b931cbd15aaa Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Thu, 29 Sep 2011 12:24:30 -0500
-Subject: [PATCH 021/327] tracing: Account for preempt off in
- preempt_schedule()
+Subject: [PATCH] tracing: Account for preempt off in preempt_schedule()
 
 The preempt_schedule() uses the preempt_disable_notrace() version
 because it can cause infinite recursion by the function tracer as
@@ -23,12 +22,9 @@ start and stop the latency tracer for preempt off timings.
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Clark Williams <williams@redhat.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 005da15eff1d..72801e06bb56 100644
+index 005da15..72801e0 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2533,7 +2533,16 @@ asmlinkage void __sched notrace preempt_schedule(void)
@@ -49,5 +45,5 @@ index 005da15eff1d..72801e06bb56 100644
  
  		/*
 -- 
-2.1.1
+2.1.0
 

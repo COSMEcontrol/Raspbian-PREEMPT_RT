@@ -1,7 +1,7 @@
-From 8e7af9b3079abd410efdc5971932eb305e8bda5e Mon Sep 17 00:00:00 2001
+From 2918d571590f46076041f24677955920cb9d9194 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <peterz@infradead.org>
 Date: Fri, 21 Aug 2009 11:56:45 +0200
-Subject: [PATCH 115/327] timer: delay waking softirqs from the jiffy tick
+Subject: [PATCH] timer: delay waking softirqs from the jiffy tick
 
 People were complaining about broken balancing with the recent -rt
 series.
@@ -52,12 +52,9 @@ behaviour.
 
 Signed-off-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/timer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/timer.c b/kernel/timer.c
-index 48f7ea82e8b9..5d4657f5ad7a 100644
+index 48f7ea8..5d4657f 100644
 --- a/kernel/timer.c
 +++ b/kernel/timer.c
 @@ -1393,13 +1393,13 @@ void update_process_times(int user_tick)
@@ -76,5 +73,5 @@ index 48f7ea82e8b9..5d4657f5ad7a 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

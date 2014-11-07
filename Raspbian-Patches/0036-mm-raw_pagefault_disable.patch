@@ -1,7 +1,7 @@
-From b29d90dacf79e1776453fcdc872f2b4fb0cc6ac7 Mon Sep 17 00:00:00 2001
+From adb13e2eaec01d944bbbd56cf44ec18d912a2882 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Date: Fri, 5 Aug 2011 17:16:58 +0200
-Subject: [PATCH 036/327] mm: raw_pagefault_disable
+Subject: [PATCH] mm: raw_pagefault_disable
 
 Adding migrate_disable() to pagefault_disable() to preserve the
 per-cpu thing for kmap_atomic might not have been the best of choices.
@@ -73,13 +73,9 @@ that up by adding raw_pagefault_disable().
 
 Signed-off-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Link: http://lkml.kernel.org/n/tip-31keae8mkjiv8esq4rl76cib@git.kernel.org
----
- include/linux/uaccess.h | 30 ++++++++++++++++++++++++++++--
- mm/memory.c             |  2 ++
- 2 files changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index 9414a1b48f5c..44b37510c14f 100644
+index 9414a1b..44b3751 100644
 --- a/include/linux/uaccess.h
 +++ b/include/linux/uaccess.h
 @@ -8,8 +8,34 @@
@@ -130,7 +126,7 @@ index 9414a1b48f5c..44b37510c14f 100644
  		ret;					\
  	})
 diff --git a/mm/memory.c b/mm/memory.c
-index 2b33f73f6a4b..c20bb28848eb 100644
+index 2b33f73f..c20bb28 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
 @@ -3747,6 +3747,7 @@ unlock:
@@ -150,5 +146,5 @@ index 2b33f73f6a4b..c20bb28848eb 100644
  /*
   * By the time we get here, we already hold the mm semaphore
 -- 
-2.1.1
+2.1.0
 

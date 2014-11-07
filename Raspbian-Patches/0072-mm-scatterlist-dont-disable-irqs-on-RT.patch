@@ -1,15 +1,12 @@
-From 8da7f835b37041d9cb202245af3e2e265604dbf2 Mon Sep 17 00:00:00 2001
+From bb124f857136712463064b8a898ac5ab72bfa283 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 3 Jul 2009 08:44:34 -0500
-Subject: [PATCH 072/327] mm: scatterlist dont disable irqs on RT
+Subject: [PATCH] mm: scatterlist dont disable irqs on RT
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- lib/scatterlist.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index d16fa295ae1d..9c1236e713cb 100644
+index d16fa29..9c1236e 100644
 --- a/lib/scatterlist.c
 +++ b/lib/scatterlist.c
 @@ -582,7 +582,7 @@ void sg_miter_stop(struct sg_mapping_iter *miter)
@@ -40,5 +37,5 @@ index d16fa295ae1d..9c1236e713cb 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

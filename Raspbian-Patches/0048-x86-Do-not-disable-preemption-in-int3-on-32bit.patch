@@ -1,7 +1,7 @@
-From 6718b3494b4bd13b48b668b156b727fa8f743fc9 Mon Sep 17 00:00:00 2001
+From eb07490e478bf793aa361ee4761b63f2ab0f40f3 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Thu, 24 Apr 2014 21:44:46 -0400
-Subject: [PATCH 048/327] x86: Do not disable preemption in int3 on 32bit
+Subject: [PATCH] x86: Do not disable preemption in int3 on 32bit
 
 Preemption must be disabled before enabling interrupts in do_trap
 on x86_64 because the stack in use for int3 and debug is a per CPU
@@ -19,12 +19,9 @@ when the stack is on the IST.
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/x86/kernel/traps.c | 32 +++++++++++++++++++++++---------
- 1 file changed, 23 insertions(+), 9 deletions(-)
 
 diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 8c8093b146ca..6663bb5ad0aa 100644
+index 8c8093b..6663bb5 100644
 --- a/arch/x86/kernel/traps.c
 +++ b/arch/x86/kernel/traps.c
 @@ -86,9 +86,21 @@ static inline void conditional_sti(struct pt_regs *regs)
@@ -114,5 +111,5 @@ index 8c8093b146ca..6663bb5ad0aa 100644
  
  exit:
 -- 
-2.1.1
+2.1.0
 

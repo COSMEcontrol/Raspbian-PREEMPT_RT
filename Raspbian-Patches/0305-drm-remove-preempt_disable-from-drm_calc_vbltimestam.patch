@@ -1,7 +1,7 @@
-From 8f788db7236aa1a7f008af1fb5876929efcf384c Mon Sep 17 00:00:00 2001
+From 9fcbd9e077f4c2fdc7a320999dbd6372354d1472 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 11 Oct 2013 17:14:31 +0200
-Subject: [PATCH 305/327] drm: remove preempt_disable() from
+Subject: [PATCH] drm: remove preempt_disable() from
  drm_calc_vbltimestamp_from_scanoutpos()
 
 Luis captured the following:
@@ -48,12 +48,9 @@ for a replacement.
 Cc: stable-rt@vger.kernel.org
 Reported-By: Luis Claudio R. Goncalves <lclaudio@uudg.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/gpu/drm/drm_irq.c | 7 -------
- 1 file changed, 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
-index f92da0a32f0d..434ea848c097 100644
+index f92da0a..434ea84 100644
 --- a/drivers/gpu/drm/drm_irq.c
 +++ b/drivers/gpu/drm/drm_irq.c
 @@ -628,11 +628,6 @@ int drm_calc_vbltimestamp_from_scanoutpos(struct drm_device *dev, int crtc,
@@ -78,5 +75,5 @@ index f92da0a32f0d..434ea848c097 100644
  		if (!(vbl_status & DRM_SCANOUTPOS_VALID)) {
  			DRM_DEBUG("crtc %d : scanoutpos query failed [%d].\n",
 -- 
-2.1.1
+2.1.0
 

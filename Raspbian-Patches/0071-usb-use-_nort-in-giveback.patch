@@ -1,7 +1,7 @@
-From 3a2626bb7aea5cd49d6217b072fd2cfc0847e8ca Mon Sep 17 00:00:00 2001
+From b313f6612a653f4e1cf137409e48d25d9e2b0883 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 8 Nov 2013 17:34:54 +0100
-Subject: [PATCH 071/327] usb: use _nort in giveback
+Subject: [PATCH] usb: use _nort in giveback
 
 Since commit 94dfd7ed ("USB: HCD: support giveback of URB in tasklet
 context") I see
@@ -38,12 +38,9 @@ context") I see
 on -RT we run threaded so no need to disable interrupts.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/usb/core/hcd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index 6bb14e366265..bf21a21542a5 100644
+index 6bb14e3..bf21a21 100644
 --- a/drivers/usb/core/hcd.c
 +++ b/drivers/usb/core/hcd.c
 @@ -1677,9 +1677,9 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
@@ -59,5 +56,5 @@ index 6bb14e366265..bf21a21542a5 100644
  	atomic_dec(&urb->use_count);
  	if (unlikely(atomic_read(&urb->reject)))
 -- 
-2.1.1
+2.1.0
 

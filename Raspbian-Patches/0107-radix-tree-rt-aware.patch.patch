@@ -1,16 +1,12 @@
-From 72d2212cfa99f40fe1962735380cc5cc5e4b90c5 Mon Sep 17 00:00:00 2001
+From 6f4895266553edf1cbd5c8c0ab1e1599f2df61d7 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 17 Jul 2011 21:33:18 +0200
-Subject: [PATCH 107/327] radix-tree-rt-aware.patch
+Subject: [PATCH] radix-tree-rt-aware.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/radix-tree.h | 7 ++++++-
- lib/radix-tree.c           | 5 ++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/radix-tree.h b/include/linux/radix-tree.h
-index e8be53ecfc45..ab8263efa637 100644
+index e8be53e..ab8263e 100644
 --- a/include/linux/radix-tree.h
 +++ b/include/linux/radix-tree.h
 @@ -227,8 +227,13 @@ radix_tree_gang_lookup(struct radix_tree_root *root, void **results,
@@ -37,7 +33,7 @@ index e8be53ecfc45..ab8263efa637 100644
  
  /**
 diff --git a/lib/radix-tree.c b/lib/radix-tree.c
-index e8adb5d8a184..b7ab98195573 100644
+index e8adb5d..b7ab981 100644
 --- a/lib/radix-tree.c
 +++ b/lib/radix-tree.c
 @@ -221,12 +221,13 @@ radix_tree_node_alloc(struct radix_tree_root *root)
@@ -72,5 +68,5 @@ index e8adb5d8a184..b7ab98195573 100644
  /*
   *	Return the maximum key which can be store into a
 -- 
-2.1.1
+2.1.0
 

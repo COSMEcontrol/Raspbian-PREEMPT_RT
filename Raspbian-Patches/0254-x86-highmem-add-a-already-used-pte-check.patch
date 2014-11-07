@@ -1,17 +1,14 @@
-From 78918c7266b316475a865d1d1b964ac1e61c04dc Mon Sep 17 00:00:00 2001
+From 6187c02f1661141ce532157c56d45d5ea13dd5d0 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Mon, 11 Mar 2013 17:09:55 +0100
-Subject: [PATCH 254/327] x86/highmem: add a "already used pte" check
+Subject: [PATCH] x86/highmem: add a "already used pte" check
 
 This is a copy from kmap_atomic_prot().
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/x86/mm/iomap_32.c | 2 ++
- 1 file changed, 2 insertions(+)
 
 diff --git a/arch/x86/mm/iomap_32.c b/arch/x86/mm/iomap_32.c
-index 0c953e399b96..62377d67ab07 100644
+index 0c953e3..62377d6 100644
 --- a/arch/x86/mm/iomap_32.c
 +++ b/arch/x86/mm/iomap_32.c
 @@ -65,6 +65,8 @@ void *kmap_atomic_prot_pfn(unsigned long pfn, pgprot_t prot)
@@ -24,5 +21,5 @@ index 0c953e399b96..62377d67ab07 100644
  	current->kmap_pte[type] = pte;
  #endif
 -- 
-2.1.1
+2.1.0
 

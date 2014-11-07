@@ -1,19 +1,15 @@
-From 42f48353b1ee4c80a4c6f7d95c3415d13dee9575 Mon Sep 17 00:00:00 2001
+From 0bca327a2ed4d7d877445cd0d72b82c0883ad3fa Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 14 Dec 2011 01:03:49 +0100
-Subject: [PATCH 264/327] cpumask: Disable CONFIG_CPUMASK_OFFSTACK for RT
+Subject: [PATCH] cpumask: Disable CONFIG_CPUMASK_OFFSTACK for RT
 
 We can't deal with the cpumask allocations which happen in atomic
 context (see arch/x86/kernel/apic/io_apic.c) on RT right now.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/x86/Kconfig | 2 +-
- lib/Kconfig      | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 0ed62db00295..2d24349ea3a9 100644
+index 0ed62db..2d24349 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
 @@ -821,7 +821,7 @@ config IOMMU_HELPER
@@ -26,7 +22,7 @@ index 0ed62db00295..2d24349ea3a9 100644
  	  Enable maximum number of CPUS and NUMA Nodes for this architecture.
  	  If unsure, say N.
 diff --git a/lib/Kconfig b/lib/Kconfig
-index c742a2d89270..eee9e09d3e58 100644
+index c742a2d..eee9e09 100644
 --- a/lib/Kconfig
 +++ b/lib/Kconfig
 @@ -344,6 +344,7 @@ config CHECK_SIGNATURE
@@ -38,5 +34,5 @@ index c742a2d89270..eee9e09d3e58 100644
  	  Use dynamic allocation for cpumask_var_t, instead of putting
  	  them on the stack.  This is a bit more expensive, but avoids
 -- 
-2.1.1
+2.1.0
 

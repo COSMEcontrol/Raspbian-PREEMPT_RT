@@ -1,8 +1,8 @@
-From 3d17adac8f94d215bf2bb68ef3875feae6eca331 Mon Sep 17 00:00:00 2001
+From 0e38bf520059103584b3544e8a70920d32de937e Mon Sep 17 00:00:00 2001
 From: Marc Kleine-Budde <mkl@pengutronix.de>
 Date: Wed, 5 Mar 2014 00:49:47 +0100
-Subject: [PATCH 044/327] net: sched: dev_deactivate_many(): use msleep(1)
- instead of yield() to wait for outstanding qdisc_run calls
+Subject: [PATCH] net: sched: dev_deactivate_many(): use msleep(1) instead of
+ yield() to wait for outstanding qdisc_run calls
 
 On PREEMPT_RT enabled systems the interrupt handler run as threads at prio 50
 (by default). If a high priority userspace process tries to shut down a busy
@@ -42,12 +42,9 @@ solution.
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- net/sched/sch_generic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/sched/sch_generic.c b/net/sched/sch_generic.c
-index a74e278654aa..1dcebc90edfd 100644
+index a74e278..1dcebc9 100644
 --- a/net/sched/sch_generic.c
 +++ b/net/sched/sch_generic.c
 @@ -850,7 +850,7 @@ void dev_deactivate_many(struct list_head *head)
@@ -60,5 +57,5 @@ index a74e278654aa..1dcebc90edfd 100644
  
  void dev_deactivate(struct net_device *dev)
 -- 
-2.1.1
+2.1.0
 

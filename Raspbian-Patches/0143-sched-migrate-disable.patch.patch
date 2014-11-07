@@ -1,18 +1,12 @@
-From e587ffe6772747714bcce388c0458cab2153b255 Mon Sep 17 00:00:00 2001
+From d89255a05f6cbcbde0813326e50f6507e06297de Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 16 Jun 2011 13:26:08 +0200
-Subject: [PATCH 143/327] sched-migrate-disable.patch
+Subject: [PATCH] sched-migrate-disable.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/preempt.h |  8 +++++
- include/linux/sched.h   | 13 ++++++--
- kernel/sched/core.c     | 88 ++++++++++++++++++++++++++++++++++++++++++++++---
- lib/smp_processor_id.c  |  6 ++--
- 4 files changed, 104 insertions(+), 11 deletions(-)
 
 diff --git a/include/linux/preempt.h b/include/linux/preempt.h
-index f237ebdf52e5..fbf934b0d06d 100644
+index f237ebd..fbf934b 100644
 --- a/include/linux/preempt.h
 +++ b/include/linux/preempt.h
 @@ -130,6 +130,14 @@ do { \
@@ -31,7 +25,7 @@ index f237ebdf52e5..fbf934b0d06d 100644
  # define preempt_disable_rt()		preempt_disable()
  # define preempt_enable_rt()		preempt_enable()
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 044384533ea0..28621fba7392 100644
+index 0443845..28621fb 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1068,6 +1068,7 @@ struct task_struct {
@@ -69,7 +63,7 @@ index 044384533ea0..28621fba7392 100644
  extern long sched_getaffinity(pid_t pid, struct cpumask *mask);
  
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 2028291a9fb7..489aa4fc79bf 100644
+index 2028291..489aa4f 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -4345,11 +4345,12 @@ void init_idle(struct task_struct *idle, int cpu)
@@ -183,7 +177,7 @@ index 2028291a9fb7..489aa4fc79bf 100644
   * Move (not current) task off this cpu, onto dest cpu. We're doing
   * this because either it can't run here any more (set_cpus_allowed()
 diff --git a/lib/smp_processor_id.c b/lib/smp_processor_id.c
-index 4c0d0e51d49e..0a846e736931 100644
+index 4c0d0e5..0a846e7 100644
 --- a/lib/smp_processor_id.c
 +++ b/lib/smp_processor_id.c
 @@ -39,9 +39,9 @@ notrace unsigned int debug_smp_processor_id(void)
@@ -200,5 +194,5 @@ index 4c0d0e51d49e..0a846e736931 100644
  	dump_stack();
  
 -- 
-2.1.1
+2.1.0
 

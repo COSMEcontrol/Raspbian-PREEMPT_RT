@@ -1,18 +1,12 @@
-From 8be436b398b03b0e84f40e4634fe3eab62a3cd64 Mon Sep 17 00:00:00 2001
+From 1bdfbe91be7db2c47ab63069ab94bc15c0432c14 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 29 Jun 2011 21:02:53 +0200
-Subject: [PATCH 179/327] rwsem-add-rt-variant.patch
+Subject: [PATCH] rwsem-add-rt-variant.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/rwsem.h    |   6 +++
- include/linux/rwsem_rt.h | 128 +++++++++++++++++++++++++++++++++++++++++++++++
- lib/Makefile             |   3 ++
- 3 files changed, 137 insertions(+)
- create mode 100644 include/linux/rwsem_rt.h
 
 diff --git a/include/linux/rwsem.h b/include/linux/rwsem.h
-index 0616ffe45702..0ad60708685a 100644
+index 0616ffe..0ad6070 100644
 --- a/include/linux/rwsem.h
 +++ b/include/linux/rwsem.h
 @@ -16,6 +16,10 @@
@@ -35,7 +29,7 @@ index 0616ffe45702..0ad60708685a 100644
  #endif /* _LINUX_RWSEM_H */
 diff --git a/include/linux/rwsem_rt.h b/include/linux/rwsem_rt.h
 new file mode 100644
-index 000000000000..e94d945c5844
+index 0000000..e94d945
 --- /dev/null
 +++ b/include/linux/rwsem_rt.h
 @@ -0,0 +1,128 @@
@@ -168,7 +162,7 @@ index 000000000000..e94d945c5844
 +#endif
 +#endif
 diff --git a/lib/Makefile b/lib/Makefile
-index 6af6fbb053e3..446159513a5f 100644
+index 6af6fbb..4461595 100644
 --- a/lib/Makefile
 +++ b/lib/Makefile
 @@ -43,8 +43,11 @@ obj-$(CONFIG_HAS_IOMEM) += iomap_copy.o devres.o
@@ -184,5 +178,5 @@ index 6af6fbb053e3..446159513a5f 100644
  
  GCOV_PROFILE_hweight.o := n
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From 5e30c006b6e7f33e8ce76657b9b4ef95c4a35f3c Mon Sep 17 00:00:00 2001
+From 4f417c00eb1b4bfd5647a4dac51653ae932760de Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Tue, 4 Mar 2014 12:28:32 -0500
-Subject: [PATCH 227/327] cpu_chill: Add a UNINTERRUPTIBLE hrtimer_nanosleep
+Subject: [PATCH] cpu_chill: Add a UNINTERRUPTIBLE hrtimer_nanosleep
 
 We hit another bug that was caused by switching cpu_chill() from
 msleep() to hrtimer_nanosleep().
@@ -28,12 +28,9 @@ Cc: stable-rt@vger.kernel.org
 Reported-by: Ulrich Obergfell <uobergfe@redhat.com>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/hrtimer.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
 
 diff --git a/kernel/hrtimer.c b/kernel/hrtimer.c
-index 58f6bf895ae0..bc0e47dc0a05 100644
+index 58f6bf8..bc0e47d 100644
 --- a/kernel/hrtimer.c
 +++ b/kernel/hrtimer.c
 @@ -1791,12 +1791,13 @@ void hrtimer_init_sleeper(struct hrtimer_sleeper *sl, struct task_struct *task)
@@ -108,5 +105,5 @@ index 58f6bf895ae0..bc0e47dc0a05 100644
  		current->flags &= ~PF_NOFREEZE;
  }
 -- 
-2.1.1
+2.1.0
 

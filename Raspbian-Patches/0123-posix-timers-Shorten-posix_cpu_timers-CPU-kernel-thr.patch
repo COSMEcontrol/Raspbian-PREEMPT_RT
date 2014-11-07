@@ -1,8 +1,8 @@
-From 385a61b87a933e5f49c6fa2e9255b893bd7abc26 Mon Sep 17 00:00:00 2001
+From 0ede3f44d5fc913c1e9abd5567f9111689d76dfd Mon Sep 17 00:00:00 2001
 From: Arnaldo Carvalho de Melo <acme@redhat.com>
 Date: Fri, 3 Jul 2009 08:30:00 -0500
-Subject: [PATCH 123/327] posix-timers: Shorten posix_cpu_timers/<CPU> kernel
- thread names
+Subject: [PATCH] posix-timers: Shorten posix_cpu_timers/<CPU> kernel thread
+ names
 
 Shorten the softirq kernel thread names because they always overflow the
 limited comm length, appearing as "posix_cpu_timer" CPU# times.
@@ -10,12 +10,9 @@ limited comm length, appearing as "posix_cpu_timer" CPU# times.
 Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/posix-cpu-timers.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/posix-cpu-timers.c b/kernel/posix-cpu-timers.c
-index 57ce5af8d9be..2d1963c1270a 100644
+index 57ce5af..2d1963c 100644
 --- a/kernel/posix-cpu-timers.c
 +++ b/kernel/posix-cpu-timers.c
 @@ -1374,7 +1374,7 @@ static int posix_cpu_thread_call(struct notifier_block *nfb,
@@ -28,5 +25,5 @@ index 57ce5af8d9be..2d1963c1270a 100644
  			return NOTIFY_BAD;
  		p->flags |= PF_NOFREEZE;
 -- 
-2.1.1
+2.1.0
 

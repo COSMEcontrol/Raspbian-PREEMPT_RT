@@ -1,7 +1,7 @@
-From aadd57162e5c0dbd1f0df4ce62fadc2f371d25b1 Mon Sep 17 00:00:00 2001
+From 4f159c3d2daed69fab2addc4515340cfce3c9748 Mon Sep 17 00:00:00 2001
 From: Yong Zhang <yong.zhang0@gmail.com>
 Date: Sun, 16 Oct 2011 18:56:44 +0800
-Subject: [PATCH 145/327] hotplug: Call cpu_unplug_begin() before DOWN_PREPARE
+Subject: [PATCH] hotplug: Call cpu_unplug_begin() before DOWN_PREPARE
 
 cpu_unplug_begin() should be called before CPU_DOWN_PREPARE, because
 at CPU_DOWN_PREPARE cpu_active is cleared and sched_domain is
@@ -22,12 +22,9 @@ Wants to be folded back....
 Signed-off-by: Yong Zhang <yong.zhang0@gmail.com>
 Link: http://lkml.kernel.org/r/1318762607-2261-3-git-send-email-yong.zhang0@gmail.com
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/cpu.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/kernel/cpu.c b/kernel/cpu.c
-index c7639259d366..6352d7b096e9 100644
+index c763925..6352d7b 100644
 --- a/kernel/cpu.c
 +++ b/kernel/cpu.c
 @@ -408,22 +408,20 @@ static int __ref _cpu_down(unsigned int cpu, int tasks_frozen)
@@ -61,5 +58,5 @@ index c7639259d366..6352d7b096e9 100644
  	smpboot_park_threads(cpu);
  
 -- 
-2.1.1
+2.1.0
 

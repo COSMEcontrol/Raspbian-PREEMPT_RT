@@ -1,7 +1,7 @@
-From 3902aebc956e48300a1adcfb963466192e99895f Mon Sep 17 00:00:00 2001
+From 17fc6a77de58b311a4886a04250c0b0efe95785f Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 15 Nov 2013 15:46:50 +0100
-Subject: [PATCH 196/327] rtmutex: use a trylock for waiter lock in trylock
+Subject: [PATCH] rtmutex: use a trylock for waiter lock in trylock
 
 Mike Galbraith captered the following:
 | >#11 [ffff88017b243e90] _raw_spin_lock at ffffffff815d2596
@@ -33,14 +33,9 @@ be able to take it in the unlock path.
 Cc: stable-rt@vger.kernel.org
 Reported-by: Mike Galbraith <bitbucket@online.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/spinlock_rt.h |  1 +
- kernel/rtmutex.c            | 31 +++++++++++++++++++++++++++----
- kernel/timer.c              |  2 +-
- 3 files changed, 29 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/spinlock_rt.h b/include/linux/spinlock_rt.h
-index 447c457950a4..ac6f08bde7e8 100644
+index 447c457..ac6f08b 100644
 --- a/include/linux/spinlock_rt.h
 +++ b/include/linux/spinlock_rt.h
 @@ -22,6 +22,7 @@ extern void __lockfunc rt_spin_lock(spinlock_t *lock);
@@ -52,7 +47,7 @@ index 447c457950a4..ac6f08bde7e8 100644
  extern int __lockfunc rt_spin_trylock_irqsave(spinlock_t *lock, unsigned long *flags);
  extern int __lockfunc rt_spin_trylock_bh(spinlock_t *lock);
 diff --git a/kernel/rtmutex.c b/kernel/rtmutex.c
-index 82d1708e934b..c70436b0023a 100644
+index 82d1708..c70436b 100644
 --- a/kernel/rtmutex.c
 +++ b/kernel/rtmutex.c
 @@ -955,10 +955,8 @@ static void  noinline __sched rt_spin_lock_slowlock(struct rt_mutex *lock)
@@ -116,7 +111,7 @@ index 82d1708e934b..c70436b0023a 100644
  
  	if (likely(rt_mutex_owner(lock) != current)) {
 diff --git a/kernel/timer.c b/kernel/timer.c
-index 03f4ddd27305..e30108ea054c 100644
+index 03f4ddd..e30108e 100644
 --- a/kernel/timer.c
 +++ b/kernel/timer.c
 @@ -1400,7 +1400,7 @@ unsigned long get_next_timer_interrupt(unsigned long now)
@@ -129,5 +124,5 @@ index 03f4ddd27305..e30108ea054c 100644
  	spin_unlock(&base->lock);
  #endif
 -- 
-2.1.1
+2.1.0
 

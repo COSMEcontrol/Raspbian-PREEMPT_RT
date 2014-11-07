@@ -1,16 +1,12 @@
-From f57deb9f333cda709c2d39adc5b8fe2524b34235 Mon Sep 17 00:00:00 2001
+From 2ef5b030758e85848c77ba3b37ee5f016bc5eb92 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 28 Jun 2011 15:44:15 +0200
-Subject: [PATCH 045/327] softirq-thread-do-softirq.patch
+Subject: [PATCH] softirq-thread-do-softirq.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/interrupt.h | 1 +
- net/core/dev.c            | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 623ab2d787d9..acafa7dde11c 100644
+index 623ab2d..acafa7d 100644
 --- a/include/linux/interrupt.h
 +++ b/include/linux/interrupt.h
 @@ -412,6 +412,7 @@ struct softirq_action
@@ -22,7 +18,7 @@ index 623ab2d787d9..acafa7dde11c 100644
  extern void softirq_init(void);
  extern void __raise_softirq_irqoff(unsigned int nr);
 diff --git a/net/core/dev.c b/net/core/dev.c
-index 4b1f8d02c68f..1c439100ab2c 100644
+index 4b1f8d0..1c43910 100644
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
 @@ -3274,7 +3274,7 @@ int netif_rx_ni(struct sk_buff *skb)
@@ -35,5 +31,5 @@ index 4b1f8d02c68f..1c439100ab2c 100644
  
  	return err;
 -- 
-2.1.1
+2.1.0
 

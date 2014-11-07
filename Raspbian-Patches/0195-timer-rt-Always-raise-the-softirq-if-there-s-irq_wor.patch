@@ -1,8 +1,8 @@
-From 0eb4e6aaac1ca9b004b6d4edd0b1744be0ff1188 Mon Sep 17 00:00:00 2001
+From aaafa8e8d5ab63e45acb5eb4d4af7d9f8d702bd9 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Fri, 31 Jan 2014 12:07:57 -0500
-Subject: [PATCH 195/327] timer/rt: Always raise the softirq if there's
- irq_work to be done
+Subject: [PATCH] timer/rt: Always raise the softirq if there's irq_work to be
+ done
 
 It was previously discovered that some systems would hang on boot up
 with a previous version of 3.12-rt. This was due to RCU using irq_work,
@@ -30,12 +30,9 @@ can do the timer checks just like we do with non -rt.
 
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/timer.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/kernel/timer.c b/kernel/timer.c
-index 889f8c9259a6..03f4ddd27305 100644
+index 889f8c9..03f4ddd 100644
 --- a/kernel/timer.c
 +++ b/kernel/timer.c
 @@ -1457,18 +1457,20 @@ void run_local_timers(void)
@@ -67,5 +64,5 @@ index 889f8c9259a6..03f4ddd27305 100644
  	/* Check whether the next pending timer has expired */
  	if (time_before_eq(base->next_timer, jiffies))
 -- 
-2.1.1
+2.1.0
 

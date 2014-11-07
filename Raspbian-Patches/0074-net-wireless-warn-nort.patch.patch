@@ -1,15 +1,12 @@
-From 13303d1e8c68a4c0adbd58647e43b389d5ac1103 Mon Sep 17 00:00:00 2001
+From 28dd41191deac4ecde9d7cc593dc6c48116f5513 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 21 Jul 2011 21:05:33 +0200
-Subject: [PATCH 074/327] net-wireless-warn-nort.patch
+Subject: [PATCH] net-wireless-warn-nort.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- net/mac80211/rx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/mac80211/rx.c b/net/mac80211/rx.c
-index 1e5bd0d75732..62fba173d5d3 100644
+index 1e5bd0d..62fba17 100644
 --- a/net/mac80211/rx.c
 +++ b/net/mac80211/rx.c
 @@ -3298,7 +3298,7 @@ void ieee80211_rx(struct ieee80211_hw *hw, struct sk_buff *skb)
@@ -22,5 +19,5 @@ index 1e5bd0d75732..62fba173d5d3 100644
  	if (WARN_ON(status->band >= IEEE80211_NUM_BANDS))
  		goto drop;
 -- 
-2.1.1
+2.1.0
 

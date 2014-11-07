@@ -1,7 +1,7 @@
-From d756ae4a8d35b8bf0f3a4f23dc6556b4ed2504e0 Mon Sep 17 00:00:00 2001
+From fde327aacab2a2cd2a3e6826dde5a9b1247113da Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Date: Fri, 2 Sep 2011 14:29:27 +0200
-Subject: [PATCH 152/327] sched: teach migrate_disable about atomic contexts
+Subject: [PATCH] sched: teach migrate_disable about atomic contexts
 
  <NMI>  [<ffffffff812dafd8>] spin_bug+0x94/0xa8
  [<ffffffff812db07f>] do_raw_spin_lock+0x43/0xea
@@ -29,13 +29,9 @@ Signed-off-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Link: http://lkml.kernel.org/r/1314967297.1301.14.camel@twins
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Link: http://lkml.kernel.org/n/tip-wbot4vsmwhi8vmbf83hsclk6@git.kernel.org
----
- include/linux/sched.h |  3 +++
- kernel/sched/core.c   | 21 +++++++++++++++++++++
- 2 files changed, 24 insertions(+)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 76df8b0fd79f..b6f9535e5bdf 100644
+index 76df8b0..b6f9535 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1070,6 +1070,9 @@ struct task_struct {
@@ -49,7 +45,7 @@ index 76df8b0fd79f..b6f9535e5bdf 100644
  	int nr_cpus_allowed;
  	cpumask_t cpus_allowed;
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index cb83fa1f6920..13a5d9f3c1a3 100644
+index cb83fa1..13a5d9f 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -4423,6 +4423,17 @@ void migrate_disable(void)
@@ -88,5 +84,5 @@ index cb83fa1f6920..13a5d9f3c1a3 100644
  
  	preempt_disable();
 -- 
-2.1.1
+2.1.0
 

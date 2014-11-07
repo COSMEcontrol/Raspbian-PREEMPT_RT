@@ -1,7 +1,7 @@
-From 2cea5316df48ce81aca6373eb59fa4ac258a9653 Mon Sep 17 00:00:00 2001
+From 27de4901dd85ebf0885a58ca83fa651a7446f4bc Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Thu, 21 Mar 2013 11:35:49 +0100
-Subject: [PATCH 302/327] i2c/omap: drop the lock hard irq context
+Subject: [PATCH] i2c/omap: drop the lock hard irq context
 
 The lock is taken while reading two registers. On RT the first lock is
 taken in hard irq where it might sleep and in the threaded irq.
@@ -9,12 +9,9 @@ The threaded irq runs in oneshot mode so the hard irq does not run until
 the thread the completes so there is no reason to grab the lock.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/i2c/busses/i2c-omap.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/drivers/i2c/busses/i2c-omap.c b/drivers/i2c/busses/i2c-omap.c
-index 9967a6f9c2ff..2f6647830c35 100644
+index 9967a6f..2f66478 100644
 --- a/drivers/i2c/busses/i2c-omap.c
 +++ b/drivers/i2c/busses/i2c-omap.c
 @@ -879,15 +879,12 @@ omap_i2c_isr(int irq, void *dev_id)
@@ -35,5 +32,5 @@ index 9967a6f9c2ff..2f6647830c35 100644
  }
  
 -- 
-2.1.1
+2.1.0
 

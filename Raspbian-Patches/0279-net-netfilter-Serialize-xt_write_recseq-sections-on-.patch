@@ -1,8 +1,7 @@
-From ec2905c1528f3a1b6f0054c4c14c0fdfe2168d36 Mon Sep 17 00:00:00 2001
+From c35d5b97729608b0889cf0b663a03ff5c46455f5 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 28 Oct 2012 11:18:08 +0100
-Subject: [PATCH 279/327] net: netfilter: Serialize xt_write_recseq sections on
- RT
+Subject: [PATCH] net: netfilter: Serialize xt_write_recseq sections on RT
 
 The netfilter code relies only on the implicit semantics of
 local_bh_disable() for serializing wt_write_recseq sections. RT breaks
@@ -11,13 +10,9 @@ that and needs explicit serialization here.
 Reported-by: Peter LaDow <petela@gocougs.wsu.edu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- include/linux/netfilter/x_tables.h | 7 +++++++
- net/netfilter/core.c               | 6 ++++++
- 2 files changed, 13 insertions(+)
 
 diff --git a/include/linux/netfilter/x_tables.h b/include/linux/netfilter/x_tables.h
-index dd49566315c6..7d083af9ca38 100644
+index dd49566..7d083af 100644
 --- a/include/linux/netfilter/x_tables.h
 +++ b/include/linux/netfilter/x_tables.h
 @@ -3,6 +3,7 @@
@@ -56,7 +51,7 @@ index dd49566315c6..7d083af9ca38 100644
  
  /*
 diff --git a/net/netfilter/core.c b/net/netfilter/core.c
-index 593b16ea45e0..6bd22aaf1921 100644
+index 593b16e..6bd22aa 100644
 --- a/net/netfilter/core.c
 +++ b/net/netfilter/core.c
 @@ -21,11 +21,17 @@
@@ -78,5 +73,5 @@ index 593b16ea45e0..6bd22aaf1921 100644
  
  const struct nf_afinfo __rcu *nf_afinfo[NFPROTO_NUMPROTO] __read_mostly;
 -- 
-2.1.1
+2.1.0
 

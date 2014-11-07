@@ -1,7 +1,7 @@
-From 9fe6f2096ada4b0b95bf7e12890ee4370ed631f8 Mon Sep 17 00:00:00 2001
+From 9d365cd104f07625ba331d549be515f648a8030b Mon Sep 17 00:00:00 2001
 From: Mike Galbraith <efault@gmx.de>
 Date: Fri, 3 Jul 2009 08:44:12 -0500
-Subject: [PATCH 211/327] fs: ntfs: disable interrupt only on !RT
+Subject: [PATCH] fs: ntfs: disable interrupt only on !RT
 
 On Sat, 2007-10-27 at 11:44 +0200, Ingo Molnar wrote:
 > * Nick Piggin <nickpiggin@yahoo.com.au> wrote:
@@ -35,12 +35,9 @@ instead?
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- fs/ntfs/aops.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/fs/ntfs/aops.c b/fs/ntfs/aops.c
-index 98ec102466e7..33f0d869e9ff 100644
+index 98ec102..33f0d86 100644
 --- a/fs/ntfs/aops.c
 +++ b/fs/ntfs/aops.c
 @@ -144,13 +144,13 @@ static void ntfs_end_buffer_async_read(struct buffer_head *bh, int uptodate)
@@ -60,5 +57,5 @@ index 98ec102466e7..33f0d869e9ff 100644
  		if (likely(page_uptodate && !PageError(page)))
  			SetPageUptodate(page);
 -- 
-2.1.1
+2.1.0
 

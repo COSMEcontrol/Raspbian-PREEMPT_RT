@@ -1,16 +1,12 @@
-From 80bfea0b4cf527c528d9ffa053276e28388aaeb5 Mon Sep 17 00:00:00 2001
+From 2c440c54ae3528782ef3a0d9358d9ae600837895 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 31 May 2011 16:59:16 +0200
-Subject: [PATCH 125/327] sched-delay-put-task.patch
+Subject: [PATCH] sched-delay-put-task.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/sched.h | 13 +++++++++++++
- kernel/fork.c         | 15 ++++++++++++++-
- 2 files changed, 27 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 7818eb072f48..596c3bf459b9 100644
+index 7818eb0..596c3bf 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1439,6 +1439,9 @@ struct task_struct {
@@ -48,7 +44,7 @@ index 7818eb072f48..596c3bf459b9 100644
  #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
  extern void task_cputime(struct task_struct *t,
 diff --git a/kernel/fork.c b/kernel/fork.c
-index d3394e7ed458..209cb50041fc 100644
+index d3394e7..209cb50 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
 @@ -232,7 +232,9 @@ static inline void put_signal_struct(struct signal_struct *sig)
@@ -82,5 +78,5 @@ index d3394e7ed458..209cb50041fc 100644
  void __init __weak arch_task_cache_init(void) { }
  
 -- 
-2.1.1
+2.1.0
 

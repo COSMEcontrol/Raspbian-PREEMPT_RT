@@ -1,7 +1,7 @@
-From 9eefecf06afb411156349b2205e4c385bc57bc25 Mon Sep 17 00:00:00 2001
+From 6fc89b124c0f0efa3bc9cfa650f6d7631403fecf Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Tue, 25 Mar 2014 18:34:20 +0100
-Subject: [PATCH 086/327] net: gianfar: do not disable interrupts
+Subject: [PATCH] net: gianfar: do not disable interrupts
 
 each per-queue lock is taken with spin_lock_irqsave() except in the case
 where all of them are taken for some kind of serialisation. As an
@@ -16,14 +16,9 @@ lock_tx_qs() may cause a dead lock.
 
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/net/ethernet/freescale/gianfar.c         | 16 ++++++++--------
- drivers/net/ethernet/freescale/gianfar_ethtool.c |  8 ++++----
- drivers/net/ethernet/freescale/gianfar_sysfs.c   | 24 ++++++++++++------------
- 3 files changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/net/ethernet/freescale/gianfar.c b/drivers/net/ethernet/freescale/gianfar.c
-index de10ff3cf174..8f1afda669fa 100644
+index de10ff3..8f1afda 100644
 --- a/drivers/net/ethernet/freescale/gianfar.c
 +++ b/drivers/net/ethernet/freescale/gianfar.c
 @@ -1301,7 +1301,7 @@ static int gfar_suspend(struct device *dev)
@@ -98,7 +93,7 @@ index de10ff3cf174..8f1afda669fa 100644
  		netif_dbg(priv, tx_err, dev, "Transmit Error\n");
  	}
 diff --git a/drivers/net/ethernet/freescale/gianfar_ethtool.c b/drivers/net/ethernet/freescale/gianfar_ethtool.c
-index d3d7ede27ef1..95a1f62581ba 100644
+index d3d7ede..95a1f62 100644
 --- a/drivers/net/ethernet/freescale/gianfar_ethtool.c
 +++ b/drivers/net/ethernet/freescale/gianfar_ethtool.c
 @@ -501,7 +501,7 @@ static int gfar_sringparam(struct net_device *dev,
@@ -138,7 +133,7 @@ index d3d7ede27ef1..95a1f62581ba 100644
  		for (i = 0; i < priv->num_rx_queues; i++)
  			gfar_clean_rx_ring(priv->rx_queue[i],
 diff --git a/drivers/net/ethernet/freescale/gianfar_sysfs.c b/drivers/net/ethernet/freescale/gianfar_sysfs.c
-index acb55af7e3f3..f0160e67e004 100644
+index acb55af..f0160e67 100644
 --- a/drivers/net/ethernet/freescale/gianfar_sysfs.c
 +++ b/drivers/net/ethernet/freescale/gianfar_sysfs.c
 @@ -68,7 +68,7 @@ static ssize_t gfar_set_bd_stash(struct device *dev,
@@ -250,5 +245,5 @@ index acb55af7e3f3..f0160e67e004 100644
  	return count;
  }
 -- 
-2.1.1
+2.1.0
 

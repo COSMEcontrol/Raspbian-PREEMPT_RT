@@ -1,8 +1,7 @@
-From c8b4f7283a70788085fa7280a0ce973452d57a92 Mon Sep 17 00:00:00 2001
+From 8c4c09007ee534980f75b7ca451b88cb07f3642f Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Sat, 8 Feb 2014 12:39:20 +0100
-Subject: [PATCH 187/327] rt: Cleanup of unnecessary do while 0 in read/write
- _lock()
+Subject: [PATCH] rt: Cleanup of unnecessary do while 0 in read/write _lock()
 
 With the migration pushdonw a few of the do{ }while(0)
 loops became obsolete but got left over - this patch
@@ -12,12 +11,9 @@ Patch applies on top of 3.12.9-rt13
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/rwlock_rt.h | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
 
 diff --git a/include/linux/rwlock_rt.h b/include/linux/rwlock_rt.h
-index e85a5dfb1468..49ed2d45d3be 100644
+index e85a5df..49ed2d4 100644
 --- a/include/linux/rwlock_rt.h
 +++ b/include/linux/rwlock_rt.h
 @@ -42,10 +42,7 @@ extern void __rt_rwlock_init(rwlock_t *rwlock, char *name, struct lock_class_key
@@ -69,5 +65,5 @@ index e85a5dfb1468..49ed2d45d3be 100644
  #define write_unlock_bh(lock)				\
  	do {						\
 -- 
-2.1.1
+2.1.0
 

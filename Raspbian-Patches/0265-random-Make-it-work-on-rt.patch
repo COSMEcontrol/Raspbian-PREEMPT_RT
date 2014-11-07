@@ -1,7 +1,7 @@
-From c13ab686a2a0eaf3a19885b8b30c8b38301b1abe Mon Sep 17 00:00:00 2001
+From 1c085ff69e3e20506e097b680d5d3d26b561aed8 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 21 Aug 2012 20:38:50 +0200
-Subject: [PATCH 265/327] random: Make it work on rt
+Subject: [PATCH] random: Make it work on rt
 
 Delegate the random insertion to the forced threaded interrupt
 handler. Store the return IP of the hard interrupt handler in the irq
@@ -10,16 +10,9 @@ entropy.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- drivers/char/random.c   | 10 ++++++----
- include/linux/irqdesc.h |  1 +
- include/linux/random.h  |  2 +-
- kernel/irq/handle.c     |  8 +++++++-
- kernel/irq/manage.c     |  6 ++++++
- 5 files changed, 21 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/char/random.c b/drivers/char/random.c
-index 02172d2af49c..ddcbcadba0bd 100644
+index 02172d2..ddcbcad 100644
 --- a/drivers/char/random.c
 +++ b/drivers/char/random.c
 @@ -739,18 +739,16 @@ EXPORT_SYMBOL_GPL(add_input_randomness);
@@ -56,7 +49,7 @@ index 02172d2af49c..ddcbcadba0bd 100644
  	 * If we don't have a valid cycle counter, and we see
  	 * back-to-back timer interrupts, then skip giving credit for
 diff --git a/include/linux/irqdesc.h b/include/linux/irqdesc.h
-index a7b4b61fc026..6686311a9425 100644
+index a7b4b61..6686311 100644
 --- a/include/linux/irqdesc.h
 +++ b/include/linux/irqdesc.h
 @@ -56,6 +56,7 @@ struct irq_desc {
@@ -68,7 +61,7 @@ index a7b4b61fc026..6686311a9425 100644
  	struct cpumask		*percpu_enabled;
  #ifdef CONFIG_SMP
 diff --git a/include/linux/random.h b/include/linux/random.h
-index bf9085e89fb5..de4894a47274 100644
+index bf9085e..de4894a 100644
 --- a/include/linux/random.h
 +++ b/include/linux/random.h
 @@ -12,7 +12,7 @@
@@ -81,7 +74,7 @@ index bf9085e89fb5..de4894a47274 100644
  extern void get_random_bytes(void *buf, int nbytes);
  extern void get_random_bytes_arch(void *buf, int nbytes);
 diff --git a/kernel/irq/handle.c b/kernel/irq/handle.c
-index 131ca176b497..7f50c558e46b 100644
+index 131ca17..7f50c55 100644
 --- a/kernel/irq/handle.c
 +++ b/kernel/irq/handle.c
 @@ -132,6 +132,8 @@ static void irq_wake_thread(struct irq_desc *desc, struct irqaction *action)
@@ -107,7 +100,7 @@ index 131ca176b497..7f50c558e46b 100644
  	if (!noirqdebug)
  		note_interrupt(irq, desc, retval);
 diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 037d2cd99bb6..11be231e17fa 100644
+index 037d2cd..11be231 100644
 --- a/kernel/irq/manage.c
 +++ b/kernel/irq/manage.c
 @@ -942,6 +942,12 @@ static int irq_thread(void *data)
@@ -124,5 +117,5 @@ index 037d2cd99bb6..11be231e17fa 100644
  	}
  
 -- 
-2.1.1
+2.1.0
 

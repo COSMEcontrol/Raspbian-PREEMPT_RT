@@ -1,15 +1,12 @@
-From 755840ee1f983a02e548a9f833fc9dc531af8e05 Mon Sep 17 00:00:00 2001
+From 67d525416fdeb0571dd077c8acd87ec7bfc051fd Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 6 Jun 2011 12:12:51 +0200
-Subject: [PATCH 126/327] sched-limit-nr-migrate.patch
+Subject: [PATCH] sched-limit-nr-migrate.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index d9b6379b48e4..f382e71c336d 100644
+index d9b6379..f382e71 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -272,7 +272,11 @@ late_initcall(sched_init_debug);
@@ -25,5 +22,5 @@ index d9b6379b48e4..f382e71c336d 100644
  /*
   * period over which we average the RT time consumption, measured
 -- 
-2.1.1
+2.1.0
 

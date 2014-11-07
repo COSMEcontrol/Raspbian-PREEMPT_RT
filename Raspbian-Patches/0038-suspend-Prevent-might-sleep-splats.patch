@@ -1,7 +1,7 @@
-From 28adf390323abc67284eb5f140990f2be9882de7 Mon Sep 17 00:00:00 2001
+From 9cdb715d50ce31aef1b8c9cff7fd7d7874418d9e Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 15 Jul 2010 10:29:00 +0200
-Subject: [PATCH 038/327] suspend: Prevent might sleep splats
+Subject: [PATCH] suspend: Prevent might sleep splats
 
 timekeeping suspend/resume calls read_persistant_clock() which takes
 rtc_lock. That results in might sleep warnings because at that point
@@ -17,14 +17,9 @@ and restoring it to SYSTEM_RUNNING afer sysdev_resume().
 Needs to be revisited.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/kernel.h   | 1 +
- kernel/power/hibernate.c | 7 +++++++
- kernel/power/suspend.c   | 4 ++++
- 3 files changed, 12 insertions(+)
 
 diff --git a/include/linux/kernel.h b/include/linux/kernel.h
-index 672ddc4de4af..c34e608e0bb8 100644
+index 672ddc4..c34e608 100644
 --- a/include/linux/kernel.h
 +++ b/include/linux/kernel.h
 @@ -412,6 +412,7 @@ extern enum system_states {
@@ -36,7 +31,7 @@ index 672ddc4de4af..c34e608e0bb8 100644
  
  #define TAINT_PROPRIETARY_MODULE	0
 diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index 0121dab83f43..d26958bb7e21 100644
+index 0121dab..d26958b 100644
 --- a/kernel/power/hibernate.c
 +++ b/kernel/power/hibernate.c
 @@ -275,6 +275,8 @@ static int create_image(int platform_mode)
@@ -89,7 +84,7 @@ index 0121dab83f43..d26958bb7e21 100644
  	enable_nonboot_cpus();
  
 diff --git a/kernel/power/suspend.c b/kernel/power/suspend.c
-index 5455d5c3c149..c2372edf5857 100644
+index 5455d5c..c2372ed 100644
 --- a/kernel/power/suspend.c
 +++ b/kernel/power/suspend.c
 @@ -210,6 +210,8 @@ static int suspend_enter(suspend_state_t state, bool *wakeup)
@@ -111,5 +106,5 @@ index 5455d5c3c149..c2372edf5857 100644
  	BUG_ON(irqs_disabled());
  
 -- 
-2.1.1
+2.1.0
 

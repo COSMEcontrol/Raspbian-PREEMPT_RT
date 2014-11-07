@@ -1,7 +1,7 @@
-From 4ccbd03d7bb280a82eded6ca78206c417e42cf27 Mon Sep 17 00:00:00 2001
+From 3610388cb9ebe7d306fc8a9da668466fc90a4804 Mon Sep 17 00:00:00 2001
 From: John Stultz <johnstul@us.ibm.com>
 Date: Fri, 3 Jul 2009 08:29:58 -0500
-Subject: [PATCH 122/327] posix-timers: thread posix-cpu-timers on -rt
+Subject: [PATCH] posix-timers: thread posix-cpu-timers on -rt
 
 posix-cpu-timer code takes non -rt safe locks in hard irq
 context. Move it to a thread.
@@ -10,16 +10,9 @@ context. Move it to a thread.
 
 Signed-off-by: John Stultz <johnstul@us.ibm.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/init_task.h |   7 ++
- include/linux/sched.h     |   3 +
- init/main.c               |   3 +-
- kernel/fork.c             |   3 +
- kernel/posix-cpu-timers.c | 183 ++++++++++++++++++++++++++++++++++++++++++++--
- 5 files changed, 192 insertions(+), 7 deletions(-)
 
 diff --git a/include/linux/init_task.h b/include/linux/init_task.h
-index f23c8c9fac51..a85cceb9f833 100644
+index f23c8c9..a85cceb 100644
 --- a/include/linux/init_task.h
 +++ b/include/linux/init_task.h
 @@ -144,6 +144,12 @@ extern struct task_group root_task_group;
@@ -44,7 +37,7 @@ index f23c8c9fac51..a85cceb9f833 100644
  		[PIDTYPE_PID]  = INIT_PID_LINK(PIDTYPE_PID),		\
  		[PIDTYPE_PGID] = INIT_PID_LINK(PIDTYPE_PGID),		\
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 9f07cc1365f7..7818eb072f48 100644
+index 9f07cc1..7818eb0 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1183,6 +1183,9 @@ struct task_struct {
@@ -58,7 +51,7 @@ index 9f07cc1365f7..7818eb072f48 100644
  /* process credentials */
  	const struct cred __rcu *real_cred; /* objective and real subjective task
 diff --git a/init/main.c b/init/main.c
-index 181221865266..c755a57a170a 100644
+index 1812218..c755a57 100644
 --- a/init/main.c
 +++ b/init/main.c
 @@ -6,7 +6,7 @@
@@ -79,7 +72,7 @@ index 181221865266..c755a57a170a 100644
  #include <linux/context_tracking.h>
  #include <linux/random.h>
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 599033b525e8..d3394e7ed458 100644
+index 599033b..d3394e7 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
 @@ -1117,6 +1117,9 @@ void mm_init_owner(struct mm_struct *mm, struct task_struct *p)
@@ -93,7 +86,7 @@ index 599033b525e8..d3394e7ed458 100644
  	tsk->cputime_expires.virt_exp = 0;
  	tsk->cputime_expires.sched_exp = 0;
 diff --git a/kernel/posix-cpu-timers.c b/kernel/posix-cpu-timers.c
-index c7f31aa272f7..57ce5af8d9be 100644
+index c7f31aa..57ce5af 100644
 --- a/kernel/posix-cpu-timers.c
 +++ b/kernel/posix-cpu-timers.c
 @@ -3,6 +3,7 @@
@@ -329,5 +322,5 @@ index c7f31aa272f7..57ce5af8d9be 100644
   * Set one of the process-wide special case CPU timers or RLIMIT_CPU.
   * The tsk->sighand->siglock must be held by the caller.
 -- 
-2.1.1
+2.1.0
 

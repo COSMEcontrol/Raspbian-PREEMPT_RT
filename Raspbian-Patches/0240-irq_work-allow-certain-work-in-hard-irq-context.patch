@@ -1,7 +1,7 @@
-From 063dff2dfe69ffed55bb2f31b9dd36fb1e3b1812 Mon Sep 17 00:00:00 2001
+From ee07b523bf43282514cc99a50cc4c938b7fa4a20 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 31 Jan 2014 14:20:31 +0100
-Subject: [PATCH 240/327] irq_work: allow certain work in hard irq context
+Subject: [PATCH] irq_work: allow certain work in hard irq context
 
 irq_work is processed in softirq context on -RT because we want to avoid
 long latencies which might arise from processing lots of perf events.
@@ -19,17 +19,9 @@ superfluous because it is called from the timer interrupt which should
 invoke update_process_times().
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/powerpc/kernel/time.c |  2 +-
- arch/sparc/kernel/pcr.c    |  2 ++
- include/linux/irq_work.h   |  1 +
- kernel/irq_work.c          | 22 +++++++++++++++++++---
- kernel/time/tick-sched.c   |  1 +
- kernel/timer.c             |  2 +-
- 6 files changed, 25 insertions(+), 5 deletions(-)
 
 diff --git a/arch/powerpc/kernel/time.c b/arch/powerpc/kernel/time.c
-index 62e7f22e57d5..03cbe6f231dc 100644
+index 62e7f22..03cbe6f 100644
 --- a/arch/powerpc/kernel/time.c
 +++ b/arch/powerpc/kernel/time.c
 @@ -423,7 +423,7 @@ unsigned long profile_pc(struct pt_regs *regs)
@@ -42,7 +34,7 @@ index 62e7f22e57d5..03cbe6f231dc 100644
  /*
   * 64-bit uses a byte in the PACA, 32-bit uses a per-cpu variable...
 diff --git a/arch/sparc/kernel/pcr.c b/arch/sparc/kernel/pcr.c
-index 269af58497aa..dbb51a6441a6 100644
+index 269af58..dbb51a6 100644
 --- a/arch/sparc/kernel/pcr.c
 +++ b/arch/sparc/kernel/pcr.c
 @@ -43,10 +43,12 @@ void __irq_entry deferred_pcr_work_irq(int irq, struct pt_regs *regs)
@@ -59,7 +51,7 @@ index 269af58497aa..dbb51a6441a6 100644
  const struct pcr_ops *pcr_ops;
  EXPORT_SYMBOL_GPL(pcr_ops);
 diff --git a/include/linux/irq_work.h b/include/linux/irq_work.h
-index 66017028dcb3..60c19eeca9e0 100644
+index 6601702..60c19ee 100644
 --- a/include/linux/irq_work.h
 +++ b/include/linux/irq_work.h
 @@ -16,6 +16,7 @@
@@ -71,7 +63,7 @@ index 66017028dcb3..60c19eeca9e0 100644
  struct irq_work {
  	unsigned long flags;
 diff --git a/kernel/irq_work.c b/kernel/irq_work.c
-index f6e4377596f8..35d21f93bbe8 100644
+index f6e4377..35d21f9 100644
 --- a/kernel/irq_work.c
 +++ b/kernel/irq_work.c
 @@ -20,6 +20,9 @@
@@ -126,7 +118,7 @@ index f6e4377596f8..35d21f93bbe8 100644
  		return;
  
 diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-index 1fc0c9082ba4..ca2de823799b 100644
+index 1fc0c90..ca2de82 100644
 --- a/kernel/time/tick-sched.c
 +++ b/kernel/time/tick-sched.c
 @@ -221,6 +221,7 @@ static void nohz_full_kick_work_func(struct irq_work *work)
@@ -138,7 +130,7 @@ index 1fc0c9082ba4..ca2de823799b 100644
  
  /*
 diff --git a/kernel/timer.c b/kernel/timer.c
-index a85ac8f10de6..611a5973d9e1 100644
+index a85ac8f..611a597 100644
 --- a/kernel/timer.c
 +++ b/kernel/timer.c
 @@ -1425,7 +1425,7 @@ void update_process_times(int user_tick)
@@ -151,5 +143,5 @@ index a85ac8f10de6..611a5973d9e1 100644
  		irq_work_run();
  #endif
 -- 
-2.1.1
+2.1.0
 

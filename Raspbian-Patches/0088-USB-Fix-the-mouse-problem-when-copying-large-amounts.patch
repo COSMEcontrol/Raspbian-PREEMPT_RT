@@ -1,8 +1,7 @@
-From 6e88f8112e1073d54db255f2713cab78c962be7e Mon Sep 17 00:00:00 2001
+From 1f7bf93a6725cd4c338ff993dd2536a557229e2c Mon Sep 17 00:00:00 2001
 From: Wu Zhangjin <wuzj@lemote.com>
 Date: Mon, 4 Jan 2010 11:33:02 +0800
-Subject: [PATCH 088/327] USB: Fix the mouse problem when copying large amounts
- of data
+Subject: [PATCH] USB: Fix the mouse problem when copying large amounts of data
 
 When copying large amounts of data between the USB storage devices and
 the hard disk, the USB mouse will not work, this patch fixes it.
@@ -12,12 +11,9 @@ sure whether it is producible on other platforms]
 
 Signed-off-by: Hu Hongbing <huhb@lemote.com>
 Signed-off-by: Wu Zhangjin <wuzhangjin@gmail.com>
----
- drivers/usb/host/ohci-hcd.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
-index 3770fcb55e28..61acf4c1107f 100644
+index 3770fcb..61acf4c 100644
 --- a/drivers/usb/host/ohci-hcd.c
 +++ b/drivers/usb/host/ohci-hcd.c
 @@ -874,9 +874,13 @@ static irqreturn_t ohci_irq (struct usb_hcd *hcd)
@@ -38,5 +34,5 @@ index 3770fcb55e28..61acf4c1107f 100644
  
  	if (quirk_zfmicro(ohci) && (ints & OHCI_INTR_SF)) {
 -- 
-2.1.1
+2.1.0
 

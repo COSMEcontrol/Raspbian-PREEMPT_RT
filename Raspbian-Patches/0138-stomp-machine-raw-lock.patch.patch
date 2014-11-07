@@ -1,15 +1,12 @@
-From afd7227e6224d531d3553b82138c7208a8d642d4 Mon Sep 17 00:00:00 2001
+From 6848699ea37a5d10e25e277fc62f37f51a08f29c Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 29 Jun 2011 11:01:51 +0200
-Subject: [PATCH 138/327] stomp-machine-raw-lock.patch
+Subject: [PATCH] stomp-machine-raw-lock.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/stop_machine.c | 62 +++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 43 insertions(+), 19 deletions(-)
 
 diff --git a/kernel/stop_machine.c b/kernel/stop_machine.c
-index 51f808862d7b..bbdef5324410 100644
+index 51f8088..bbdef53 100644
 --- a/kernel/stop_machine.c
 +++ b/kernel/stop_machine.c
 @@ -29,12 +29,12 @@ struct cpu_stop_done {
@@ -187,5 +184,5 @@ index 51f808862d7b..bbdef5324410 100644
  
  	mutex_unlock(&stop_cpus_mutex);
 -- 
-2.1.1
+2.1.0
 

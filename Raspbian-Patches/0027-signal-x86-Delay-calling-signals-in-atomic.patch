@@ -1,7 +1,7 @@
-From 918cda7b4fcedfef0ec41e94ec565f742f7b947a Mon Sep 17 00:00:00 2001
+From 41a6dab2c6b1588b08111a6f9b4bcee7fc1008a0 Mon Sep 17 00:00:00 2001
 From: Oleg Nesterov <oleg@redhat.com>
 Date: Thu, 24 Apr 2014 21:44:43 -0400
-Subject: [PATCH 027/327] signal/x86: Delay calling signals in atomic
+Subject: [PATCH] signal/x86: Delay calling signals in atomic
 
 On x86_64 we must disable preemption before we enable interrupts
 for stack faults, int3 and debugging, because the current task is using
@@ -29,15 +29,9 @@ Cc: stable-rt@vger.kernel.org
 Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/x86/include/asm/signal.h | 13 +++++++++++++
- arch/x86/kernel/signal.c      |  8 ++++++++
- include/linux/sched.h         |  4 ++++
- kernel/signal.c               | 37 +++++++++++++++++++++++++++++++++++--
- 4 files changed, 60 insertions(+), 2 deletions(-)
 
 diff --git a/arch/x86/include/asm/signal.h b/arch/x86/include/asm/signal.h
-index 35e67a457182..6ec0792b3b9f 100644
+index 35e67a4..6ec0792 100644
 --- a/arch/x86/include/asm/signal.h
 +++ b/arch/x86/include/asm/signal.h
 @@ -23,6 +23,19 @@ typedef struct {
@@ -61,7 +55,7 @@ index 35e67a457182..6ec0792b3b9f 100644
  typedef sigset_t compat_sigset_t;
  #endif
 diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-index 9e5de6813e1f..ecfe089747d4 100644
+index 9e5de68..ecfe089 100644
 --- a/arch/x86/kernel/signal.c
 +++ b/arch/x86/kernel/signal.c
 @@ -739,6 +739,14 @@ do_notify_resume(struct pt_regs *regs, void *unused, __u32 thread_info_flags)
@@ -80,7 +74,7 @@ index 9e5de6813e1f..ecfe089747d4 100644
  		uprobe_notify_resume(regs);
  
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 77804704db5c..0ee7f3a9629f 100644
+index 7780470..0ee7f3a 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1218,6 +1218,10 @@ struct task_struct {
@@ -95,7 +89,7 @@ index 77804704db5c..0ee7f3a9629f 100644
  	unsigned long sas_ss_sp;
  	size_t sas_ss_size;
 diff --git a/kernel/signal.c b/kernel/signal.c
-index ed06b65822b0..e644f5054e58 100644
+index ed06b65..e644f50 100644
 --- a/kernel/signal.c
 +++ b/kernel/signal.c
 @@ -1305,8 +1305,8 @@ int do_send_sig_info(int sig, struct siginfo *info, struct task_struct *p,
@@ -150,5 +144,5 @@ index ed06b65822b0..e644f5054e58 100644
   * Nuke all other threads in the group.
   */
 -- 
-2.1.1
+2.1.0
 

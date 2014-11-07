@@ -1,19 +1,16 @@
-From a6a3daa1208e1934cda071baf58b2c51c6d0710e Mon Sep 17 00:00:00 2001
+From 0b807cb55fd1a71551aa20bf4af5117b05e284d4 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 2 May 2014 17:32:30 +0200
-Subject: [PATCH 322/327] Revert "migrate_disable pushd down in
+Subject: [PATCH] Revert "migrate_disable pushd down in
  atomic_dec_and_spin_lock"
 
 This reverts commit ff9c870c3e27d58c9512fad122e91436681fee5a.
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
----
- kernel/rtmutex.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/rtmutex.c b/kernel/rtmutex.c
-index c70436b0023a..5c70d7914f4d 100644
+index c70436b..5c70d79 100644
 --- a/kernel/rtmutex.c
 +++ b/kernel/rtmutex.c
 @@ -1091,12 +1091,12 @@ int atomic_dec_and_spin_lock(atomic_t *atomic, spinlock_t *lock)
@@ -33,5 +30,5 @@ index c70436b0023a..5c70d7914f4d 100644
  }
  EXPORT_SYMBOL(atomic_dec_and_spin_lock);
 -- 
-2.1.1
+2.1.0
 

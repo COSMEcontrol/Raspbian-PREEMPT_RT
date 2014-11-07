@@ -1,21 +1,16 @@
-From 489465844763436214ae207e30321179fae7f014 Mon Sep 17 00:00:00 2001
+From 5d53dcb78592bb224d87c5474bf036c4ea3856a2 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 11 Jan 2013 11:23:51 +0100
-Subject: [PATCH 314/327] completion: Use simple wait queues
+Subject: [PATCH] completion: Use simple wait queues
 
 Completions have no long lasting callbacks and therefor do not need
 the complex waitqueue variant. Use simple waitqueues which reduces the
 contention on the waitqueue lock.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/completion.h |  8 ++++----
- include/linux/uprobes.h    |  1 +
- kernel/sched/core.c        | 44 +++++++++++++++++++++++++-------------------
- 3 files changed, 30 insertions(+), 23 deletions(-)
 
 diff --git a/include/linux/completion.h b/include/linux/completion.h
-index 3cd574d5b19e..eb2d4ac3e022 100644
+index 3cd574d..eb2d4ac 100644
 --- a/include/linux/completion.h
 +++ b/include/linux/completion.h
 @@ -8,7 +8,7 @@
@@ -51,7 +46,7 @@ index 3cd574d5b19e..eb2d4ac3e022 100644
  
  extern void wait_for_completion(struct completion *);
 diff --git a/include/linux/uprobes.h b/include/linux/uprobes.h
-index 06f28beed7c2..d115f620831d 100644
+index 06f28be..d115f62 100644
 --- a/include/linux/uprobes.h
 +++ b/include/linux/uprobes.h
 @@ -26,6 +26,7 @@
@@ -63,7 +58,7 @@ index 06f28beed7c2..d115f620831d 100644
  struct vm_area_struct;
  struct mm_struct;
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 5ef3a68cd447..c8ce254e5887 100644
+index 5ef3a68..c8ce254 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2424,7 +2424,10 @@ void migrate_disable(void)
@@ -185,5 +180,5 @@ index 5ef3a68cd447..c8ce254e5887 100644
  }
  EXPORT_SYMBOL(completion_done);
 -- 
-2.1.1
+2.1.0
 

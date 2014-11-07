@@ -1,7 +1,7 @@
-From 3d54b32baac128e48337d05774c2b6094b1964af Mon Sep 17 00:00:00 2001
+From b092834aaacf083b9073da800508598f34c9ef60 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 4 Dec 2012 08:56:41 +0100
-Subject: [PATCH 015/327] sched: Queue RT tasks to head when prio drops
+Subject: [PATCH] sched: Queue RT tasks to head when prio drops
 
 The following scenario does not work correctly:
 
@@ -45,12 +45,9 @@ case nature of the application scenario.
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable@vger.kernel.org
 Cc: stable-rt@vger.kernel.org
----
- kernel/sched/core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 048edc742b2b..cc062a708ce0 100644
+index 048edc7..cc062a7 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -3438,8 +3438,13 @@ recheck:
@@ -70,5 +67,5 @@ index 048edc742b2b..cc062a708ce0 100644
  	check_class_changed(rq, p, prev_class, oldprio);
  	task_rq_unlock(rq, p, &flags);
 -- 
-2.1.1
+2.1.0
 

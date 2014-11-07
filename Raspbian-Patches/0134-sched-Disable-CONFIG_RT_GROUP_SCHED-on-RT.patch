@@ -1,7 +1,7 @@
-From 5d5d64dd12b716016ca8ad2e0fb8e40916b00148 Mon Sep 17 00:00:00 2001
+From 3fe4319c408b0733f2eb7546348494c267e01b86 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 18 Jul 2011 17:03:52 +0200
-Subject: [PATCH 134/327] sched: Disable CONFIG_RT_GROUP_SCHED on RT
+Subject: [PATCH] sched: Disable CONFIG_RT_GROUP_SCHED on RT
 
 Carsten reported problems when running:
 
@@ -13,12 +13,9 @@ rt_throttled=1 which does not go away. Works nice from a ssh login
 shell. Disabling CONFIG_RT_GROUP_SCHED solves that as well.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- init/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
 
 diff --git a/init/Kconfig b/init/Kconfig
-index 65c00805d726..1963554b0e9c 100644
+index 65c0080..1963554 100644
 --- a/init/Kconfig
 +++ b/init/Kconfig
 @@ -1042,6 +1042,7 @@ config CFS_BANDWIDTH
@@ -30,5 +27,5 @@ index 65c00805d726..1963554b0e9c 100644
  	help
  	  This feature lets you explicitly allocate real CPU bandwidth
 -- 
-2.1.1
+2.1.0
 

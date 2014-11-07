@@ -1,15 +1,12 @@
-From a8fe41f14f6274eecb083986475d1df7a4ac337d Mon Sep 17 00:00:00 2001
+From ba22ced239efcce27cf5c5dfd69a03b62e4450c2 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 24 Jun 2011 18:40:37 +0200
-Subject: [PATCH 089/327] local-var.patch
+Subject: [PATCH] local-var.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/percpu.h | 5 +++++
- 1 file changed, 5 insertions(+)
 
 diff --git a/include/linux/percpu.h b/include/linux/percpu.h
-index c74088ab103b..d27360408b97 100644
+index c74088a..d273604 100644
 --- a/include/linux/percpu.h
 +++ b/include/linux/percpu.h
 @@ -48,6 +48,11 @@
@@ -25,5 +22,5 @@ index c74088ab103b..d27360408b97 100644
  #define PCPU_MIN_UNIT_SIZE		PFN_ALIGN(32 << 10)
  
 -- 
-2.1.1
+2.1.0
 

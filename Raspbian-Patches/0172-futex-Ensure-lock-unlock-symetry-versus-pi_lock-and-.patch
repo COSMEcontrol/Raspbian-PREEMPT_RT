@@ -1,8 +1,8 @@
-From 39a9b6aa09a7b75995c9f8ebfc574848a7e01eaf Mon Sep 17 00:00:00 2001
+From b7cc5191e69085ce602cb74dabf825b68c94c0f3 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 1 Mar 2013 11:17:42 +0100
-Subject: [PATCH 172/327] futex: Ensure lock/unlock symetry versus pi_lock and
- hash bucket lock
+Subject: [PATCH] futex: Ensure lock/unlock symetry versus pi_lock and hash
+ bucket lock
 
 In exit_pi_state_list() we have the following locking construct:
 
@@ -26,12 +26,9 @@ head again under the pi_lock.
 Reported-by: Yong Zhang <yong.zhang@windriver.com>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/futex.c | 2 ++
- 1 file changed, 2 insertions(+)
 
 diff --git a/kernel/futex.c b/kernel/futex.c
-index d13796124f99..f7546a92b4a4 100644
+index d137961..f7546a9 100644
 --- a/kernel/futex.c
 +++ b/kernel/futex.c
 @@ -575,7 +575,9 @@ void exit_pi_state_list(struct task_struct *curr)
@@ -45,5 +42,5 @@ index d13796124f99..f7546a92b4a4 100644
  		}
  
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From f173d16938a6466484a3dff5ad473e111948da00 Mon Sep 17 00:00:00 2001
+From 8963918a2f187bc8beaf89ec606ab17bdbb8ead9 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 13 Dec 2011 21:42:19 +0100
-Subject: [PATCH 135/327] sched: ttwu: Return success when only changing the
+Subject: [PATCH] sched: ttwu: Return success when only changing the
  saved_state value
 
 When a task blocks on a rt lock, it saves the current state in
@@ -16,12 +16,9 @@ that case as well.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: stable-rt@vger.kernel.org
----
- kernel/sched/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 29ec887da85f..8f1e42ee595a 100644
+index 29ec887..8f1e42e 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -1511,8 +1511,10 @@ try_to_wake_up(struct task_struct *p, unsigned int state, int wake_flags)
@@ -37,5 +34,5 @@ index 29ec887da85f..8f1e42ee595a 100644
  		goto out;
  	}
 -- 
-2.1.1
+2.1.0
 

@@ -1,15 +1,12 @@
-From 52a42d497baa530c7cf125bec5c83ada9f978466 Mon Sep 17 00:00:00 2001
+From 5eb58a69d32e8b706119a34192fae7a62e185cc0 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 21 Jul 2011 16:47:49 +0200
-Subject: [PATCH 095/327] mm-page-alloc-fix.patch
+Subject: [PATCH] mm-page-alloc-fix.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- mm/page_alloc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index f2424f4bb710..c2c38f7d8910 100644
+index f2424f4..c2c38f7 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
 @@ -2370,8 +2370,8 @@ __alloc_pages_direct_compact(gfp_t gfp_mask, unsigned int order,
@@ -24,5 +21,5 @@ index f2424f4bb710..c2c38f7d8910 100644
  		page = get_page_from_freelist(gfp_mask, nodemask,
  				order, zonelist, high_zoneidx,
 -- 
-2.1.1
+2.1.0
 

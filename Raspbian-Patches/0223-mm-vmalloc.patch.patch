@@ -1,15 +1,12 @@
-From 55c7374fbd2217638d80d916b4a435ffeee587b9 Mon Sep 17 00:00:00 2001
+From dde6c4aa5a785cd52194e648d8be4cb3c2d898e7 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 12 Jul 2011 11:39:36 +0200
-Subject: [PATCH 223/327] mm-vmalloc.patch
+Subject: [PATCH] mm-vmalloc.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- mm/vmalloc.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 060dc366ac44..83e33b8c2178 100644
+index 060dc36..83e33b8 100644
 --- a/mm/vmalloc.c
 +++ b/mm/vmalloc.c
 @@ -796,7 +796,7 @@ static struct vmap_block *new_vmap_block(gfp_t gfp_mask)
@@ -64,5 +61,5 @@ index 060dc366ac44..83e33b8c2178 100644
  
  	if (!addr) {
 -- 
-2.1.1
+2.1.0
 

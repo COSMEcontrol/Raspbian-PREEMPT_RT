@@ -1,8 +1,8 @@
-From e1096842305b11f085c414f4b8f2fee8b4710cc1 Mon Sep 17 00:00:00 2001
+From e10f09a37efee637e761c2faa47f5e0a40dd58c1 Mon Sep 17 00:00:00 2001
 From: Ben Hutchings <ben@decadent.org.uk>
 Date: Sat, 28 Jun 2014 23:34:48 +0100
-Subject: [PATCH 324/327] Fix latency histogram after "hrtimer: Set expiry time
- before switch_hrtimer_base()"
+Subject: [PATCH] Fix latency histogram after "hrtimer: Set expiry time before
+ switch_hrtimer_base()"
 
 In an rt-kernel with CONFIG_MISSED_TIMER_OFFSETS_HIST enabled,
 __hrtimer_start_range_ns() now crashes, as new_base is not assigned
@@ -12,12 +12,9 @@ Tested-by: Carsten Emde <C.Emde@osadl.org>
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
----
- kernel/hrtimer.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/kernel/hrtimer.c b/kernel/hrtimer.c
-index bc0e47dc0a05..c967b718ab37 100644
+index bc0e47d..c967b71 100644
 --- a/kernel/hrtimer.c
 +++ b/kernel/hrtimer.c
 @@ -1105,6 +1105,11 @@ int __hrtimer_start_range_ns(struct hrtimer *timer, ktime_t tim,
@@ -45,5 +42,5 @@ index bc0e47dc0a05..c967b718ab37 100644
  
  	leftmost = enqueue_hrtimer(timer, new_base);
 -- 
-2.1.1
+2.1.0
 

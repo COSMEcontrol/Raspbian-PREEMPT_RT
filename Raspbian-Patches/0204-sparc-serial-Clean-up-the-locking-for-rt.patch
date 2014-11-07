@@ -1,19 +1,13 @@
-From 392fa77d4e2260b32244e29e86749be5e8bf9ae8 Mon Sep 17 00:00:00 2001
+From 8206c87d7bca8bdf602a8f719f5ce44076e4d8b1 Mon Sep 17 00:00:00 2001
 From: David Miller <davem@davemloft.net>
 Date: Tue, 4 Mar 2014 20:28:35 +0000
-Subject: [PATCH 204/327] sparc: serial: Clean up the locking for -rt
+Subject: [PATCH] sparc: serial: Clean up the locking for -rt
 
 Signed-off-by: David S. Miller <davem@davemloft.net>
 Tested-by: Allen Pais <allen.pais@oracle.com>
----
- drivers/tty/serial/sunhv.c    | 22 ++++++++++------------
- drivers/tty/serial/sunsab.c   | 14 +++++---------
- drivers/tty/serial/sunsu.c    | 14 +++++---------
- drivers/tty/serial/sunzilog.c | 14 +++++---------
- 4 files changed, 25 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/tty/serial/sunhv.c b/drivers/tty/serial/sunhv.c
-index cf86e729532b..dc697cee248a 100644
+index cf86e72..dc697ce 100644
 --- a/drivers/tty/serial/sunhv.c
 +++ b/drivers/tty/serial/sunhv.c
 @@ -433,13 +433,10 @@ static void sunhv_console_write_paged(struct console *con, const char *s, unsign
@@ -67,7 +61,7 @@ index cf86e729532b..dc697cee248a 100644
  
  static struct console sunhv_console = {
 diff --git a/drivers/tty/serial/sunsab.c b/drivers/tty/serial/sunsab.c
-index 09c86720cb03..d1773b0205a5 100644
+index 09c8672..d1773b0 100644
 --- a/drivers/tty/serial/sunsab.c
 +++ b/drivers/tty/serial/sunsab.c
 @@ -853,20 +853,16 @@ static void sunsab_console_write(struct console *con, const char *s, unsigned n)
@@ -97,7 +91,7 @@ index 09c86720cb03..d1773b0205a5 100644
  
  static int sunsab_console_setup(struct console *con, char *options)
 diff --git a/drivers/tty/serial/sunsu.c b/drivers/tty/serial/sunsu.c
-index c41a5b8b717f..3079c75d65f9 100644
+index c41a5b8..3079c75 100644
 --- a/drivers/tty/serial/sunsu.c
 +++ b/drivers/tty/serial/sunsu.c
 @@ -1295,13 +1295,10 @@ static void sunsu_console_write(struct console *co, const char *s,
@@ -129,7 +123,7 @@ index c41a5b8b717f..3079c75d65f9 100644
  
  /*
 diff --git a/drivers/tty/serial/sunzilog.c b/drivers/tty/serial/sunzilog.c
-index ed92578eba4e..e7e0aadf8517 100644
+index ed92578..e7e0aad 100644
 --- a/drivers/tty/serial/sunzilog.c
 +++ b/drivers/tty/serial/sunzilog.c
 @@ -1195,20 +1195,16 @@ sunzilog_console_write(struct console *con, const char *s, unsigned int count)
@@ -159,5 +153,5 @@ index ed92578eba4e..e7e0aadf8517 100644
  
  static int __init sunzilog_console_setup(struct console *con, char *options)
 -- 
-2.1.1
+2.1.0
 

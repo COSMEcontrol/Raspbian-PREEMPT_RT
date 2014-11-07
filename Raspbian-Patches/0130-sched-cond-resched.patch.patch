@@ -1,15 +1,12 @@
-From 2af959c231daf5fa7e0cb248594d74d20ac7b29b Mon Sep 17 00:00:00 2001
+From b433076cb16214370dcadde728b0ec229b51ebbd Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 7 Jun 2011 11:25:03 +0200
-Subject: [PATCH 130/327] sched-cond-resched.patch
+Subject: [PATCH] sched-cond-resched.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index fac1bd364ac6..5f1e7c6fee59 100644
+index fac1bd3..5f1e7c6 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -3903,9 +3903,17 @@ static inline int should_resched(void)
@@ -34,5 +31,5 @@ index fac1bd364ac6..5f1e7c6fee59 100644
  
  int __sched _cond_resched(void)
 -- 
-2.1.1
+2.1.0
 

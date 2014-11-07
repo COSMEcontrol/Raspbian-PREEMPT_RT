@@ -1,7 +1,7 @@
-From 6afb0316d03739dba4362da2b71542a181195a17 Mon Sep 17 00:00:00 2001
+From f1c0aae8c25beed4e33cd0bb25906eb7c8a2412d Mon Sep 17 00:00:00 2001
 From: John Kacur <jkacur@redhat.com>
 Date: Mon, 19 Sep 2011 11:09:27 +0200
-Subject: [PATCH 191/327] rwlocks: Fix section mismatch
+Subject: [PATCH] rwlocks: Fix section mismatch
 
 This fixes the following build error for the preempt-rt kernel.
 
@@ -29,13 +29,9 @@ Signed-off-by: John Kacur <jkacur@redhat.com>
 Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Link: http://lkml.kernel.org/r/alpine.LFD.2.00.1109191104010.23118@localhost6.localdomain6
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/rwlock_types.h | 3 ++-
- kernel/fork.c                | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/include/linux/rwlock_types.h b/include/linux/rwlock_types.h
-index 5317cd957292..d0da966ad7a0 100644
+index 5317cd9..d0da966 100644
 --- a/include/linux/rwlock_types.h
 +++ b/include/linux/rwlock_types.h
 @@ -47,6 +47,7 @@ typedef struct {
@@ -48,7 +44,7 @@ index 5317cd957292..d0da966ad7a0 100644
  
  #endif /* __LINUX_RWLOCK_TYPES_H */
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 2d3f90bebb10..b16bb052fcdd 100644
+index 2d3f90b..b16bb05 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
 @@ -96,7 +96,7 @@ int max_threads;		/* tunable limit on nr_threads */
@@ -70,5 +66,5 @@ index 2d3f90bebb10..b16bb052fcdd 100644
  }
  #endif
 -- 
-2.1.1
+2.1.0
 

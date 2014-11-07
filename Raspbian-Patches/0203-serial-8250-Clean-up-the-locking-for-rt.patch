@@ -1,7 +1,7 @@
-From 6b283a27dba8e2e19fb33465e09253200a7525fe Mon Sep 17 00:00:00 2001
+From 78759deaf80661a72587c71f4f2794c068244ae3 Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:30:01 -0500
-Subject: [PATCH 203/327] serial: 8250: Clean up the locking for -rt
+Subject: [PATCH] serial: 8250: Clean up the locking for -rt
 
 In -RT the spin_lock_irqsave() does not spin but sleep if the lock is
 taken. Before that, local_irq_save() is invoked which disables
@@ -18,12 +18,9 @@ Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 [bigeasy: add a patch description]
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/tty/serial/8250/8250_core.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
-index 04c8772639d3..301ddc27d944 100644
+index 04c8772..301ddc2 100644
 --- a/drivers/tty/serial/8250/8250_core.c
 +++ b/drivers/tty/serial/8250/8250_core.c
 @@ -2864,14 +2864,10 @@ serial8250_console_write(struct console *co, const char *s, unsigned int count)
@@ -56,5 +53,5 @@ index 04c8772639d3..301ddc27d944 100644
  
  static int __init serial8250_console_setup(struct console *co, char *options)
 -- 
-2.1.1
+2.1.0
 

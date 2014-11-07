@@ -1,15 +1,12 @@
-From 46ef4cda4fdb867fabfe55cf54078607a5d8df8d Mon Sep 17 00:00:00 2001
+From cd26ffef1edad5a03c943abe20c6dd6bc576fe7d Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <peterz@infradead.org>
 Date: Tue, 21 Jun 2011 11:24:35 +0200
-Subject: [PATCH 040/327] mm-page-alloc-use-list-last-entry.patch
+Subject: [PATCH] mm-page-alloc-use-list-last-entry.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- mm/page_alloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 2f91223dbe93..d8e96d172037 100644
+index 2f91223..d8e96d1 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
 @@ -696,7 +696,7 @@ static void free_pcppages_bulk(struct zone *zone, int count,
@@ -22,5 +19,5 @@ index 2f91223dbe93..d8e96d172037 100644
  			list_del(&page->lru);
  			mt = get_freepage_migratetype(page);
 -- 
-2.1.1
+2.1.0
 

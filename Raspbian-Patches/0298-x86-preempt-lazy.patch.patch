@@ -1,19 +1,12 @@
-From fe6469124e4556acda68dbbd74b1186ec2177c3b Mon Sep 17 00:00:00 2001
+From 03c681ad2c27d74e10e99b5c39991a2f2f5d1e53 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Thu, 1 Nov 2012 11:03:47 +0100
-Subject: [PATCH 298/327] x86-preempt-lazy.patch
+Subject: [PATCH] x86-preempt-lazy.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/x86/Kconfig                   |  1 +
- arch/x86/include/asm/thread_info.h |  6 ++++++
- arch/x86/kernel/asm-offsets.c      |  1 +
- arch/x86/kernel/entry_32.S         | 18 +++++++++++++-----
- arch/x86/kernel/entry_64.S         | 24 +++++++++++++++---------
- 5 files changed, 36 insertions(+), 14 deletions(-)
 
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 2d24349ea3a9..6905f86cf858 100644
+index 2d24349..6905f86 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
 @@ -21,6 +21,7 @@ config X86_64
@@ -25,7 +18,7 @@ index 2d24349ea3a9..6905f86cf858 100644
  	select HAVE_AOUT if X86_32
  	select HAVE_UNSTABLE_SCHED_CLOCK
 diff --git a/arch/x86/include/asm/thread_info.h b/arch/x86/include/asm/thread_info.h
-index 27811190cbd7..f08e5277884d 100644
+index 2781119..f08e527 100644
 --- a/arch/x86/include/asm/thread_info.h
 +++ b/arch/x86/include/asm/thread_info.h
 @@ -30,6 +30,8 @@ struct thread_info {
@@ -63,7 +56,7 @@ index 27811190cbd7..f08e5277884d 100644
  
  #ifdef CONFIG_X86_32
 diff --git a/arch/x86/kernel/asm-offsets.c b/arch/x86/kernel/asm-offsets.c
-index 28610822fb3c..a36d9cfb71ea 100644
+index 2861082..a36d9cf 100644
 --- a/arch/x86/kernel/asm-offsets.c
 +++ b/arch/x86/kernel/asm-offsets.c
 @@ -33,6 +33,7 @@ void common(void) {
@@ -75,7 +68,7 @@ index 28610822fb3c..a36d9cfb71ea 100644
  	BLANK();
  	OFFSET(crypto_tfm_ctx_offset, crypto_tfm, __crt_ctx);
 diff --git a/arch/x86/kernel/entry_32.S b/arch/x86/kernel/entry_32.S
-index 1f1c33d0a13c..3e617f12bf6c 100644
+index 1f1c33d..3e617f1 100644
 --- a/arch/x86/kernel/entry_32.S
 +++ b/arch/x86/kernel/entry_32.S
 @@ -364,14 +364,22 @@ ENTRY(resume_kernel)
@@ -123,7 +116,7 @@ index 1f1c33d0a13c..3e617f12bf6c 100644
  
  work_notifysig:				# deal with pending signals and
 diff --git a/arch/x86/kernel/entry_64.S b/arch/x86/kernel/entry_64.S
-index b088be482f54..f2d56aae892d 100644
+index b088be4..f2d56aa 100644
 --- a/arch/x86/kernel/entry_64.S
 +++ b/arch/x86/kernel/entry_64.S
 @@ -659,8 +659,8 @@ sysret_check:
@@ -187,5 +180,5 @@ index b088be482f54..f2d56aae892d 100644
  	movl %ebx,%edx			/* arg3: thread flags */
  	TRACE_IRQS_ON
 -- 
-2.1.1
+2.1.0
 

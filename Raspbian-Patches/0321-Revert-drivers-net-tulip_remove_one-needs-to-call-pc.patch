@@ -1,7 +1,7 @@
-From 72c2b069016ed7dd47b7dab12f7ab1f43a8981e2 Mon Sep 17 00:00:00 2001
+From f58f08741356fc98a3a47099f39b40de74231310 Mon Sep 17 00:00:00 2001
 From: "Steven Rostedt (Red Hat)" <rostedt@goodmis.org>
 Date: Thu, 19 Jun 2014 09:40:09 -0400
-Subject: [PATCH 321/327] Revert "drivers/net: tulip_remove_one needs to call
+Subject: [PATCH] Revert "drivers/net: tulip_remove_one needs to call
  pci_disable_device()"
 
 This reverts commit 4a77edc195f0b03644e84dda00fcfe9827868e8e.
@@ -16,12 +16,9 @@ Link: http://lkml.kernel.org/r/1403149603.5189.10.camel@marge.simpson.net
 
 Reported-by: Mike Galbraith <umgwanakikbuti@gmail.com>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
----
- drivers/net/ethernet/dec/tulip/tulip_core.c | 1 -
- 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/dec/tulip/tulip_core.c b/drivers/net/ethernet/dec/tulip/tulip_core.c
-index a6d4653ebbc3..779016068a82 100644
+index a6d4653..7790160 100644
 --- a/drivers/net/ethernet/dec/tulip/tulip_core.c
 +++ b/drivers/net/ethernet/dec/tulip/tulip_core.c
 @@ -1939,7 +1939,6 @@ static void tulip_remove_one(struct pci_dev *pdev)
@@ -33,5 +30,5 @@ index a6d4653ebbc3..779016068a82 100644
  	pci_disable_device(pdev);
  
 -- 
-2.1.1
+2.1.0
 

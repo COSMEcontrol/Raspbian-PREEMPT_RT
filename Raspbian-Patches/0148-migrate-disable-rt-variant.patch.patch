@@ -1,15 +1,12 @@
-From 6b80a82e111494f4ba3ae51cde12267523da869c Mon Sep 17 00:00:00 2001
+From a5ef5fc1f4a52002f9e263e03f31e109c00f65f9 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 17 Jul 2011 19:48:20 +0200
-Subject: [PATCH 148/327] migrate-disable-rt-variant.patch
+Subject: [PATCH] migrate-disable-rt-variant.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/preempt.h | 4 ++++
- 1 file changed, 4 insertions(+)
 
 diff --git a/include/linux/preempt.h b/include/linux/preempt.h
-index fbf934b0d06d..f906defc9b4c 100644
+index fbf934b..f906def 100644
 --- a/include/linux/preempt.h
 +++ b/include/linux/preempt.h
 @@ -143,11 +143,15 @@ extern void migrate_enable(void);
@@ -29,5 +26,5 @@ index fbf934b0d06d..f906defc9b4c 100644
  
  #ifdef CONFIG_PREEMPT_NOTIFIERS
 -- 
-2.1.1
+2.1.0
 

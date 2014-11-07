@@ -1,8 +1,7 @@
-From ae15d919318bda8a816dbf3241d7723ecd8f0c41 Mon Sep 17 00:00:00 2001
+From 798817bda62033a4ae3ad427b4975a6b07c40079 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 3 Jul 2009 08:44:31 -0500
-Subject: [PATCH 118/327] hrtimer: fixup hrtimer callback changes for
- preempt-rt
+Subject: [PATCH] hrtimer: fixup hrtimer callback changes for preempt-rt
 
 In preempt-rt we can not call the callbacks which take sleeping locks
 from the timer interrupt context.
@@ -12,17 +11,9 @@ delivery problem for real.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
----
- include/linux/hrtimer.h  |   3 +
- kernel/hrtimer.c         | 216 +++++++++++++++++++++++++++++++++++++++++------
- kernel/sched/core.c      |   1 +
- kernel/sched/rt.c        |   1 +
- kernel/time/tick-sched.c |   1 +
- kernel/watchdog.c        |   1 +
- 6 files changed, 195 insertions(+), 28 deletions(-)
 
 diff --git a/include/linux/hrtimer.h b/include/linux/hrtimer.h
-index 7bd7d734f4d1..79a7a35e1a6e 100644
+index 7bd7d73..79a7a35 100644
 --- a/include/linux/hrtimer.h
 +++ b/include/linux/hrtimer.h
 @@ -111,6 +111,8 @@ struct hrtimer {
@@ -43,7 +34,7 @@ index 7bd7d734f4d1..79a7a35e1a6e 100644
  	ktime_t			(*get_time)(void);
  	ktime_t			softirq_time;
 diff --git a/kernel/hrtimer.c b/kernel/hrtimer.c
-index f79750242ec8..fc88f2a8ed61 100644
+index f797502..fc88f2a 100644
 --- a/kernel/hrtimer.c
 +++ b/kernel/hrtimer.c
 @@ -630,8 +630,7 @@ static int hrtimer_reprogram(struct hrtimer *timer,
@@ -416,7 +407,7 @@ index f79750242ec8..fc88f2a8ed61 100644
  
  /**
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index ae6b2324f9f3..d9b6379b48e4 100644
+index ae6b232..d9b6379 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -491,6 +491,7 @@ static void init_rq_hrtick(struct rq *rq)
@@ -428,7 +419,7 @@ index ae6b2324f9f3..d9b6379b48e4 100644
  #else	/* CONFIG_SCHED_HRTICK */
  static inline void hrtick_clear(struct rq *rq)
 diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index e849d4070c7f..eebb35e49683 100644
+index e849d40..eebb35e 100644
 --- a/kernel/sched/rt.c
 +++ b/kernel/sched/rt.c
 @@ -43,6 +43,7 @@ void init_rt_bandwidth(struct rt_bandwidth *rt_b, u64 period, u64 runtime)
@@ -440,7 +431,7 @@ index e849d4070c7f..eebb35e49683 100644
  }
  
 diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
-index f42b109c7533..001b83155118 100644
+index f42b109..001b831 100644
 --- a/kernel/time/tick-sched.c
 +++ b/kernel/time/tick-sched.c
 @@ -1116,6 +1116,7 @@ void tick_setup_sched_timer(void)
@@ -452,7 +443,7 @@ index f42b109c7533..001b83155118 100644
  
  	/* Get the next period (per cpu) */
 diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index cbad09126b6e..870b748cc09a 100644
+index cbad091..870b748 100644
 --- a/kernel/watchdog.c
 +++ b/kernel/watchdog.c
 @@ -357,6 +357,7 @@ static void watchdog_enable(unsigned int cpu)
@@ -464,5 +455,5 @@ index cbad09126b6e..870b748cc09a 100644
  	/* Enable the perf event */
  	watchdog_nmi_enable(cpu);
 -- 
-2.1.1
+2.1.0
 

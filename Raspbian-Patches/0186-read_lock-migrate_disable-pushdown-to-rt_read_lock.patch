@@ -1,7 +1,7 @@
-From 893b161bf3f1958d52ca92d0d246f2e699b5bd46 Mon Sep 17 00:00:00 2001
+From faca128618fd6d96a64c4bb78c4192b4d9bf47d1 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Thu, 2 Jan 2014 10:19:15 +0100
-Subject: [PATCH 186/327] read_lock migrate_disable pushdown to rt_read_lock
+Subject: [PATCH] read_lock migrate_disable pushdown to rt_read_lock
 
 pushdown of migrate_disable/enable from read_*lock* to the rt_read_*lock*
 api level
@@ -68,13 +68,9 @@ regards to api inbalances (read_lock_bh -> read_unlock+local_bh_enable)
 Tested-by: Carsten Emde <C.Emde@osadl.org>
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/rwlock_rt.h |  6 ------
- kernel/rt.c               | 20 +++++++++++++-------
- 2 files changed, 13 insertions(+), 13 deletions(-)
 
 diff --git a/include/linux/rwlock_rt.h b/include/linux/rwlock_rt.h
-index a276fae2740a..e85a5dfb1468 100644
+index a276fae..e85a5df 100644
 --- a/include/linux/rwlock_rt.h
 +++ b/include/linux/rwlock_rt.h
 @@ -33,7 +33,6 @@ extern void __rt_rwlock_init(rwlock_t *rwlock, char *name, struct lock_class_key
@@ -123,7 +119,7 @@ index a276fae2740a..e85a5dfb1468 100644
  
  #define write_unlock_irqrestore(lock, flags) \
 diff --git a/kernel/rt.c b/kernel/rt.c
-index d7129681f661..a9925c67e603 100644
+index d712968..a9925c6 100644
 --- a/kernel/rt.c
 +++ b/kernel/rt.c
 @@ -211,17 +211,19 @@ int __lockfunc rt_read_trylock(rwlock_t *rwlock)
@@ -176,5 +172,5 @@ index d7129681f661..a9925c67e603 100644
  EXPORT_SYMBOL(rt_read_unlock);
  
 -- 
-2.1.1
+2.1.0
 

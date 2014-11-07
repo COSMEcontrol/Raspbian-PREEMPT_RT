@@ -1,8 +1,8 @@
-From 6e73daae63097189149befebe31e702df2379a5d Mon Sep 17 00:00:00 2001
+From a9b16e6b3ed72b285e6898701a7373cbfc1f9377 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 7 Jun 2013 22:37:06 +0200
-Subject: [PATCH 271/327] kernel/cpu: fix cpu down problem if kthread's cpu is
- going down
+Subject: [PATCH] kernel/cpu: fix cpu down problem if kthread's cpu is going
+ down
 
 If kthread is pinned to CPUx and CPUx is going down then we get into
 trouble:
@@ -22,12 +22,9 @@ So instead the unplug thread is started and kept waiting until the
 notfier complete their work.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/cpu.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/cpu.c b/kernel/cpu.c
-index fdb400e117a6..57ff83e38b42 100644
+index fdb400e..57ff83e 100644
 --- a/kernel/cpu.c
 +++ b/kernel/cpu.c
 @@ -83,6 +83,7 @@ struct hotplug_pcp {
@@ -89,5 +86,5 @@ index fdb400e117a6..57ff83e38b42 100644
  
  	/* Notifiers are done. Don't let any more tasks pin this CPU. */
 -- 
-2.1.1
+2.1.0
 

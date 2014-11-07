@@ -1,8 +1,7 @@
-From 98466c7af3095bdafabc923957d15b3c17031041 Mon Sep 17 00:00:00 2001
+From f819093ef795660bc0a4e05109a8fcb76267d456 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Fri, 17 Jan 2014 20:44:03 +0100
-Subject: [PATCH 291/327] API cleanup - use local_lock not __local_lock for
- soft
+Subject: [PATCH] API cleanup - use local_lock not __local_lock for soft
 
 trivial API cleanup - kernel/softirq.c was mimiking local_lock.
 
@@ -10,12 +9,9 @@ No change of functional behavior
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/softirq.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 8d07af54954b..efe1e896bc0b 100644
+index 8d07af5..efe1e89 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -476,12 +476,12 @@ void __init softirq_early_init(void)
@@ -34,5 +30,5 @@ index 8d07af54954b..efe1e896bc0b 100644
  
  static void do_single_softirq(int which, int need_rcu_bh_qs)
 -- 
-2.1.1
+2.1.0
 

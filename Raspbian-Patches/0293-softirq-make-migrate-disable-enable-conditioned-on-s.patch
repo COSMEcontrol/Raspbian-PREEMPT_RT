@@ -1,7 +1,7 @@
-From f490459459c35bb0281c99a72505a3f1ae2cc150 Mon Sep 17 00:00:00 2001
+From 437ba14be8c25148b022ab2409c54dee3722af7c Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Fri, 6 Dec 2013 00:42:22 +0100
-Subject: [PATCH 293/327] softirq: make migrate disable/enable conditioned on
+Subject: [PATCH] softirq: make migrate disable/enable conditioned on
  softirq_nestcnt transition
 
 This patch removes the recursive calls to migrate_disable/enable in
@@ -23,12 +23,9 @@ nesting level of migrate_disable/enable
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/softirq.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 4d6917778083..15ad603b35cc 100644
+index 4d69177..15ad603 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -569,8 +569,8 @@ static void do_current_softirqs(int need_rcu_bh_qs)
@@ -67,5 +64,5 @@ index 4d6917778083..15ad603b35cc 100644
  EXPORT_SYMBOL(_local_bh_enable);
  
 -- 
-2.1.1
+2.1.0
 

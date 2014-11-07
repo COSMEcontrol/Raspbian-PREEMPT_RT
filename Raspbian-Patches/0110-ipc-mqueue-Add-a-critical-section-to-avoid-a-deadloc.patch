@@ -1,8 +1,7 @@
-From d2068e6099668ca5a3c0e64a8e5c6b1b69aee184 Mon Sep 17 00:00:00 2001
+From ebd81447ee53eb83a9987e4901eed191f9ff499e Mon Sep 17 00:00:00 2001
 From: KOBAYASHI Yoshitake <yoshitake.kobayashi@toshiba.co.jp>
 Date: Sat, 23 Jul 2011 11:57:36 +0900
-Subject: [PATCH 110/327] ipc/mqueue: Add a critical section to avoid a
- deadlock
+Subject: [PATCH] ipc/mqueue: Add a critical section to avoid a deadlock
 
 (Repost for v3.0-rt1 and changed the distination addreses)
 I have tested the following patch on v3.0-rt1 with PREEMPT_RT_FULL.
@@ -31,12 +30,9 @@ Cc: hch@lst.de
 Cc: arnd@arndb.de
 Link: http://lkml.kernel.org/r/4E2A38A0.1090601@toshiba.co.jp
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- ipc/mqueue.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
 
 diff --git a/ipc/mqueue.c b/ipc/mqueue.c
-index af0c6bb1318f..2276120c5d78 100644
+index af0c6bb..2276120 100644
 --- a/ipc/mqueue.c
 +++ b/ipc/mqueue.c
 @@ -947,13 +947,18 @@ static inline void pipelined_receive(struct mqueue_inode_info *info)
@@ -66,5 +62,5 @@ index af0c6bb1318f..2276120c5d78 100644
  
  SYSCALL_DEFINE5(mq_timedsend, mqd_t, mqdes, const char __user *, u_msg_ptr,
 -- 
-2.1.1
+2.1.0
 

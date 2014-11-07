@@ -1,7 +1,7 @@
-From dfc6a4e2c282ffd2f1fe0840d019a2d2e9ea923d Mon Sep 17 00:00:00 2001
+From 0f8ab31c6e4cfa6887a4f15f8b9fb413d2c26929 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 24 Jul 2013 15:26:54 +0200
-Subject: [PATCH 231/327] workqueue: Use normal rcu
+Subject: [PATCH] workqueue: Use normal rcu
 
 There is no need for sched_rcu. The undocumented reason why sched_rcu
 is used is to avoid a few explicit rcu_read_lock()/unlock() pairs by
@@ -9,12 +9,9 @@ abusing the fact that sched_rcu reader side critical sections are also
 protected by preempt or irq disabled regions.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/workqueue.c | 85 ++++++++++++++++++++++++++++++------------------------
- 1 file changed, 47 insertions(+), 38 deletions(-)
 
 diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 3fafbbb31927..2751e5aeecba 100644
+index 3fafbbb..2751e5a 100644
 --- a/kernel/workqueue.c
 +++ b/kernel/workqueue.c
 @@ -129,11 +129,11 @@ enum {
@@ -310,5 +307,5 @@ index 3fafbbb31927..2751e5aeecba 100644
  out_unlock:
  	mutex_unlock(&wq_pool_mutex);
 -- 
-2.1.1
+2.1.0
 

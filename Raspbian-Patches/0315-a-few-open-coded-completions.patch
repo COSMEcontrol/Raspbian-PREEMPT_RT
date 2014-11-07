@@ -1,17 +1,12 @@
-From ca9914a364cf9ff7a5d5a259f383bd87d1b23626 Mon Sep 17 00:00:00 2001
+From bc9dcf96fde5ae83894f85da832725d5f75067e9 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Mon, 28 Oct 2013 11:50:06 +0100
-Subject: [PATCH 315/327] a few open coded completions
+Subject: [PATCH] a few open coded completions
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/net/wireless/orinoco/orinoco_usb.c | 2 +-
- drivers/usb/gadget/f_fs.c                  | 2 +-
- drivers/usb/gadget/inode.c                 | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/wireless/orinoco/orinoco_usb.c b/drivers/net/wireless/orinoco/orinoco_usb.c
-index bdfe637953f4..0fbb1ce6e7b0 100644
+index bdfe637..0fbb1ce 100644
 --- a/drivers/net/wireless/orinoco/orinoco_usb.c
 +++ b/drivers/net/wireless/orinoco/orinoco_usb.c
 @@ -714,7 +714,7 @@ static void ezusb_req_ctx_wait(struct ezusb_priv *upriv,
@@ -24,7 +19,7 @@ index bdfe637953f4..0fbb1ce6e7b0 100644
  		}
  		break;
 diff --git a/drivers/usb/gadget/f_fs.c b/drivers/usb/gadget/f_fs.c
-index c3067f4f213a..32d91836edc2 100644
+index c3067f4..32d9183 100644
 --- a/drivers/usb/gadget/f_fs.c
 +++ b/drivers/usb/gadget/f_fs.c
 @@ -1282,7 +1282,7 @@ static void ffs_data_put(struct ffs_data *ffs)
@@ -37,7 +32,7 @@ index c3067f4f213a..32d91836edc2 100644
  		kfree(ffs);
  	}
 diff --git a/drivers/usb/gadget/inode.c b/drivers/usb/gadget/inode.c
-index 4ac9e9928d67..cd83b70abe94 100644
+index 4ac9e99..cd83b70 100644
 --- a/drivers/usb/gadget/inode.c
 +++ b/drivers/usb/gadget/inode.c
 @@ -340,7 +340,7 @@ ep_io (struct ep_data *epdata, void *buf, unsigned len)
@@ -59,5 +54,5 @@ index 4ac9e9928d67..cd83b70abe94 100644
  					epdata->status = -EINTR;
  			} else {
 -- 
-2.1.1
+2.1.0
 

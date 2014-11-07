@@ -1,7 +1,7 @@
-From 62f0724f7d1b76869e20987d2a0bc7cce1bf2f35 Mon Sep 17 00:00:00 2001
+From ae240299c3f49751e4207b3f8b034eddd5aa88fa Mon Sep 17 00:00:00 2001
 From: Frank Rowand <frank.rowand@am.sony.com>
 Date: Mon, 19 Sep 2011 14:51:14 -0700
-Subject: [PATCH 024/327] preempt-rt: Convert arm boot_lock to raw
+Subject: [PATCH] preempt-rt: Convert arm boot_lock to raw
 
 The arm boot_lock is used by the secondary processor startup code.  The locking
 task is the idle thread, which has idle->sched_class == &idle_sched_class.
@@ -19,19 +19,9 @@ Fix by converting boot_lock to a raw spin lock.
 Signed-off-by: Frank Rowand <frank.rowand@am.sony.com>
 Link: http://lkml.kernel.org/r/4E77B952.3010606@am.sony.com
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/arm/mach-exynos/platsmp.c    | 12 ++++++------
- arch/arm/mach-msm/platsmp.c       | 10 +++++-----
- arch/arm/mach-omap2/omap-smp.c    | 10 +++++-----
- arch/arm/mach-prima2/platsmp.c    | 10 +++++-----
- arch/arm/mach-spear/platsmp.c     | 10 +++++-----
- arch/arm/mach-sti/platsmp.c       | 10 +++++-----
- arch/arm/mach-ux500/platsmp.c     | 10 +++++-----
- arch/arm/plat-versatile/platsmp.c | 10 +++++-----
- 8 files changed, 41 insertions(+), 41 deletions(-)
 
 diff --git a/arch/arm/mach-exynos/platsmp.c b/arch/arm/mach-exynos/platsmp.c
-index 58b43e6f9262..f56f767a1113 100644
+index 58b43e6..f56f767 100644
 --- a/arch/arm/mach-exynos/platsmp.c
 +++ b/arch/arm/mach-exynos/platsmp.c
 @@ -73,7 +73,7 @@ static void __iomem *scu_base_addr(void)
@@ -82,7 +72,7 @@ index 58b43e6f9262..f56f767a1113 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 diff --git a/arch/arm/mach-msm/platsmp.c b/arch/arm/mach-msm/platsmp.c
-index 3f06edcdd0ce..fc09a04e07df 100644
+index 3f06edc..fc09a04 100644
 --- a/arch/arm/mach-msm/platsmp.c
 +++ b/arch/arm/mach-msm/platsmp.c
 @@ -30,7 +30,7 @@
@@ -124,7 +114,7 @@ index 3f06edcdd0ce..fc09a04e07df 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 diff --git a/arch/arm/mach-omap2/omap-smp.c b/arch/arm/mach-omap2/omap-smp.c
-index 891211093295..5969da3cd499 100644
+index 8912110..5969da3 100644
 --- a/arch/arm/mach-omap2/omap-smp.c
 +++ b/arch/arm/mach-omap2/omap-smp.c
 @@ -44,7 +44,7 @@ u16 pm44xx_errata;
@@ -166,7 +156,7 @@ index 891211093295..5969da3cd499 100644
  	return 0;
  }
 diff --git a/arch/arm/mach-prima2/platsmp.c b/arch/arm/mach-prima2/platsmp.c
-index 3dbcb1ab6e37..42837dc402fa 100644
+index 3dbcb1a..42837dc4 100644
 --- a/arch/arm/mach-prima2/platsmp.c
 +++ b/arch/arm/mach-prima2/platsmp.c
 @@ -23,7 +23,7 @@
@@ -208,7 +198,7 @@ index 3dbcb1ab6e37..42837dc402fa 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 diff --git a/arch/arm/mach-spear/platsmp.c b/arch/arm/mach-spear/platsmp.c
-index 5c4a19887b2b..33dc270c864b 100644
+index 5c4a198..33dc270 100644
 --- a/arch/arm/mach-spear/platsmp.c
 +++ b/arch/arm/mach-spear/platsmp.c
 @@ -20,7 +20,7 @@
@@ -250,7 +240,7 @@ index 5c4a19887b2b..33dc270c864b 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 diff --git a/arch/arm/mach-sti/platsmp.c b/arch/arm/mach-sti/platsmp.c
-index dce50d983a8e..c05b76468a77 100644
+index dce50d9..c05b764 100644
 --- a/arch/arm/mach-sti/platsmp.c
 +++ b/arch/arm/mach-sti/platsmp.c
 @@ -35,7 +35,7 @@ static void write_pen_release(int val)
@@ -292,7 +282,7 @@ index dce50d983a8e..c05b76468a77 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 diff --git a/arch/arm/mach-ux500/platsmp.c b/arch/arm/mach-ux500/platsmp.c
-index 1f296e796a4f..eeb5916fd65f 100644
+index 1f296e7..eeb5916 100644
 --- a/arch/arm/mach-ux500/platsmp.c
 +++ b/arch/arm/mach-ux500/platsmp.c
 @@ -52,7 +52,7 @@ static void __iomem *scu_base_addr(void)
@@ -334,7 +324,7 @@ index 1f296e796a4f..eeb5916fd65f 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 diff --git a/arch/arm/plat-versatile/platsmp.c b/arch/arm/plat-versatile/platsmp.c
-index 39895d892c3b..b2e0858bfed3 100644
+index 39895d8..b2e0858bf 100644
 --- a/arch/arm/plat-versatile/platsmp.c
 +++ b/arch/arm/plat-versatile/platsmp.c
 @@ -31,7 +31,7 @@ static void write_pen_release(int val)
@@ -376,5 +366,5 @@ index 39895d892c3b..b2e0858bfed3 100644
  	return pen_release != -1 ? -ENOSYS : 0;
  }
 -- 
-2.1.1
+2.1.0
 

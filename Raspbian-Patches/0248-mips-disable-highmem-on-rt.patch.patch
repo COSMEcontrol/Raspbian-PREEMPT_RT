@@ -1,15 +1,12 @@
-From be841dcbfcf32fa7bcbe9be90a9595a799ea2c93 Mon Sep 17 00:00:00 2001
+From af9508193170bc44955a3a03a3a8b63bfa8dd69e Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 18 Jul 2011 17:10:12 +0200
-Subject: [PATCH 248/327] mips-disable-highmem-on-rt.patch
+Subject: [PATCH] mips-disable-highmem-on-rt.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/mips/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index f75ab4a2f246..f3981c22ec01 100644
+index f75ab4a..f3981c2 100644
 --- a/arch/mips/Kconfig
 +++ b/arch/mips/Kconfig
 @@ -2078,7 +2078,7 @@ config CPU_R4400_WORKAROUNDS
@@ -22,5 +19,5 @@ index f75ab4a2f246..f3981c22ec01 100644
  config CPU_SUPPORTS_HIGHMEM
  	bool
 -- 
-2.1.1
+2.1.0
 

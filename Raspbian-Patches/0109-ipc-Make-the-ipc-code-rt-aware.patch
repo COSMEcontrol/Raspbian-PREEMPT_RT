@@ -1,7 +1,7 @@
-From 8c0909a2e08e053502492a461e5c8454bad4e55e Mon Sep 17 00:00:00 2001
+From 3c1a7ac304ba04524ef8c51626b9fb4ed8610b6c Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:30:12 -0500
-Subject: [PATCH 109/327] ipc: Make the ipc code -rt aware
+Subject: [PATCH] ipc: Make the ipc code -rt aware
 
 RT serializes the code with the (rt)spinlock but keeps preemption
 enabled. Some parts of the code need to be atomic nevertheless.
@@ -10,13 +10,9 @@ Protect it with preempt_disable/enable_rt pairts.
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- ipc/mqueue.c |  5 +++++
- ipc/msg.c    | 16 ++++++++++++++++
- 2 files changed, 21 insertions(+)
 
 diff --git a/ipc/mqueue.c b/ipc/mqueue.c
-index bb0248fc5187..af0c6bb1318f 100644
+index bb0248f..af0c6bb 100644
 --- a/ipc/mqueue.c
 +++ b/ipc/mqueue.c
 @@ -923,12 +923,17 @@ static inline void pipelined_send(struct mqueue_inode_info *info,
@@ -38,7 +34,7 @@ index bb0248fc5187..af0c6bb1318f 100644
  
  /* pipelined_receive() - if there is task waiting in sys_mq_timedsend()
 diff --git a/ipc/msg.c b/ipc/msg.c
-index 52770bfde2a5..1cf8b2c92dbf 100644
+index 52770bf..1cf8b2c 100644
 --- a/ipc/msg.c
 +++ b/ipc/msg.c
 @@ -253,10 +253,18 @@ static void expunge_all(struct msg_queue *msq, int res)
@@ -86,5 +82,5 @@ index 52770bfde2a5..1cf8b2c92dbf 100644
  	}
  	return 0;
 -- 
-2.1.1
+2.1.0
 

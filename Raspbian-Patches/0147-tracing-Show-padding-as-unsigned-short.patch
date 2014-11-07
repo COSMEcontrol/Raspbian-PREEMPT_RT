@@ -1,7 +1,7 @@
-From 111537d9aac3db82211df2ed02138ff1f14010ce Mon Sep 17 00:00:00 2001
+From f92c2dabe5b68f7a87a3f509ff64d3d38bdb1154 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Wed, 16 Nov 2011 13:19:35 -0500
-Subject: [PATCH 147/327] tracing: Show padding as unsigned short
+Subject: [PATCH] tracing: Show padding as unsigned short
 
 RT added two bytes to trace migrate disable counting to the trace events
 and used two bytes of the padding to make the change. The structures and
@@ -28,12 +28,9 @@ Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Link: http://lkml.kernel.org/r/1321467575.4181.36.camel@frodo
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/trace/trace_events.c | 1 +
- 1 file changed, 1 insertion(+)
 
 diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
-index 4830af6a2e86..9e49f3fbc4fc 100644
+index 4830af6..9e49f3f 100644
 --- a/kernel/trace/trace_events.c
 +++ b/kernel/trace/trace_events.c
 @@ -161,6 +161,7 @@ static int trace_define_common_fields(void)
@@ -45,5 +42,5 @@ index 4830af6a2e86..9e49f3fbc4fc 100644
  	return ret;
  }
 -- 
-2.1.1
+2.1.0
 

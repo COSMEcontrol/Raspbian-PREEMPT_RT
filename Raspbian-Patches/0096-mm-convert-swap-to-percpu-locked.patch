@@ -1,16 +1,13 @@
-From 330124b6a5f7558b9683a36a6d45cee5f294f2b1 Mon Sep 17 00:00:00 2001
+From 20bd5a901d4e9b919dafdb982414f1ae96cf9b1d Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:29:51 -0500
-Subject: [PATCH 096/327] mm: convert swap to percpu locked
+Subject: [PATCH] mm: convert swap to percpu locked
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- mm/swap.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
 
 diff --git a/mm/swap.c b/mm/swap.c
-index 16e70ce1912a..8ab73ba62a68 100644
+index 16e70ce..8ab73ba 100644
 --- a/mm/swap.c
 +++ b/mm/swap.c
 @@ -32,6 +32,7 @@
@@ -132,5 +129,5 @@ index 16e70ce1912a..8ab73ba62a68 100644
  
  static void lru_add_drain_per_cpu(struct work_struct *dummy)
 -- 
-2.1.1
+2.1.0
 

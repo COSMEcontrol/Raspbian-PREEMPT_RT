@@ -1,16 +1,13 @@
-From f099de656678e948b9afc391b2005181e6484c66 Mon Sep 17 00:00:00 2001
+From 4cafcc8b814187b7d2f9878835e8d29274e28351 Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:29:58 -0500
-Subject: [PATCH 061/327] bug: BUG_ON/WARN_ON variants dependend on RT/!RT
+Subject: [PATCH] bug: BUG_ON/WARN_ON variants dependend on RT/!RT
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/asm-generic/bug.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
 
 diff --git a/include/asm-generic/bug.h b/include/asm-generic/bug.h
-index 7d10f962aa13..aee7fd2eefc5 100644
+index 7d10f96..aee7fd2 100644
 --- a/include/asm-generic/bug.h
 +++ b/include/asm-generic/bug.h
 @@ -202,6 +202,20 @@ extern void warn_slowpath_null(const char *file, const int line);
@@ -35,5 +32,5 @@ index 7d10f962aa13..aee7fd2eefc5 100644
  
  #endif
 -- 
-2.1.1
+2.1.0
 

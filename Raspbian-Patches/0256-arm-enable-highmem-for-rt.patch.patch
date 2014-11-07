@@ -1,21 +1,15 @@
-From 1701a88c8dcd23996e54892e9ff48c8f1a235be0 Mon Sep 17 00:00:00 2001
+From 0c07f45362ce933c4a751c8997584c06848e7510 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 13 Feb 2013 11:03:11 +0100
-Subject: [PATCH 256/327] arm-enable-highmem-for-rt.patch
+Subject: [PATCH] arm-enable-highmem-for-rt.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- arch/arm/Kconfig                 |  2 +-
- arch/arm/include/asm/switch_to.h |  8 ++++++++
- arch/arm/mm/highmem.c            | 41 ++++++++++++++++++++++++++++++++++++++--
- include/linux/highmem.h          |  1 +
- 4 files changed, 49 insertions(+), 3 deletions(-)
 
 diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 6f43e5b8ee1f..99e1ce978cf9 100644
+index f90897c..b2eb510 100644
 --- a/arch/arm/Kconfig
 +++ b/arch/arm/Kconfig
-@@ -1760,7 +1760,7 @@ config HAVE_ARCH_PFN_VALID
+@@ -1779,7 +1779,7 @@ config HAVE_ARCH_PFN_VALID
  
  config HIGHMEM
  	bool "High Memory Support"
@@ -25,7 +19,7 @@ index 6f43e5b8ee1f..99e1ce978cf9 100644
  	  The address space of ARM processors is only 4 Gigabytes large
  	  and it has to accommodate user address space, kernel address
 diff --git a/arch/arm/include/asm/switch_to.h b/arch/arm/include/asm/switch_to.h
-index c99e259469f7..f3e3d800c407 100644
+index c99e259..f3e3d80 100644
 --- a/arch/arm/include/asm/switch_to.h
 +++ b/arch/arm/include/asm/switch_to.h
 @@ -3,6 +3,13 @@
@@ -51,7 +45,7 @@ index c99e259469f7..f3e3d800c407 100644
  } while (0)
  
 diff --git a/arch/arm/mm/highmem.c b/arch/arm/mm/highmem.c
-index 3688c8b1fde1..bd41dd8cc561 100644
+index 3688c8b..bd41dd8 100644
 --- a/arch/arm/mm/highmem.c
 +++ b/arch/arm/mm/highmem.c
 @@ -38,6 +38,7 @@ EXPORT_SYMBOL(kunmap);
@@ -135,7 +129,7 @@ index 3688c8b1fde1..bd41dd8cc561 100644
 +}
 +#endif
 diff --git a/include/linux/highmem.h b/include/linux/highmem.h
-index cee935ca0f4f..821d523cf888 100644
+index cee935c..821d523 100644
 --- a/include/linux/highmem.h
 +++ b/include/linux/highmem.h
 @@ -7,6 +7,7 @@
@@ -147,5 +141,5 @@ index cee935ca0f4f..821d523cf888 100644
  #include <asm/cacheflush.h>
  
 -- 
-2.1.1
+2.1.0
 

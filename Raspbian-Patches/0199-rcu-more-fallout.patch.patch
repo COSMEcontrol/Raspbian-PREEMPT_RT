@@ -1,15 +1,12 @@
-From afc92f8527f2a9d8b3cbf167a98595e3e62c55f3 Mon Sep 17 00:00:00 2001
+From 798f4591d0d352b70db8215188133217f550a1b4 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 14 Nov 2011 10:57:54 +0100
-Subject: [PATCH 199/327] rcu-more-fallout.patch
+Subject: [PATCH] rcu-more-fallout.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/rcutiny.c | 2 ++
- 1 file changed, 2 insertions(+)
 
 diff --git a/kernel/rcutiny.c b/kernel/rcutiny.c
-index 9ed6075dc562..f202b261b323 100644
+index 9ed6075..f202b26 100644
 --- a/kernel/rcutiny.c
 +++ b/kernel/rcutiny.c
 @@ -369,6 +369,7 @@ void call_rcu_sched(struct rcu_head *head, void (*func)(struct rcu_head *rcu))
@@ -29,5 +26,5 @@ index 9ed6075dc562..f202b261b323 100644
  void rcu_init(void)
  {
 -- 
-2.1.1
+2.1.0
 

@@ -1,8 +1,8 @@
-From 52dfcf9d71f13829f6c36dff05f689e98607276d Mon Sep 17 00:00:00 2001
+From f4cf3c5a93a15112f521492a9ea45c449d298e7e Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Thu, 4 Oct 2012 11:02:04 -0400
-Subject: [PATCH 287/327] softirq: Init softirq local lock after per cpu
- section is set up
+Subject: [PATCH] softirq: Init softirq local lock after per cpu section is set
+ up
 
 I discovered this bug when booting 3.4-rt on my powerpc box. It crashed
 with the following report:
@@ -110,12 +110,9 @@ Cc: Carsten Emde <cbe@osadl.org>
 Cc: vomlehn@texas.net
 Link: http://lkml.kernel.org/r/1349362924.6755.18.camel@gandalf.local.home
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- init/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init/main.c b/init/main.c
-index 12b89c6af3a0..0db119a16c9c 100644
+index 12b89c6..0db119a 100644
 --- a/init/main.c
 +++ b/init/main.c
 @@ -499,7 +499,6 @@ asmlinkage void __init start_kernel(void)
@@ -135,5 +132,5 @@ index 12b89c6af3a0..0db119a16c9c 100644
  
  	build_all_zonelists(NULL, NULL);
 -- 
-2.1.1
+2.1.0
 

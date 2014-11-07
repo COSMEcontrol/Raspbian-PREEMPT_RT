@@ -1,8 +1,7 @@
-From 1b1a350f8ed8be35e319d6a3adbecb9fdc711a4c Mon Sep 17 00:00:00 2001
+From 59fbe8e145caf133783c9a8ffe9d119edc18e659 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Mon, 24 Mar 2014 13:18:48 +0100
-Subject: [PATCH 157/327] sched: dont calculate hweight in
- update_migrate_disable()
+Subject: [PATCH] sched: dont calculate hweight in update_migrate_disable()
 
 Proposal for a minor optimization in update_migrate_disable - its only a few
 instructions saved but those are in the hot path of locks so it might be worth
@@ -33,12 +32,9 @@ without changing the behavior.
 Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/sched/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 8123f8a0c0cb..123d2ec6520f 100644
+index 8123f8a..123d2ec 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2394,7 +2394,8 @@ static inline void update_migrate_disable(struct task_struct *p)
@@ -52,5 +48,5 @@ index 8123f8a0c0cb..123d2ec6520f 100644
  	/* Let migrate_enable know to fix things back up */
  	p->migrate_disable |= MIGRATE_DISABLE_SET_AFFIN;
 -- 
-2.1.1
+2.1.0
 

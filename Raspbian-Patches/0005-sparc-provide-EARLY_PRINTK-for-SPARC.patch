@@ -1,7 +1,7 @@
-From 0df34d25a9342d2f6a51f50de257843f65568051 Mon Sep 17 00:00:00 2001
+From ad5039a2e427336bb9cd8304d6272cb7c6dbbfa8 Mon Sep 17 00:00:00 2001
 From: Kirill Tkhai <tkhai@yandex.ru>
 Date: Fri, 30 Aug 2013 21:16:08 +0400
-Subject: [PATCH 005/327] sparc: provide EARLY_PRINTK for SPARC
+Subject: [PATCH] sparc: provide EARLY_PRINTK for SPARC
 
 sparc does not have CONFIG_EARLY_PRINTK option.
 
@@ -16,12 +16,9 @@ The below addition fixes that.
 
 Signed-off-by: Kirill Tkhai <tkhai@yandex.ru>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/sparc/Kconfig | 4 ++++
- 1 file changed, 4 insertions(+)
 
 diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index d60f34dbae89..4a65db45ceb8 100644
+index d60f34d..4a65db4 100644
 --- a/arch/sparc/Kconfig
 +++ b/arch/sparc/Kconfig
 @@ -524,6 +524,10 @@ menu "Executable file formats"
@@ -36,5 +33,5 @@ index d60f34dbae89..4a65db45ceb8 100644
  	bool
  	depends on SPARC64
 -- 
-2.1.1
+2.1.0
 

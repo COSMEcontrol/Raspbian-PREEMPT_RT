@@ -1,15 +1,12 @@
-From 1434bc45b587f6a774366c5950ba5782fb99ea82 Mon Sep 17 00:00:00 2001
+From 79cda03ad38a97609094a823a594a03f51398ae1 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 17 Jul 2011 22:51:33 +0200
-Subject: [PATCH 132/327] cond-resched-lock-rt-tweak.patch
+Subject: [PATCH] cond-resched-lock-rt-tweak.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/sched.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index f6e9e5f93d92..044384533ea0 100644
+index f6e9e5f..0443845 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -2565,7 +2565,7 @@ extern int _cond_resched(void);
@@ -22,5 +19,5 @@ index f6e9e5f93d92..044384533ea0 100644
  #else
  #define PREEMPT_LOCK_OFFSET	0
 -- 
-2.1.1
+2.1.0
 

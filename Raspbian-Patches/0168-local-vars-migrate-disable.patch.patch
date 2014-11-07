@@ -1,15 +1,12 @@
-From 0ebbb6cd00be8e880537b1b0cf5b9ae78d613bb8 Mon Sep 17 00:00:00 2001
+From 867c01544ba8438164b54ba25cc210cdf84639d0 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 28 Jun 2011 20:42:16 +0200
-Subject: [PATCH 168/327] local-vars-migrate-disable.patch
+Subject: [PATCH] local-vars-migrate-disable.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/percpu.h | 28 ++++++++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
 
 diff --git a/include/linux/percpu.h b/include/linux/percpu.h
-index d27360408b97..f05adf59041c 100644
+index d273604..f05adf5 100644
 --- a/include/linux/percpu.h
 +++ b/include/linux/percpu.h
 @@ -48,10 +48,30 @@
@@ -48,5 +45,5 @@ index d27360408b97..f05adf59041c 100644
  /* minimum unit size, also is the maximum supported allocation size */
  #define PCPU_MIN_UNIT_SIZE		PFN_ALIGN(32 << 10)
 -- 
-2.1.1
+2.1.0
 

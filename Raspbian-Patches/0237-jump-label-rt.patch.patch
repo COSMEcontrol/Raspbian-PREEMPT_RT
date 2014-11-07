@@ -1,15 +1,12 @@
-From 777373459ee5622cbb28c8c086e00319b90880ee Mon Sep 17 00:00:00 2001
+From 9f20f9e8c4fbb6ff60d74eac2b4172ad4df6d4bb Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 13 Jul 2011 11:03:16 +0200
-Subject: [PATCH 237/327] jump-label-rt.patch
+Subject: [PATCH] jump-label-rt.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/jump_label.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/jump_label.h b/include/linux/jump_label.h
-index 9216e465289a..c5f7962a436e 100644
+index 9216e46..c5f7962 100644
 --- a/include/linux/jump_label.h
 +++ b/include/linux/jump_label.h
 @@ -49,7 +49,8 @@
@@ -23,5 +20,5 @@ index 9216e465289a..c5f7962a436e 100644
  struct static_key {
  	atomic_t enabled;
 -- 
-2.1.1
+2.1.0
 

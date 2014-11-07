@@ -1,19 +1,16 @@
-From 7b341d5d78d2bf9deb6954aafec092d170c7ea0a Mon Sep 17 00:00:00 2001
+From 2c6e5a02de3514c744edbecc155f287259f8fb54 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Date: Tue, 27 Sep 2011 08:40:25 -0400
-Subject: [PATCH 156/327] sched: Have migrate_disable ignore bounded threads
+Subject: [PATCH] sched: Have migrate_disable ignore bounded threads
 
 Signed-off-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Clark Williams <williams@redhat.com>
 Link: http://lkml.kernel.org/r/20110927124423.567944215@goodmis.org
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 275283620ec4..8123f8a0c0cb 100644
+index 2752836..8123f8a 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2404,7 +2404,7 @@ void migrate_disable(void)
@@ -69,5 +66,5 @@ index 275283620ec4..8123f8a0c0cb 100644
  	} else
  		p->migrate_disable = 0;
 -- 
-2.1.1
+2.1.0
 

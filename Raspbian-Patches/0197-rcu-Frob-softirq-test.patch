@@ -1,7 +1,7 @@
-From 1ec85df20835f08ace595d1934642d76f90224ff Mon Sep 17 00:00:00 2001
+From 3f2a7b9e2bf44c365057154c75332c95d59c8df4 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Date: Sat, 13 Aug 2011 00:23:17 +0200
-Subject: [PATCH 197/327] rcu: Frob softirq test
+Subject: [PATCH] rcu: Frob softirq test
 
 With RT_FULL we get the below wreckage:
 
@@ -150,12 +150,9 @@ here... so this is very likely a bandaid and more thought is required.
 
 Cc: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 Signed-off-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
----
- kernel/rcutree_plugin.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/kernel/rcutree_plugin.h b/kernel/rcutree_plugin.h
-index 22232f8e82d9..d2da9522d818 100644
+index 22232f8..d2da952 100644
 --- a/kernel/rcutree_plugin.h
 +++ b/kernel/rcutree_plugin.h
 @@ -359,7 +359,7 @@ void rcu_read_unlock_special(struct task_struct *t)
@@ -168,5 +165,5 @@ index 22232f8e82d9..d2da9522d818 100644
  		return;
  	}
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From fcf25f7e1a3c694835bd4015444256fbf08d9a15 Mon Sep 17 00:00:00 2001
+From 8a82a295b6332c0875439014ca6b69745825cbf7 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 2 May 2014 21:31:50 +0200
-Subject: [PATCH 323/327] timer: do not spin_trylock() on UP
+Subject: [PATCH] timer: do not spin_trylock() on UP
 
 This will void a warning comming from the spin-lock debugging code. The
 lock avoiding idea is from Steven Rostedt.
@@ -9,12 +9,9 @@ lock avoiding idea is from Steven Rostedt.
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
----
- kernel/timer.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
 
 diff --git a/kernel/timer.c b/kernel/timer.c
-index 611a5973d9e1..3b79da2f9c67 100644
+index 611a597..3b79da2 100644
 --- a/kernel/timer.c
 +++ b/kernel/timer.c
 @@ -1461,6 +1461,19 @@ void run_local_timers(void)
@@ -38,5 +35,5 @@ index 611a5973d9e1..3b79da2f9c67 100644
  	if (irq_work_needs_cpu()) {
  		raise_softirq(TIMER_SOFTIRQ);
 -- 
-2.1.1
+2.1.0
 

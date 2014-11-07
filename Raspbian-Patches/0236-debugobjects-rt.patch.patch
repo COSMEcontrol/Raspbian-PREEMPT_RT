@@ -1,15 +1,12 @@
-From c7db73f4365b2843ef0c1d44cd74fbba277fd4e0 Mon Sep 17 00:00:00 2001
+From 721f5d6937a49e5fc1fcc532f73a3811beb5b2d5 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 17 Jul 2011 21:41:35 +0200
-Subject: [PATCH 236/327] debugobjects-rt.patch
+Subject: [PATCH] debugobjects-rt.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- lib/debugobjects.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/lib/debugobjects.c b/lib/debugobjects.c
-index bf2c8b1043d8..1ac2049d2885 100644
+index bf2c8b1..1ac2049 100644
 --- a/lib/debugobjects.c
 +++ b/lib/debugobjects.c
 @@ -308,7 +308,10 @@ __debug_object_init(void *addr, struct debug_obj_descr *descr, int onstack)
@@ -25,5 +22,5 @@ index bf2c8b1043d8..1ac2049d2885 100644
  	db = get_bucket((unsigned long) addr);
  
 -- 
-2.1.1
+2.1.0
 

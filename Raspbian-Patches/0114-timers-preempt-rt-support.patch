@@ -1,16 +1,13 @@
-From c98761c892cf1096bbdf8da0f5690fab1701d5b5 Mon Sep 17 00:00:00 2001
+From c1168bdc853df88c8443168947b71328eac195b4 Mon Sep 17 00:00:00 2001
 From: Ingo Molnar <mingo@elte.hu>
 Date: Fri, 3 Jul 2009 08:30:20 -0500
-Subject: [PATCH 114/327] timers: preempt-rt support
+Subject: [PATCH] timers: preempt-rt support
 
 Signed-off-by: Ingo Molnar <mingo@elte.hu>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/timer.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/kernel/timer.c b/kernel/timer.c
-index 8e798caedee7..48f7ea82e8b9 100644
+index 8e798ca..48f7ea8 100644
 --- a/kernel/timer.c
 +++ b/kernel/timer.c
 @@ -1358,7 +1358,17 @@ unsigned long get_next_timer_interrupt(unsigned long now)
@@ -58,5 +55,5 @@ index 8e798caedee7..48f7ea82e8b9 100644
  #endif /* CONFIG_HOTPLUG_CPU */
  
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From 73ac2c552a5791e54fd7e7ede6a0979b835785ab Mon Sep 17 00:00:00 2001
+From 80853b4a700a6bb0f43184e7666e3a6e07f9ddbf Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 31 Jul 2013 19:00:35 +0200
-Subject: [PATCH 313/327] rcu-more-swait-conversions.patch
+Subject: [PATCH] rcu-more-swait-conversions.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
@@ -14,13 +14,9 @@ Merged Steven's
 
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/rcutree.h        |  5 +++--
- kernel/rcutree_plugin.h | 14 +++++++-------
- 2 files changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/kernel/rcutree.h b/kernel/rcutree.h
-index 976b8a8a650c..1df8d9e940f4 100644
+index 976b8a8..1df8d9e 100644
 --- a/kernel/rcutree.h
 +++ b/kernel/rcutree.h
 @@ -28,6 +28,7 @@
@@ -50,7 +46,7 @@ index 976b8a8a650c..1df8d9e940f4 100644
  #endif /* #ifdef CONFIG_RCU_NOCB_CPU */
  
 diff --git a/kernel/rcutree_plugin.h b/kernel/rcutree_plugin.h
-index 2545f031e675..c849bd4add58 100644
+index 2545f031..c849bd4 100644
 --- a/kernel/rcutree_plugin.h
 +++ b/kernel/rcutree_plugin.h
 @@ -1959,7 +1959,7 @@ static int rcu_nocb_needs_gp(struct rcu_state *rsp)
@@ -110,5 +106,5 @@ index 2545f031e675..c849bd4add58 100644
  
  /* Create a kthread for each RCU flavor for each no-CBs CPU. */
 -- 
-2.1.1
+2.1.0
 

@@ -1,8 +1,7 @@
-From 499af95cd4444de02cfa9849a6f9e5731b191cee Mon Sep 17 00:00:00 2001
+From 3e2868470748ebb43e73d85ae267ce1f5d70c68e Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 18 Mar 2011 10:11:25 +0100
-Subject: [PATCH 077/327] fs: jbd/jbd2: Make state lock and journal head lock
- rt safe
+Subject: [PATCH] fs: jbd/jbd2: Make state lock and journal head lock rt safe
 
 bit_spin_locks break under RT.
 
@@ -14,13 +13,9 @@ Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
  include/linux/buffer_head.h |   10 ++++++++++
  include/linux/jbd_common.h  |   24 ++++++++++++++++++++++++
  2 files changed, 34 insertions(+)
----
- include/linux/buffer_head.h | 10 ++++++++++
- include/linux/jbd_common.h  | 24 ++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
 
 diff --git a/include/linux/buffer_head.h b/include/linux/buffer_head.h
-index 04fc97f7843e..cac49735f380 100644
+index 04fc97f..cac4973 100644
 --- a/include/linux/buffer_head.h
 +++ b/include/linux/buffer_head.h
 @@ -77,6 +77,11 @@ struct buffer_head {
@@ -48,7 +43,7 @@ index 04fc97f7843e..cac49735f380 100644
  }
  
 diff --git a/include/linux/jbd_common.h b/include/linux/jbd_common.h
-index 3dc53432355f..a90a6f5ca899 100644
+index 3dc5343..a90a6f5 100644
 --- a/include/linux/jbd_common.h
 +++ b/include/linux/jbd_common.h
 @@ -15,32 +15,56 @@ static inline struct journal_head *bh2jh(struct buffer_head *bh)
@@ -109,5 +104,5 @@ index 3dc53432355f..a90a6f5ca899 100644
  
  #endif
 -- 
-2.1.1
+2.1.0
 

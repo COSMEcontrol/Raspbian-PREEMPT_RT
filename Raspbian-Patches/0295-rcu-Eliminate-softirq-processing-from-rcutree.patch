@@ -1,7 +1,7 @@
-From 54c08dcf8423f90e6fce769b27a45cf4f87678cf Mon Sep 17 00:00:00 2001
+From d50eb5617df429694ac64145c4519251d8ec00e7 Mon Sep 17 00:00:00 2001
 From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 Date: Mon, 4 Nov 2013 13:21:10 -0800
-Subject: [PATCH 295/327] rcu: Eliminate softirq processing from rcutree
+Subject: [PATCH] rcu: Eliminate softirq processing from rcutree
 
 Running RCU out of softirq is a problem for some workloads that would
 like to manage RCU core processing independently of other softirq work,
@@ -16,14 +16,9 @@ Reported-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Mike Galbraith <bitbucket@online.de>
 Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/rcutree.c        | 113 +++++++++++++++++++++++++++++++++++-----
- kernel/rcutree.h        |   3 +-
- kernel/rcutree_plugin.h | 134 +++++-------------------------------------------
- 3 files changed, 113 insertions(+), 137 deletions(-)
 
 diff --git a/kernel/rcutree.c b/kernel/rcutree.c
-index cae59e3aceed..8b08d3752d34 100644
+index cae59e3a..8b08d37 100644
 --- a/kernel/rcutree.c
 +++ b/kernel/rcutree.c
 @@ -55,6 +55,11 @@
@@ -195,7 +190,7 @@ index cae59e3aceed..8b08d3752d34 100644
  	/*
  	 * We don't need protection against CPU-hotplug here because
 diff --git a/kernel/rcutree.h b/kernel/rcutree.h
-index 7d71c06362f7..68ed6a8f2fe5 100644
+index 7d71c06..68ed6a8 100644
 --- a/kernel/rcutree.h
 +++ b/kernel/rcutree.h
 @@ -527,10 +527,9 @@ static void rcu_report_exp_rnp(struct rcu_state *rsp, struct rcu_node *rnp,
@@ -211,7 +206,7 @@ index 7d71c06362f7..68ed6a8f2fe5 100644
  						 struct rcu_node *rnp);
  #endif /* #ifdef CONFIG_RCU_BOOST */
 diff --git a/kernel/rcutree_plugin.h b/kernel/rcutree_plugin.h
-index 63e052013d76..2545f031e675 100644
+index 63e0520..2545f031 100644
 --- a/kernel/rcutree_plugin.h
 +++ b/kernel/rcutree_plugin.h
 @@ -24,12 +24,6 @@
@@ -413,5 +408,5 @@ index 63e052013d76..2545f031e675 100644
  {
  	return false;
 -- 
-2.1.1
+2.1.0
 

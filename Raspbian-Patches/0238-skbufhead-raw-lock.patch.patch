@@ -1,17 +1,12 @@
-From 470e7b2ef707fc6d83e5e0829a8044b7682b0ffe Mon Sep 17 00:00:00 2001
+From e6ec325d507d35afc7ea5c598219ad7ee8555d42 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 12 Jul 2011 15:38:34 +0200
-Subject: [PATCH 238/327] skbufhead-raw-lock.patch
+Subject: [PATCH] skbufhead-raw-lock.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/netdevice.h |  1 +
- include/linux/skbuff.h    |  7 +++++++
- net/core/dev.c            | 26 ++++++++++++++++++++------
- 3 files changed, 28 insertions(+), 6 deletions(-)
 
 diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index bb5b22ba33cc..3fab02f0ad89 100644
+index bb5b22b..3fab02f 100644
 --- a/include/linux/netdevice.h
 +++ b/include/linux/netdevice.h
 @@ -1930,6 +1930,7 @@ struct softnet_data {
@@ -23,7 +18,7 @@ index bb5b22ba33cc..3fab02f0ad89 100644
  #ifdef CONFIG_NET_FLOW_LIMIT
  	struct sd_flow_limit __rcu *flow_limit;
 diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 2960dab8b6fc..cb79fd43e8b5 100644
+index 2960dab..cb79fd4 100644
 --- a/include/linux/skbuff.h
 +++ b/include/linux/skbuff.h
 @@ -133,6 +133,7 @@ struct sk_buff_head {
@@ -48,7 +43,7 @@ index 2960dab8b6fc..cb79fd43e8b5 100644
  		struct lock_class_key *class)
  {
 diff --git a/net/core/dev.c b/net/core/dev.c
-index 69d53128b5ac..bb0044544780 100644
+index 69d5312..bb00445 100644
 --- a/net/core/dev.c
 +++ b/net/core/dev.c
 @@ -196,14 +196,14 @@ static inline struct hlist_head *dev_index_hash(struct net *net, int ifindex)
@@ -133,5 +128,5 @@ index 69d53128b5ac..bb0044544780 100644
  		INIT_LIST_HEAD(&sd->poll_list);
  		sd->output_queue = NULL;
 -- 
-2.1.1
+2.1.0
 

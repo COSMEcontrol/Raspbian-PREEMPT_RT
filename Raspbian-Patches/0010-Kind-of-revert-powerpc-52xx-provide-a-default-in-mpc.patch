@@ -1,7 +1,7 @@
-From a429724c170aaf8c1fda2d1ce2131cc67bd6863f Mon Sep 17 00:00:00 2001
+From e5dd2b3b6da2efd9fed45a8d77f7eb50b0fa557b Mon Sep 17 00:00:00 2001
 From: Wolfram Sang <wsa@the-dreams.de>
 Date: Fri, 4 Oct 2013 17:37:09 +0200
-Subject: [PATCH 010/327] Kind of revert "powerpc: 52xx: provide a default in
+Subject: [PATCH] Kind of revert "powerpc: 52xx: provide a default in
  mpc52xx_irqhost_map()"
 
 This more or less reverts commit 6391f697d4892a6f233501beea553e13f7745a23.
@@ -14,12 +14,9 @@ Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
 Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Anatolij Gustschin <agust@denx.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/powerpc/platforms/52xx/mpc52xx_pic.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/arch/powerpc/platforms/52xx/mpc52xx_pic.c b/arch/powerpc/platforms/52xx/mpc52xx_pic.c
-index b69221ba07fd..2898b737deb7 100644
+index b69221b..2898b73 100644
 --- a/arch/powerpc/platforms/52xx/mpc52xx_pic.c
 +++ b/arch/powerpc/platforms/52xx/mpc52xx_pic.c
 @@ -340,7 +340,7 @@ static int mpc52xx_irqhost_map(struct irq_domain *h, unsigned int virq,
@@ -43,5 +40,5 @@ index b69221ba07fd..2898b737deb7 100644
  		return 0;
  	}
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From caad3e578d62d681b02823fdc2614ef1cc444f22 Mon Sep 17 00:00:00 2001
+From 2193646ad6e6380ce1374c670fd4d5f77c73c9ff Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 27 Jun 2014 16:24:52 +0200
-Subject: [PATCH 326/327] workqueue: Prevent deadlock/stall on RT
+Subject: [PATCH] workqueue: Prevent deadlock/stall on RT
 
 Austin reported a XFS deadlock/stall on RT where scheduled work gets
 never exececuted and tasks are waiting for each other for ever.
@@ -38,13 +38,9 @@ Cc: Richard Weinberger <richard.weinberger@gmail.com>
 Cc: Steven Rostedt <rostedt@goodmis.org>
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
----
- kernel/sched/core.c |  7 ++++--
- kernel/workqueue.c  | 61 +++++++++++++++++++++++++++++++++++++++++------------
- 2 files changed, 53 insertions(+), 15 deletions(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 90bb75a30373..af7418b7d212 100644
+index 90bb75a..af7418b 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2645,9 +2645,8 @@ need_resched:
@@ -70,7 +66,7 @@ index 90bb75a30373..af7418b7d212 100644
  	 * If we are going to sleep and we have plugged IO queued,
  	 * make sure to submit it to avoid deadlocks.
 diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index 3d6562ab1bf7..bae6e254f572 100644
+index 3d6562a..bae6e25 100644
 --- a/kernel/workqueue.c
 +++ b/kernel/workqueue.c
 @@ -126,6 +126,11 @@ enum {
@@ -205,5 +201,5 @@ index 3d6562ab1bf7..bae6e254f572 100644
  
  	idr_remove(&pool->worker_idr, worker->id);
 -- 
-2.1.1
+2.1.0
 

@@ -1,15 +1,12 @@
-From 473adc85efe0d06823047ce571b769aeca4ca699 Mon Sep 17 00:00:00 2001
+From 6743508065b86c4cfd691c91f1da8421dfa9b4d4 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Tue, 28 Jun 2011 15:46:49 +0200
-Subject: [PATCH 046/327] softirq-split-out-code.patch
+Subject: [PATCH] softirq-split-out-code.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/softirq.c | 60 +++++++++++++++++++++++++++-----------------------------
- 1 file changed, 29 insertions(+), 31 deletions(-)
 
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 52f6c5418c11..c64795607fea 100644
+index 52f6c54..c647956 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
 @@ -77,6 +77,34 @@ static void wakeup_softirqd(void)
@@ -94,5 +91,5 @@ index 52f6c5418c11..c64795607fea 100644
  	pending = local_softirq_pending();
  	if (pending) {
 -- 
-2.1.1
+2.1.0
 

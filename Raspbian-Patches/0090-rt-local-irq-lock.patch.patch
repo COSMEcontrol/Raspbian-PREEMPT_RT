@@ -1,17 +1,13 @@
-From 3be370830165a2156be4c9a9e0cebb34f4860530 Mon Sep 17 00:00:00 2001
+From 4554eabedaf56b14aca99674751b625a4513af92 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 20 Jun 2011 09:03:47 +0200
-Subject: [PATCH 090/327] rt-local-irq-lock.patch
+Subject: [PATCH] rt-local-irq-lock.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/locallock.h | 254 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 254 insertions(+)
- create mode 100644 include/linux/locallock.h
 
 diff --git a/include/linux/locallock.h b/include/linux/locallock.h
 new file mode 100644
-index 000000000000..e7bd8be71f8c
+index 0000000..e7bd8be
 --- /dev/null
 +++ b/include/linux/locallock.h
 @@ -0,0 +1,254 @@
@@ -270,5 +266,5 @@ index 000000000000..e7bd8be71f8c
 +
 +#endif
 -- 
-2.1.1
+2.1.0
 

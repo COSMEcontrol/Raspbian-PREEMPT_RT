@@ -1,7 +1,7 @@
-From 1e056798d32016a0ba0e1579137d3f08df7361ef Mon Sep 17 00:00:00 2001
+From d9d315b2e290fa4dc6ddae1442aedc7b3592b240 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Mon, 12 Dec 2011 12:29:04 +0100
-Subject: [PATCH 309/327] wait-simple: Simple waitqueue implementation
+Subject: [PATCH] wait-simple: Simple waitqueue implementation
 
 wait_queue is a swiss army knife and in most of the cases the
 complexity is not needed. For RT waitqueues are a constant source of
@@ -16,17 +16,10 @@ Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
 smp_mb() added by Steven Rostedt to fix a race condition with swait
 wakeups vs adding items to the list.
----
- include/linux/wait-simple.h | 235 ++++++++++++++++++++++++++++++++++++++++++++
- kernel/Makefile             |   2 +-
- kernel/wait-simple.c        |  68 +++++++++++++
- 3 files changed, 304 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/wait-simple.h
- create mode 100644 kernel/wait-simple.c
 
 diff --git a/include/linux/wait-simple.h b/include/linux/wait-simple.h
 new file mode 100644
-index 000000000000..a9f24692cbe1
+index 0000000..a9f2469
 --- /dev/null
 +++ b/include/linux/wait-simple.h
 @@ -0,0 +1,235 @@
@@ -266,7 +259,7 @@ index 000000000000..a9f24692cbe1
 +
 +#endif
 diff --git a/kernel/Makefile b/kernel/Makefile
-index 7fc87d50baee..b3ff0a8dcb98 100644
+index 7fc87d5..b3ff0a8 100644
 --- a/kernel/Makefile
 +++ b/kernel/Makefile
 @@ -10,7 +10,7 @@ obj-y     = fork.o exec_domain.o panic.o \
@@ -280,7 +273,7 @@ index 7fc87d50baee..b3ff0a8dcb98 100644
  # Do not trace debug files and internal ftrace files
 diff --git a/kernel/wait-simple.c b/kernel/wait-simple.c
 new file mode 100644
-index 000000000000..040d7146e4df
+index 0000000..040d714
 --- /dev/null
 +++ b/kernel/wait-simple.c
 @@ -0,0 +1,68 @@
@@ -353,5 +346,5 @@ index 000000000000..040d7146e4df
 +}
 +EXPORT_SYMBOL(__swait_wake);
 -- 
-2.1.1
+2.1.0
 

@@ -1,7 +1,7 @@
-From 26ce60c71e0851624e4de77edc73cae09de1874c Mon Sep 17 00:00:00 2001
+From 2a7e11fc8623131c73b112d1f8825efcc337af01 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Wed, 19 Feb 2014 11:56:06 +0100
-Subject: [PATCH 226/327] kernel/hrtimer: be non-freezeable in cpu_chill()
+Subject: [PATCH] kernel/hrtimer: be non-freezeable in cpu_chill()
 
 Since we replaced msleep() by hrtimer I see now and then (rarely) this:
 
@@ -37,12 +37,9 @@ For now I see no better way but to disable the freezer the sleep the period.
 
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- kernel/hrtimer.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
 diff --git a/kernel/hrtimer.c b/kernel/hrtimer.c
-index dba296ed0d80..58f6bf895ae0 100644
+index dba296e..58f6bf8 100644
 --- a/kernel/hrtimer.c
 +++ b/kernel/hrtimer.c
 @@ -1921,8 +1921,12 @@ void cpu_chill(void)
@@ -59,5 +56,5 @@ index dba296ed0d80..58f6bf895ae0 100644
  EXPORT_SYMBOL(cpu_chill);
  #endif
 -- 
-2.1.1
+2.1.0
 

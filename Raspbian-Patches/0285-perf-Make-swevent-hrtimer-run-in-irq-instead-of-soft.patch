@@ -1,8 +1,7 @@
-From 5c28505a5e2f7576dac07370fff28e99ec140015 Mon Sep 17 00:00:00 2001
+From 50516acad34857a411ace3f66e9dbc752c2cbe4c Mon Sep 17 00:00:00 2001
 From: Yong Zhang <yong.zhang@windriver.com>
 Date: Wed, 11 Jul 2012 22:05:21 +0000
-Subject: [PATCH 285/327] perf: Make swevent hrtimer run in irq instead of
- softirq
+Subject: [PATCH] perf: Make swevent hrtimer run in irq instead of softirq
 
 Otherwise we get a deadlock like below:
 
@@ -53,12 +52,9 @@ Cc: Steven Rostedt <rostedt@goodmis.org>
 Link: http://lkml.kernel.org/r/1341476476-5666-1-git-send-email-yong.zhang0@gmail.com
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
----
- kernel/events/core.c | 1 +
- 1 file changed, 1 insertion(+)
 
 diff --git a/kernel/events/core.c b/kernel/events/core.c
-index cf2413f6ce7f..adce54dedaf0 100644
+index cf2413f..adce54d 100644
 --- a/kernel/events/core.c
 +++ b/kernel/events/core.c
 @@ -6056,6 +6056,7 @@ static void perf_swevent_init_hrtimer(struct perf_event *event)
@@ -70,5 +66,5 @@ index cf2413f6ce7f..adce54dedaf0 100644
  	/*
  	 * Since hrtimers have a fixed rate, we can do a static freq->period
 -- 
-2.1.1
+2.1.0
 

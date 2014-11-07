@@ -1,7 +1,7 @@
-From cc8f3e1b66b2768c0ba3ef3200f0fdce0f91ca9d Mon Sep 17 00:00:00 2001
+From 69f0133fa621ccd08af644d7eb4b3a7c0c4e50d2 Mon Sep 17 00:00:00 2001
 From: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Date: Thu, 11 Aug 2011 15:14:58 +0200
-Subject: [PATCH 150/327] sched: Generic migrate_disable
+Subject: [PATCH] sched: Generic migrate_disable
 
 Make migrate_disable() be a preempt_disable() for !rt kernels. This
 allows generic code to use it but still enforces that these code
@@ -13,17 +13,9 @@ up.
 
 Signed-off-by: Peter Zijlstra <a.p.zijlstra@chello.nl>
 Link: http://lkml.kernel.org/n/tip-275i87sl8e1jcamtchmehonm@git.kernel.org
----
- include/linux/preempt.h | 21 +++++++++------------
- include/linux/sched.h   | 13 +++++++++++++
- include/linux/smp.h     |  9 ++-------
- kernel/sched/core.c     |  6 ++++--
- kernel/trace/trace.c    |  2 +-
- lib/smp_processor_id.c  |  2 +-
- 6 files changed, 30 insertions(+), 23 deletions(-)
 
 diff --git a/include/linux/preempt.h b/include/linux/preempt.h
-index f906defc9b4c..116ac32213e0 100644
+index f906def..116ac32 100644
 --- a/include/linux/preempt.h
 +++ b/include/linux/preempt.h
 @@ -130,28 +130,25 @@ do { \
@@ -65,7 +57,7 @@ index f906defc9b4c..116ac32213e0 100644
  
  #ifdef CONFIG_PREEMPT_NOTIFIERS
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 28621fba7392..76df8b0fd79f 100644
+index 28621fb..76df8b0 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1068,7 +1068,9 @@ struct task_struct {
@@ -102,7 +94,7 @@ index 28621fba7392..76df8b0fd79f 100644
  	return &p->cpus_allowed;
  }
 diff --git a/include/linux/smp.h b/include/linux/smp.h
-index f30c7b1499c0..e05b69468d4d 100644
+index f30c7b1..e05b694 100644
 --- a/include/linux/smp.h
 +++ b/include/linux/smp.h
 @@ -188,13 +188,8 @@ static inline void __smp_call_function_single(int cpuid,
@@ -122,7 +114,7 @@ index f30c7b1499c0..e05b69468d4d 100644
  /*
   * Callback to arch code if there's nosmp or maxcpus=0 on the
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 40523f911727..caf95574ae80 100644
+index 40523f9..caf9557 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -4345,7 +4345,7 @@ void init_idle(struct task_struct *idle, int cpu)
@@ -160,7 +152,7 @@ index 40523f911727..caf95574ae80 100644
  /*
   * Move (not current) task off this cpu, onto dest cpu. We're doing
 diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 9ad971a7eb57..f4e607b386ae 100644
+index 9ad971a..f4e607b 100644
 --- a/kernel/trace/trace.c
 +++ b/kernel/trace/trace.c
 @@ -1533,7 +1533,7 @@ tracing_generic_entry_update(struct trace_entry *entry, unsigned long flags,
@@ -173,7 +165,7 @@ index 9ad971a7eb57..f4e607b386ae 100644
  EXPORT_SYMBOL_GPL(tracing_generic_entry_update);
  
 diff --git a/lib/smp_processor_id.c b/lib/smp_processor_id.c
-index 0a846e736931..dbb1570de195 100644
+index 0a846e7..dbb1570 100644
 --- a/lib/smp_processor_id.c
 +++ b/lib/smp_processor_id.c
 @@ -41,7 +41,7 @@ notrace unsigned int debug_smp_processor_id(void)
@@ -186,5 +178,5 @@ index 0a846e736931..dbb1570de195 100644
  	dump_stack();
  
 -- 
-2.1.1
+2.1.0
 

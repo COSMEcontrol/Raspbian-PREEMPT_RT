@@ -1,8 +1,7 @@
-From 072698f8469ea8dc83849d0bbf05d47d52d673c8 Mon Sep 17 00:00:00 2001
+From 922987a8acce53c111fa58a3b10ba89aa7829d6c Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Date: Fri, 4 Oct 2013 11:42:34 +0200
-Subject: [PATCH 304/327] net: iwlwifi: request only a threaded handler for
- interrupts
+Subject: [PATCH] net: iwlwifi: request only a threaded handler for interrupts
 
 On RT the trans_pcie->irq_lock lock is converted into a sleeping lock
 and can't be used in primary irq handler. The lock is used in mutliple
@@ -12,12 +11,9 @@ For now both handlers are moved into the thread.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Clark Williams <clark.williams@gmail.com>
----
- drivers/net/wireless/iwlwifi/pcie/trans.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
 
 diff --git a/drivers/net/wireless/iwlwifi/pcie/trans.c b/drivers/net/wireless/iwlwifi/pcie/trans.c
-index dc875f4befef..e3ec7d595fce 100644
+index dc875f4..e3ec7d5 100644
 --- a/drivers/net/wireless/iwlwifi/pcie/trans.c
 +++ b/drivers/net/wireless/iwlwifi/pcie/trans.c
 @@ -1400,6 +1400,20 @@ static const struct iwl_trans_ops trans_ops_pcie = {
@@ -57,5 +53,5 @@ index dc875f4befef..e3ec7d595fce 100644
  		IWL_ERR(trans, "Error allocating IRQ %d\n", pdev->irq);
  		goto out_free_ict;
 -- 
-2.1.1
+2.1.0
 

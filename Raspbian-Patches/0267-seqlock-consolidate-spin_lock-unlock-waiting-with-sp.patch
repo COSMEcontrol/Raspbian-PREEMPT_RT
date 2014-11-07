@@ -1,7 +1,7 @@
-From b259d9ecdb4429f8732a276b016a47227503f65f Mon Sep 17 00:00:00 2001
+From 3604504834a753bcba5893b7f1bb1ce5cbc4e1c6 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Sun, 1 Dec 2013 23:03:52 -0500
-Subject: [PATCH 267/327] seqlock: consolidate spin_lock/unlock waiting with
+Subject: [PATCH] seqlock: consolidate spin_lock/unlock waiting with
  spin_unlock_wait
 
 since c2f21ce ("locking: Implement new raw_spinlock")
@@ -16,12 +16,9 @@ behavior should be unchanged.
 
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/seqlock.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index 142c0f715f37..019a9362ed3b 100644
+index 142c0f7..019a936 100644
 --- a/include/linux/seqlock.h
 +++ b/include/linux/seqlock.h
 @@ -236,8 +236,7 @@ repeat:
@@ -35,5 +32,5 @@ index 142c0f715f37..019a9362ed3b 100644
  	}
  	return ret;
 -- 
-2.1.1
+2.1.0
 

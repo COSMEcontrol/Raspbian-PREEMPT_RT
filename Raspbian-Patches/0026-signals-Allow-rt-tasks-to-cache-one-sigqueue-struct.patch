@@ -1,22 +1,15 @@
-From 7e1a024250de84751c538b63ae52af33487f58cc Mon Sep 17 00:00:00 2001
+From 36c4093aab1a660317e5302fba3a4b8bc242fcd9 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Fri, 3 Jul 2009 08:44:56 -0500
-Subject: [PATCH 026/327] signals: Allow rt tasks to cache one sigqueue struct
+Subject: [PATCH] signals: Allow rt tasks to cache one sigqueue struct
 
 To avoid allocation allow rt tasks to cache one sigqueue struct in
 task struct.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/sched.h  |  1 +
- include/linux/signal.h |  1 +
- kernel/exit.c          |  2 +-
- kernel/fork.c          |  1 +
- kernel/signal.c        | 84 +++++++++++++++++++++++++++++++++++++++++++++++---
- 5 files changed, 84 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/sched.h b/include/linux/sched.h
-index d930b97627ab..77804704db5c 100644
+index d930b97..7780470 100644
 --- a/include/linux/sched.h
 +++ b/include/linux/sched.h
 @@ -1213,6 +1213,7 @@ struct task_struct {
@@ -28,7 +21,7 @@ index d930b97627ab..77804704db5c 100644
  	sigset_t blocked, real_blocked;
  	sigset_t saved_sigmask;	/* restored if set_restore_sigmask() was used */
 diff --git a/include/linux/signal.h b/include/linux/signal.h
-index 2ac423bdb676..1414eb203e92 100644
+index 2ac423b..1414eb2 100644
 --- a/include/linux/signal.h
 +++ b/include/linux/signal.h
 @@ -226,6 +226,7 @@ static inline void init_sigpending(struct sigpending *sig)
@@ -40,7 +33,7 @@ index 2ac423bdb676..1414eb203e92 100644
  /* Test if 'sig' is valid signal. Use this instead of testing _NSIG directly */
  static inline int valid_signal(unsigned long sig)
 diff --git a/kernel/exit.c b/kernel/exit.c
-index 81b3d6789ee8..3b93e6aa071d 100644
+index 81b3d67..3b93e6a 100644
 --- a/kernel/exit.c
 +++ b/kernel/exit.c
 @@ -146,7 +146,7 @@ static void __exit_signal(struct task_struct *tsk)
@@ -53,7 +46,7 @@ index 81b3d6789ee8..3b93e6aa071d 100644
  	spin_unlock(&sighand->siglock);
  
 diff --git a/kernel/fork.c b/kernel/fork.c
-index ec448fb41b09..0300891175d0 100644
+index ec448fb..0300891 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
 @@ -1245,6 +1245,7 @@ static struct task_struct *copy_process(unsigned long clone_flags,
@@ -65,7 +58,7 @@ index ec448fb41b09..0300891175d0 100644
  	p->utime = p->stime = p->gtime = 0;
  	p->utimescaled = p->stimescaled = 0;
 diff --git a/kernel/signal.c b/kernel/signal.c
-index 8ed72873ccab..ed06b65822b0 100644
+index 8ed7287..ed06b65 100644
 --- a/kernel/signal.c
 +++ b/kernel/signal.c
 @@ -14,6 +14,7 @@
@@ -222,5 +215,5 @@ index 8ed72873ccab..ed06b65822b0 100644
  	if (q)
  		q->flags |= SIGQUEUE_PREALLOC;
 -- 
-2.1.1
+2.1.0
 

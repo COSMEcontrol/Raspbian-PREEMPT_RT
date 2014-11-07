@@ -1,7 +1,7 @@
-From c6a1d8c78536474bae9ed5ba178e24417b315383 Mon Sep 17 00:00:00 2001
+From 359cf442416f0a7d680a93b4efa894c8790c7512 Mon Sep 17 00:00:00 2001
 From: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
 Date: Mon, 28 Oct 2013 09:36:37 +0100
-Subject: [PATCH 189/327] rtmutex: add a first shot of ww_mutex
+Subject: [PATCH] rtmutex: add a first shot of ww_mutex
 
 lockdep says:
 | --------------------------------------------------------------------------
@@ -22,12 +22,9 @@ lockdep says:
 |                        spinlock:  ok  |  ok  |  ok  |
 
 Signed-off-by: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
----
- kernel/rtmutex.c | 236 ++++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 223 insertions(+), 13 deletions(-)
 
 diff --git a/kernel/rtmutex.c b/kernel/rtmutex.c
-index eb94c4873f6d..d2cdfa6e0f22 100644
+index eb94c48..d2cdfa6 100644
 --- a/kernel/rtmutex.c
 +++ b/kernel/rtmutex.c
 @@ -21,6 +21,7 @@
@@ -394,5 +391,5 @@ index eb94c4873f6d..d2cdfa6e0f22 100644
 +EXPORT_SYMBOL(ww_mutex_unlock);
 +#endif
 -- 
-2.1.1
+2.1.0
 

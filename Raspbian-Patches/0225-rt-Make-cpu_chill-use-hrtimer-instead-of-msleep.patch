@@ -1,7 +1,7 @@
-From 7288396a2ac7a4e5d402231d2ccb572bdf7dfa91 Mon Sep 17 00:00:00 2001
+From 55a1f6ac0c598d7aec0334d84afe28864f66b076 Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Wed, 5 Feb 2014 11:51:25 -0500
-Subject: [PATCH 225/327] rt: Make cpu_chill() use hrtimer instead of msleep()
+Subject: [PATCH] rt: Make cpu_chill() use hrtimer instead of msleep()
 
 Ulrich Obergfell pointed out that cpu_chill() calls msleep() which is woken
 up by the ksoftirqd running the TIMER softirq. But as the cpu_chill() is
@@ -47,13 +47,9 @@ Found-by: Ulrich Obergfell <uobergfe@redhat.com>
 Signed-off-by: Steven Rostedt <rostedt@goodmis.org>
 [bigeasy: add the 4 | chapters from email]
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/delay.h |  2 +-
- kernel/hrtimer.c      | 15 +++++++++++++++
- 2 files changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/delay.h b/include/linux/delay.h
-index e23a7c021eeb..37caab306336 100644
+index e23a7c0..37caab3 100644
 --- a/include/linux/delay.h
 +++ b/include/linux/delay.h
 @@ -53,7 +53,7 @@ static inline void ssleep(unsigned int seconds)
@@ -66,7 +62,7 @@ index e23a7c021eeb..37caab306336 100644
  # define cpu_chill()	cpu_relax()
  #endif
 diff --git a/kernel/hrtimer.c b/kernel/hrtimer.c
-index 3411edb3f1d6..dba296ed0d80 100644
+index 3411edb..dba296e 100644
 --- a/kernel/hrtimer.c
 +++ b/kernel/hrtimer.c
 @@ -1912,6 +1912,21 @@ SYSCALL_DEFINE2(nanosleep, struct timespec __user *, rqtp,
@@ -92,5 +88,5 @@ index 3411edb3f1d6..dba296ed0d80 100644
   * Functions related to boot-time initialization:
   */
 -- 
-2.1.1
+2.1.0
 

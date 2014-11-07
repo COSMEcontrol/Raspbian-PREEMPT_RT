@@ -1,7 +1,7 @@
-From f72f2eb0de3e4d224176ceb16b32eed199e16f45 Mon Sep 17 00:00:00 2001
+From 3721639dd7210fdf28e271231813fcc8e4b3b8eb Mon Sep 17 00:00:00 2001
 From: Steven Rostedt <rostedt@goodmis.org>
 Date: Tue, 27 Sep 2011 08:40:23 -0400
-Subject: [PATCH 153/327] sched: Postpone actual migration disalbe to schedule
+Subject: [PATCH] sched: Postpone actual migration disalbe to schedule
 
 The migrate_disable() can cause a bit of a overhead to the RT kernel,
 as changing the affinity is expensive to do at every lock encountered.
@@ -18,12 +18,9 @@ Cc: Peter Zijlstra <peterz@infradead.org>
 Cc: Clark Williams <williams@redhat.com>
 Link: http://lkml.kernel.org/r/20110927124422.779693167@goodmis.org
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 251 +++++++++++++++++++++++++++-------------------------
- 1 file changed, 132 insertions(+), 119 deletions(-)
 
 diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 13a5d9f3c1a3..007dec89347f 100644
+index 13a5d9f..007dec8 100644
 --- a/kernel/sched/core.c
 +++ b/kernel/sched/core.c
 @@ -2364,6 +2364,135 @@ static inline void schedule_debug(struct task_struct *prev)
@@ -306,5 +303,5 @@ index 13a5d9f3c1a3..007dec89347f 100644
   * Move (not current) task off this cpu, onto dest cpu. We're doing
   * this because either it can't run here any more (set_cpus_allowed()
 -- 
-2.1.1
+2.1.0
 

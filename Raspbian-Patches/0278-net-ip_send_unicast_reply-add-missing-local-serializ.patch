@@ -1,8 +1,7 @@
-From cf2c06132b7a082d59e767da3ef726dbb8b0ee83 Mon Sep 17 00:00:00 2001
+From cd5b52039d659ba027ba4767ad567181a3b542c2 Mon Sep 17 00:00:00 2001
 From: Nicholas Mc Guire <der.herr@hofr.at>
 Date: Sun, 29 Dec 2013 18:11:54 +0100
-Subject: [PATCH 278/327] net: ip_send_unicast_reply: add missing local
- serialization
+Subject: [PATCH] net: ip_send_unicast_reply: add missing local serialization
 
 in response to the oops in ip_output.c:ip_send_unicast_reply under high
 network load with CONFIG_PREEMPT_RT_FULL=y, reported by Sami Pietikainen
@@ -57,12 +56,9 @@ Link: http://www.spinics.net/lists/linux-rt-users/msg11007.html
 Cc: stable-rt@vger.kernel.org
 Signed-off-by: Nicholas Mc Guire <der.herr@hofr.at>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- net/ipv4/ip_output.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/net/ipv4/ip_output.c b/net/ipv4/ip_output.c
-index d09f87c37095..3e997e51a000 100644
+index d09f87c..3e997e5 100644
 --- a/net/ipv4/ip_output.c
 +++ b/net/ipv4/ip_output.c
 @@ -79,6 +79,7 @@
@@ -103,5 +99,5 @@ index d09f87c37095..3e997e51a000 100644
  	ip_rt_put(rt);
  }
 -- 
-2.1.1
+2.1.0
 

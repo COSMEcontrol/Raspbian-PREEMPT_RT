@@ -1,15 +1,12 @@
-From bb678cf4adf4de6f2bae06c7d28fe0d6f604518e Mon Sep 17 00:00:00 2001
+From ce912c7e20fe0500fd0b01f2fe91b3deb4de729b Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Wed, 19 Sep 2012 14:50:37 +0200
-Subject: [PATCH 241/327] printk-rt-aware.patch
+Subject: [PATCH] printk-rt-aware.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/printk/printk.c | 33 +++++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 22130f274554..6f5e73432b82 100644
+index 22130f2..6f5e734 100644
 --- a/kernel/printk/printk.c
 +++ b/kernel/printk/printk.c
 @@ -1271,6 +1271,7 @@ static void call_console_drivers(int level, const char *text, size_t len)
@@ -103,5 +100,5 @@ index 22130f274554..6f5e73432b82 100644
  	console_locked = 0;
  	mutex_release(&console_lock_dep_map, 1, _RET_IP_);
 -- 
-2.1.1
+2.1.0
 

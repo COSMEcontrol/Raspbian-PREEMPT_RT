@@ -1,16 +1,12 @@
-From ee146d4fbf0e7f5627d6afe546283989b55e74ed Mon Sep 17 00:00:00 2001
+From 5d4e5cfea8b33a80f4217bc910c0da239f6556a9 Mon Sep 17 00:00:00 2001
 From: Thomas Gleixner <tglx@linutronix.de>
 Date: Sun, 3 Apr 2011 11:57:29 +0200
-Subject: [PATCH 081/327] genirq-force-threading.patch
+Subject: [PATCH] genirq-force-threading.patch
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- include/linux/interrupt.h | 6 +++++-
- kernel/irq/manage.c       | 2 ++
- 2 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 95b5b1a3a9c6..019d2dfca7c0 100644
+index 95b5b1a..019d2df 100644
 --- a/include/linux/interrupt.h
 +++ b/include/linux/interrupt.h
 @@ -352,9 +352,13 @@ static inline int disable_irq_wake(unsigned int irq)
@@ -29,7 +25,7 @@ index 95b5b1a3a9c6..019d2dfca7c0 100644
  
  #ifndef __ARCH_SET_SOFTIRQ_PENDING
 diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 75a976a8ed58..fab3326ad28d 100644
+index 75a976a..fab3326 100644
 --- a/kernel/irq/manage.c
 +++ b/kernel/irq/manage.c
 @@ -22,6 +22,7 @@
@@ -49,5 +45,5 @@ index 75a976a8ed58..fab3326ad28d 100644
  
  /**
 -- 
-2.1.1
+2.1.0
 
