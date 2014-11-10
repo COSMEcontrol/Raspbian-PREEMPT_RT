@@ -48,6 +48,7 @@ fi
 
 echo "ok! "
 
+set -e
 
 echo "[*] Actualizando/comprobando modulo Raspbian..."
 git submodule update --init --recursive
