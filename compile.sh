@@ -18,13 +18,13 @@ fi
 mkdir data/ > /dev/null 2>&1
 mkdir build/ > /dev/null 2>&1
 
-echo -n "[*] Comprobando utilidades de compilacion... "
-type make > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"make\""; read -p "Press [Enter] to continue..."; exit 1; }
-type gcc > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"gcc\""; read -p "Press [Enter] to continue..."; exit 1; }
-type g++ > /dev/null 2>&1 || { echo >&2 "[!] Instalar \"g++\""; read -p "Press [Enter] to continue..."; exit 1; }
+echo -n "[*] Checking utilities compilation ... "
+type make > /dev/null 2>&1 || { echo >&2 "[!] Install \"make\""; read -p "Press [Enter] to continue..."; exit 1; }
+type gcc > /dev/null 2>&1 || { echo >&2 "[!] Install \"gcc\""; read -p "Press [Enter] to continue..."; exit 1; }
+type g++ > /dev/null 2>&1 || { echo >&2 "[!] Install \"g++\""; read -p "Press [Enter] to continue..."; exit 1; }
 
 if [ "$(dpkg --get-selections | grep -w libncurses5-dev | grep -w install)" = "" ]; then
-	echo "[!] Instalar \"libncurses5-dev\""
+	echo "[!] Install \"libncurses5-dev\""
 	read -p "Press [Enter] to continue..."
 	exit 1
 fi
@@ -40,7 +40,7 @@ else
 fi
 
 if [ ! -f "${CCPREFIX}gcc" ]; then
-	echo -n "descargando cross-compile tools... "
+	echo -n "Download cross-compile tools... "
 	cd data
 	wget --no-check-certificate -q -O - "https://github.com/raspberrypi/tools/archive/$TOOLS_COMMIT.tar.gz" | tar -zx
 	cd ..
@@ -50,10 +50,10 @@ echo "ok! "
 
 set -e
 
-echo "[*] Actualizando/comprobando modulo Raspbian..."
+echo "[*] Updating / checking Raspbian module..."
 git submodule update --init --recursive
 
-echo -n "[*] Comprobando git... "
+echo -n "[*] Checking git... "
 
 if [ "$(git config user.email)" == "" ]; then
 	echo -n "creando usuario falso... "
@@ -63,35 +63,35 @@ fi
 
 echo "ok!"
 
-echo "[*] Limpiando datos antiguos..."
+echo "[*] Cleaning old data..."
 rm -rf data/linux-kernel
 rm -rf build/*
 mkdir data/linux-kernel
 
 if [ "$1" == "vanilla" ]; then
-	echo "[*] Usando Raspbian vanilla"
-	echo "[*] Copiando kernel..."
+	echo "[*] Using Raspbian vanilla"
+	echo "[*] Copy kernel..."
 	cp -r Raspbian/* data/linux-kernel
 else
-	echo "[*] Usando Raspbian con parches RT"
-	echo "[*] Aplicando parches..."
+	echo "[*] Using RaspbianRT patch "
+	echo "[*] Patching ..."
 	./applyPatches.sh
 	if [ "$?" != "0" ]; then
-		echo "[!] Error al aplicar parches"
+		echo "[!] Error patching"
 	else
-		echo "[+] Parches aplicados correctamente"
+		echo "[+] Patches applied correctly"
 	fi
-	echo "[*] Copiando kernel..."
+	echo "[*] Copying kernel..."
 	cp -r RaspbianRT/* data/linux-kernel
 fi
 
 cd data/linux-kernel
 
-echo "[*] Usando $THREADS hilos"
-echo "[*] Limpiando kernel..."
+echo "[*] Using $THREADS hilos"
+echo "[*] Cleaning kernel..."
 make mrproper
 
-echo "[*] Creando configuracion..."
+echo "[*] Building configuration ..."
 if [ ! -f arch/arm/configs/bcmrpi_defconfig ]; then
 	cp ../../bcmrpi_defconfig arch/arm/configs/
 fi
@@ -99,27 +99,27 @@ fi
 cp arch/arm/configs/bcmrpi_defconfig .config
 #ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS oldconfig
 
-echo "[*] Creando menuconfig..."
+echo "[*] Creating menuconfig ..."
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS menuconfig
 
-echo "[*] Compilando kernel..."
+echo "[*] Compiling kernel ..."
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make bzImage -j $THREADS
 
-echo "[*] Compilando modulos..."
+echo "[*] Compiling modules ..."
 ARCH=arm CROSS_COMPILE=${CCPREFIX} make -j $THREADS modules
 
-echo "[*] Instalando modulos de kernel..."
+echo "[*] Installing kernel modules ..."
 rm -rf ../modules
 mkdir ../modules
 ARCH=arm CROSS_COMPILE=${CCPREFIX} INSTALL_MOD_PATH=../modules/ make -j $THREADS modules_install
 
-echo "[*] Copiando imagen resultante..."
+echo "[*] Copying resulting image ..."
 cp arch/arm/boot/zImage ../../build/kernel.img
 
-echo "[*] Archivando modulos..."
+echo "[*] Archiving modules ..."
 cd ../modules
 tar -czf ../../build/modules.tar.gz .
 
-echo "[*] Listo!"
+echo "[*] Ready!"
 
 exit 0
