@@ -42,6 +42,8 @@ uname -a
 ```
 # High resolution test with cyclictest
 
+All tests have been run on Raspberry Pi 1 model B
+
 Test case: clock_nanosleep(TIME_ABSTIME), Interval 10000 microseconds,. 10000 loops, no load.
 ```groovy
 pi@raspberrypi ~ $ sudo cyclictest -t1 -p 80 -n -i 10000 -l 10000
