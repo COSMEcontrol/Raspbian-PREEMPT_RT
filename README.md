@@ -5,16 +5,17 @@ Patch Raspbian OS with official Linux Real Time patches, compile and run into Ra
 Features
 ========
 * Raspbian Linux 3.12.31
-  ![Config RT](screenshots/raspbian_logo.png)
 
 * Patch RT 3.12.31-rt45
 
 * Enable CONFIG_PREEMPT_RT.
 
 * Diferent configuration real time modes.
-  ![Config RT](screenshots/rt-config.jpg)
 
 * Enable/Disable drivers
+  
+  ![Config RT](screenshots/raspbian_logo.png)
+  ![Config RT](screenshots/rt-config.jpg)
   ![Config drivers](screenshots/drivers.jpg)
 
 
