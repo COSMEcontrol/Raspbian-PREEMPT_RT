@@ -40,32 +40,50 @@ This generates two files:
 uname -a 
   Linux raspberrypi 3.12.31-rt45 #1 PREEMPT RT Wed Dec 17 06:46:40 EST 2014 armv6l GNU/Linux
 ```
+# Download and install ciclyctest
+
+Download ciclictest
+```groovy
+    git clone git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git 
+```
+Compile
+```groovy
+    cd rt-tests
+    make all
+```
+
 # High resolution test with cyclictest
 
 All tests have been run on Raspberry Pi 1 model B
 
+* To generate synthetic load on the Raspberry Pi has used the command: 
+```groovy
+      cat /dev/zero > /dev/null
+```
+  This command writes zeros in null device, and puts the CPU 100% load.
+
 Test case: clock_nanosleep(TIME_ABSTIME), Interval 10000 microseconds,. 10000 loops, no load.
 ```groovy
-pi@raspberrypi ~ $ sudo cyclictest -t1 -p 80 -n -i 10000 -l 10000
+pi@raspberrypi ~/rt-tests $ sudo ./cyclictest -t1 -p 80 -n -i 10000 -l 10000
 # /dev/cpu_dma_latency set to 0us
-policy: fifo: loadavg: 0.35 0.21 0.15 1/103 4242     
-T: 0 ( 4242) P:80 I:10000 C:  10000 Min:     27 Act:   35 Avg:   43 Max:      78
+T: 0 ( 2573) P:80 I:10000 C:   9999 Min:     29 Act:   52 Avg:   46 Max:      80
+
 ```
 Test case: clock_nanosleep(TIME_ABSTIME), Interval 10000 micro seconds,. 10000 loops, 100% load.
 ```groovy
-pi@raspberrypi ~ $ cyclictest -t1 -p 80 -n -i 10000 -l 10000
-policy: fifo: loadavg: 0.22 0.19 0.15 1/102 4245          
-T: 0 ( 4244) P:80 I:10000 C:  10000 Min:     26 Act:   52 Avg:   42 Max:      81
+pi@raspberrypi ~/rt-tests $ sudo ./cyclictest -t1 -p 80 -n -i 10000 -l 10000
+# /dev/cpu_dma_latency set to 0us
+T: 0 ( 2602) P:80 I:10000 C:  10000 Min:     28 Act:   50 Avg:   43 Max:      82
 ```
 Test case: POSIX interval timer, Interval 10000 micro seconds,. 10000 loops, no load.
 ```groovy
-pi@raspberrypi ~ $ cyclictest -t1 -p 80 -i 10000 -l 10000
-policy: fifo: loadavg: 0.26 0.20 0.15 1/103 4248          
-T: 0 ( 4247) P:80 I:10000 C:  10000 Min:    115 Act:  241 Avg:  147 Max:     520
+pi@raspberrypi ~/rt-tests $ sudo ./cyclictest -t1 -p 80 -i 10000 -l 10000
+# /dev/cpu_dma_latency set to 0us
+T: 0 ( 2605) P:80 I:10000 C:  10000 Min:    107 Act:  161 Avg:  149 Max:     588
 ```
 Test case: POSIX interval timer, Interval 10000 micro seconds,. 10000 loops, 100% load.
 ```groovy
-pi@raspberrypi ~ $ cyclictest -t1 -p 80 -i 10000 -l 10000
-policy: fifo: loadavg: 0.36 0.21 0.15 1/103 4250          
-T: 0 ( 4250) P:80 I:10000 C:  10000 Min:    104 Act:  133 Avg:  143 Max:     509
+pi@raspberrypi ~/rt-tests $ sudo ./cyclictest -t1 -p 80 -i 10000 -l 10000
+# /dev/cpu_dma_latency set to 0us
+T: 0 ( 2610) P:80 I:10000 C:  10000 Min:    118 Act:  149 Avg:  150 Max:     490
 ```
