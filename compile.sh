@@ -2,6 +2,7 @@
 #####################################################
 #### Alberto Azuara
 #### Shoghi Cervantes
+#### Alfonso Blesa
 #### Versión 1.0
 #### 16/03/14
 #### Download and compile Raspbian applying RT-Preempt Patches
