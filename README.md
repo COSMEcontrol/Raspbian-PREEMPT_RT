@@ -1,4 +1,4 @@
-RaspbianRT
+Raspbian-PREEMPT_RT
 =================
 Patch Raspbian OS with RT-Preempt Patches, compile and run into Raspberry Pi.
 
