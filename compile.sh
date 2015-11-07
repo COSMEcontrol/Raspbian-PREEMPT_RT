@@ -1,5 +1,11 @@
 #!/bin/bash
-
+#####################################################
+#### Alberto Azuara
+#### Shoghi Cervantes
+#### Versión 1.0
+#### 16/03/14
+#### Download and compile Raspbian applying RT-Preempt Patches
+#####################################################
 
 TOOLS_COMMIT="108317fde2ffb56d1dc7f14ac69c42f34a49342a"
 #TOOLS_COMMIT="master"

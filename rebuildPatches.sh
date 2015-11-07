@@ -1,4 +1,11 @@
 #!/bin/bash
+#####################################################
+#### Alberto Azuara
+#### Shoghi Cervantes
+#### Versión 1.0
+#### 07/11/14
+#### Rebuild RT-Preempt patches
+#####################################################
 
 PS1="$"
 basedir=`pwd`
