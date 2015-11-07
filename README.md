@@ -21,7 +21,7 @@ Features
 
 Usage
 =====
-To run and compile Raspbian RT:
+To run and compile Raspbian-PREEMPT_RT:
 
 ```groovy
   ./compile.sh
