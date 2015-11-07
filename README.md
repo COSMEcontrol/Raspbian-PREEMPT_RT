@@ -1,6 +1,6 @@
 RaspbianRT
 =================
-Patch Raspbian OS with official Linux Real Time patches, compile and run into Raspberry Pi.
+Patch Raspbian OS with RT-Preempt Patches, compile and run into Raspberry Pi.
 
 Features
 ========
